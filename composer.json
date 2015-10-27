@@ -10,7 +10,7 @@
             "fkooman\\OpenVPN\\": "src/"
         }
     },
-    "description": "Interact with the OpenVPN management interface",
+    "description": "API to interact with OpenVPN management interface",
     "license": "Apache-2.0",
     "name": "fkooman/openvpn-manage",
     "require": {
