@@ -1,0 +1,23 @@
+{
+    "authors": [
+        {
+            "email": "fkooman@tuxed.net",
+            "name": "Fran\u00e7ois Kooman"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "fkooman\\OpenVPN\\": "src/"
+        }
+    },
+    "description": "Interact with the OpenVPN management interface",
+    "license": "Apache-2.0",
+    "name": "fkooman/openvpn-manage",
+    "require": {
+        "clue/socket-raw": "^1.2.0"
+    },
+    "require-dev": {
+        "fkooman/io": "^1.0.0",
+        "fkooman/json": "^1.0.0"
+    }
+}
