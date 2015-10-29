@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "20e0aae5ae45cc5e947ccabde55f6d26",
-    "content-hash": "20f1a77e30bba09ef95b487a19b28849",
+    "hash": "b7dd9f153911593f2c42c7b21766b78e",
+    "content-hash": "37ec8b7f8b724dc422dc3176a6811bde",
     "packages": [
         {
             "name": "clue/socket-raw",
@@ -58,6 +58,45 @@
                 "unix"
             ],
             "time": "2015-03-18 23:48:01"
+        },
+        {
+            "name": "fkooman/json",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fkooman/php-lib-json.git",
+                "reference": "f24b7ee1890b29358402defcd9581a4e969e40d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fkooman/php-lib-json/zipball/f24b7ee1890b29358402defcd9581a4e969e40d7",
+                "reference": "f24b7ee1890b29358402defcd9581a4e969e40d7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-spl": "*",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fkooman\\Json\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "François Kooman",
+                    "email": "fkooman@tuxed.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library to encode and decode JSON",
+            "time": "2015-07-13 11:58:01"
         }
     ],
     "packages-dev": [
@@ -99,45 +138,6 @@
             ],
             "description": "Simple IO library",
             "time": "2015-10-03 11:35:44"
-        },
-        {
-            "name": "fkooman/json",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fkooman/php-lib-json.git",
-                "reference": "f24b7ee1890b29358402defcd9581a4e969e40d7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-json/zipball/f24b7ee1890b29358402defcd9581a4e969e40d7",
-                "reference": "f24b7ee1890b29358402defcd9581a4e969e40d7",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-spl": "*",
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\Json\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP library to encode and decode JSON",
-            "time": "2015-07-13 11:58:01"
         }
     ],
     "aliases": [],
