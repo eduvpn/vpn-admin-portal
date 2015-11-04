@@ -15,7 +15,7 @@ class StatusParserTest extends PHPUnit_Framework_TestCase
         $fileList = array(
             __DIR__.'/data/no_clients.txt',
             __DIR__.'/data/one_client.txt',
-            //__DIR__.'/data/three_clients.txt',
+#            __DIR__.'/data/three_clients.txt',
         );
 
         foreach ($fileList as $fileName) {

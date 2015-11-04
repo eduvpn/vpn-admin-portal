@@ -31,7 +31,18 @@ class SocketStatus
         $this->socket->write("status\n");
 
         // read and return status
-        return $this->readAll();
+        return $this->readStatus();
+    }
+
+    private function readStatus()
+    {
+        $input = '';
+        do {
+            $inputLine = $this->socket->read(256, PHP_NORMAL_READ);
+            $input .= $inputLine;
+        } while (0 !== strpos($inputLine, 'END'));
+
+        return $input;
     }
 
     private function readAll()
