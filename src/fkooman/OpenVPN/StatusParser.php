@@ -12,10 +12,6 @@ class StatusParser
 
     public function __construct($statusData)
     {
-        #        echo "----" . PHP_EOL;
-#        echo $statusData;
-#        echo PHP_EOL . "----" . PHP_EOL;
-#        die();
         $this->clientList = self::getClientList($statusData);
         $this->routingTable = self::getRoutingTable($statusData, count($this->clientList) + 5);
     }

@@ -2,10 +2,14 @@
 This collection of scripts makes it easy to get the OpenVPN server status 
 by connecting to its management interface, typically running on TCP port 7505.
 
+# Configuration
+Set the socket to connect to in `config/manage.ini`, you can use 
+`config/manage.ini.example` as a template.
+
 # Status
 To get a list of currently connected clients:
 
-    $ php status.php tcp://localhost:7505
+    $ php bin/status.php
     
 The output looks like this:
 
@@ -26,14 +30,13 @@ The output looks like this:
 
 If needed, more information can be made available in the future.
 
+# Kill
+To kill a certain client, i.e. kill its connection (temporary):
+
+    $ php bin/kill.php aehohd0eeh8Ai_lappie
+
 # Block
 **TO BE IMPLEMENTED**
 To block a certain client:
 
-    $ php block.php aehohd0eeh8Ai_lappie
-
-# Kill
-**TO BE IMPLEMENTED**
-To kill a certain client:
-
-    $ php kill.php aehohd0eeh8Ai_lappie
+    $ php bin/block.php aehohd0eeh8Ai_lappie
