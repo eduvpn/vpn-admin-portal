@@ -40,3 +40,12 @@ To kill a certain client, i.e. kill its connection (temporary):
 To block a certain client:
 
     $ php bin/block.php aehohd0eeh8Ai_lappie
+
+# Managing via SSH
+You can also run the scripts on some other server and connect to the management
+interface over SSH:
+
+    $ ssh -L7777:localhost:7505 vpn.example.org
+
+This way you don't need to have PHP stuff running on the VPN host. Do not 
+forget to update the configuration in `config/manage.ini`.
