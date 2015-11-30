@@ -31,7 +31,6 @@ To kill a certain client, i.e. kill its connection (temporary):
     $ bin/kill aehohd0eeh8Ai_lappie
 
 # Block
-**TO BE IMPLEMENTED**
 To block a certain client:
 
     $ bin/block aehohd0eeh8Ai_lappie
@@ -40,7 +39,18 @@ To block a certain client:
 You can also run the scripts on some other server and connect to the management
 interface over SSH:
 
-    $ ssh -L7777:localhost:7505 vpn.example.org
+    $ ssh -L8888:localhost:80 -L7777:localhost:7505 vpn.example.org
 
 This way you don't need to have PHP stuff running on the VPN host. Do not 
-forget to update the configuration in `config/manage.ini`.
+forget to update the configuration in `config/manage.ini`:
+
+    socket = 'tcp://localhost:7777'
+
+    [VpnCertService]
+    serviceUri  = 'http://localhost:8888/vpn-cert-service/api.php'
+
+You can then also use the built in PHP web server to manage via the 
+included web interface:
+
+    $ php -S localhost:8080 -t web/
+
