@@ -10,6 +10,8 @@ use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\OpenVPN\Manage;
 use fkooman\Http\RedirectResponse;
+use GuzzleHttp\Client;
+use fkooman\OpenVPN\VpnCertServiceClient;
 
 try {
     $iniReader = IniReader::fromFile(
@@ -45,6 +47,19 @@ try {
 
     $manage = new Manage($iniReader->v('socket'));
 
+    // VPN Certificate Service Configuration
+    $serviceUri = $iniReader->v('VpnCertService', 'serviceUri');
+    $serviceAuth = $iniReader->v('VpnCertService', 'serviceUser');
+    $servicePass = $iniReader->v('VpnCertService', 'servicePass');
+    $client = new Client(
+        array(
+            'defaults' => array(
+                'auth' => array($serviceAuth, $servicePass),
+            ),
+        )
+    );
+    $vpnCertServiceClient = new VpnCertServiceClient($client, $serviceUri);
+
     $service = new Service();
     $service->get(
         '/',
@@ -76,13 +91,14 @@ try {
 
     $service->post(
         '/block',
-        function (Request $request) use ($manage) {
+        function (Request $request) use ($manage, $vpnCertServiceClient) {
+            $configId = $request->getPostParameter('config_id');
 
             // revoke the configuration 
-
+            $vpnCertServiceClient->revokeConfiguration($configId);
 
             // disconnect the client from the VPN service
-            //$manage->killClient($configId);
+            $manage->killClient($configId);
 
             return new RedirectResponse(
                 sprintf('%s?msg=client "%s" blocked and disconnected!', $request->getUrl()->getRootUrl(), $configId),
