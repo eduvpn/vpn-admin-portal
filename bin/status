@@ -14,7 +14,7 @@ try {
 
     $manage = new Manage($iniReader->v('socket'));
     echo Json::encode($manage->getClientInfo());
-} catch(Exception $e) {
+} catch (Exception $e) {
     echo $e->getMessage().PHP_EOL;
     exit(1);
 }

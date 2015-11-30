@@ -1,0 +1,38 @@
+body {
+    text-align: justify;
+    line-height: 1.4;
+}
+
+div#container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+a.header {
+    text-decoration: none;
+    color: #000;
+}
+
+a {
+    text-decoration: underline;
+    color: #000;
+}
+
+table {
+    background-color: #eee;
+    width: 100%;
+    margin: 0.5em 0;
+}
+
+button {
+    margin: 0.5em;
+}
+
+table ul {
+    margin: 0;
+    padding: 0;
+}
+
+table li {
+    list-style: none;
+}

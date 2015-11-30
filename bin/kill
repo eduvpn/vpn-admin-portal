@@ -11,12 +11,12 @@ try {
         dirname(__DIR__).'/config/manage.ini'
     );
 
-    if(1 >= $argc) {
+    if (1 >= $argc) {
         throw new Exception('specify ID to kill, use status command to obtain');
     }
     $manage = new Manage($iniReader->v('socket'));
     echo $manage->killClient($argv[1]);
-} catch(Exception $e) {
+} catch (Exception $e) {
     echo $e->getMessage().PHP_EOL;
     exit(1);
 }

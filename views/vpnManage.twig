@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    <div id="container">
+        {% include 'header.twig' %}
+
+        <h2>Active Connections</h2>
+
+        {% for key, client in clientInfo %}
+        <table>
+            <tr><th>Client ID</th><td><code>{{ key|e }}</code></tr></tr>
+            <tr><th>Client IP</th><td><code>{{ client.client_ip|e }}</code></td></tr>
+            <tr>
+                <th>VPN IPs</th>
+                <td>
+                    <ul>
+                        {% for ip in client.vpn_ip %}
+                        <li><code>{{ ip|e }}</code></li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr><th>Actions</th><td><button>Disconnect</button><button>Block</button></td></tr>
+        </table>
+        {% endfor %}
+    </div> <!-- /container -->
+</body>
+</html>
