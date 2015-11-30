@@ -15,6 +15,7 @@
     "name": "fkooman/openvpn-manage",
     "require": {
         "clue/socket-raw": "^1.2.0",
+        "ext-sockets": "*",
         "fkooman/http": "^1.0.0",
         "fkooman/ini": "^1.0.0",
         "fkooman/json": "^1.0.0",

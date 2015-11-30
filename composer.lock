@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7ebb85b8d7ec12df76229901fc0ec5f6",
-    "content-hash": "444a279579a05aa9679e352dc9e3f50d",
+    "hash": "547f427008a4f3df2b7321d49f6dac0c",
+    "content-hash": "701e2853d0e89fa44be57573b966652d",
     "packages": [
         {
             "name": "clue/socket-raw",
@@ -738,6 +738,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-sockets": "*"
+    },
     "platform-dev": []
 }
