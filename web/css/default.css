@@ -1,5 +1,4 @@
 body {
-    text-align: justify;
     line-height: 1.4;
 }
 
@@ -22,6 +21,10 @@ table {
     background-color: #eee;
     width: 100%;
     margin: 0.5em 0;
+}
+
+form.inline {
+    display: inline;
 }
 
 button {

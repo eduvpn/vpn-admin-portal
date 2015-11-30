@@ -6,6 +6,10 @@
     <div id="container">
         {% include 'header.twig' %}
 
+        {% if msg %}
+            <p class="msg">{{ msg|e }}</p>
+        {% endif %}
+
         <h2>Active Connections</h2>
 
         {% for key, client in clientInfo %}
@@ -22,7 +26,20 @@
                     </ul>
                 </td>
             </tr>
-            <tr><th>Actions</th><td><button>Disconnect</button><button>Block</button></td></tr>
+            <tr>
+                <th>Actions</th>
+                <td>
+                    <form class="inline" method="post" action="disconnect">
+                        <input type="hidden" name="config_id" value="{{ key|e }}">
+                        <button type="submit">Disconnect</button>
+                    </form>
+
+                    <form class="inline" method="post" action="block">
+                        <input type="hidden" name="config_id" value="{{ key|e }}">
+                        <button type="submit" disabled>Block</button>
+                    </form>
+                </td>
+            </tr>
         </table>
         {% endfor %}
     </div> <!-- /container -->

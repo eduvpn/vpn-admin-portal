@@ -9,6 +9,7 @@ use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\OpenVPN\Manage;
+use fkooman\Http\RedirectResponse;
 
 try {
     $iniReader = IniReader::fromFile(
@@ -48,7 +49,45 @@ try {
     $service->get(
         '/',
         function (Request $request) use ($templateManager, $manage) {
-            return $templateManager->render('vpnManage', array('clientInfo' => $manage->getClientInfo()));
+            return $templateManager->render(
+                'vpnManage',
+                array(
+                    'clientInfo' => $manage->getClientInfo(),
+                    'msg' => $request->getUrl()->getQueryParameter('msg'),
+                )
+            );
+        }
+    );
+
+    $service->post(
+        '/disconnect',
+        function (Request $request) use ($manage) {
+            $configId = $request->getPostParameter('config_id');
+
+            // disconnect the client from the VPN service
+            $manage->killClient($configId);
+
+            return new RedirectResponse(
+                sprintf('%s?msg=client "%s" disconnected!', $request->getUrl()->getRootUrl(), $configId),
+                302
+            );
+        }
+    );
+
+    $service->post(
+        '/block',
+        function (Request $request) use ($manage) {
+
+            // revoke the configuration 
+
+
+            // disconnect the client from the VPN service
+            //$manage->killClient($configId);
+
+            return new RedirectResponse(
+                sprintf('%s?msg=client "%s" blocked and disconnected!', $request->getUrl()->getRootUrl(), $configId),
+                302
+            );
         }
     );
 
@@ -58,5 +97,11 @@ try {
     $service->run($request)->send();
 } catch (Exception $e) {
     error_log($e->getMessage());
-    die(sprintf('ERROR: %s', $e->getMessage()));
+    die(
+        sprintf(
+            'ERROR: %s<br>%s',
+            $e->getMessage(),
+            $e->getTraceAsString()
+        )
+    );
 }
