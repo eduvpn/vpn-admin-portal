@@ -1,0 +1,20 @@
+#!/usr/bin/php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use fkooman\OpenVPN\Manage;
+use fkooman\Json\Json;
+use fkooman\Ini\IniReader;
+
+try {
+    $iniReader = IniReader::fromFile(
+        dirname(__DIR__).'/config/manage.ini'
+    );
+
+    $manage = new Manage($iniReader->v('socket'));
+    echo Json::encode($manage->getClientInfo());
+} catch(Exception $e) {
+    echo $e->getMessage().PHP_EOL;
+    exit(1);
+}
