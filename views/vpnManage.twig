@@ -10,38 +10,52 @@
             <p class="msg">{{ msg|e }}</p>
         {% endif %}
 
+        <p>Notes:</p>
+        <ul>
+            <li>Block both revokes the client configuration and disconnects the user;</li>
+            <li>The revocation depends on a cron job running every 5 minutes to sync the CRL, so users can possibly reconnect withing that time frame and stay connected, the would need to be disconnected again;</li>
+            <li>The block button does not yet prevent the user from logging in again to the web portal and creating a new configuration;</li>
+        </ul>
+
         <h2>Active Connections</h2>
 
-        {% for key, client in clientInfo %}
-        <table>
-            <tr><th>Client ID</th><td><code>{{ key|e }}</code></tr></tr>
-            <tr><th>Client IP</th><td><code>{{ client.client_ip|e }}</code></td></tr>
-            <tr>
-                <th>VPN IPs</th>
-                <td>
-                    <ul>
-                        {% for ip in client.vpn_ip %}
-                        <li><code>{{ ip|e }}</code></li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th>Actions</th>
-                <td>
-                    <form class="inline" method="post" action="disconnect">
-                        <input type="hidden" name="config_id" value="{{ key|e }}">
-                        <button type="submit">Disconnect</button>
-                    </form>
+	    {% if not clientInfo %}
 
-                    <form class="inline" method="post" action="block">
-                        <input type="hidden" name="config_id" value="{{ key|e }}">
-                        <button type="submit">Block</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
-        {% endfor %}
+            <span>No connected clients.</span>	
+
+	    {% else %}
+            {% for key, client in clientInfo %}
+            <table>
+                <tr><th>Client ID</th><td><code>{{ key|e }}</code></tr></tr>
+                <tr><th>Client IP</th><td><code>{{ client.client_ip|e }}</code></td></tr>
+                <tr>
+                    <th>VPN IPs</th>
+                    <td>
+                        <ul>
+                            {% for ip in client.vpn_ip %}
+                            <li><code>{{ ip|e }}</code></li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Actions</th>
+                    <td>
+                        <form class="inline" method="post" action="disconnect">
+                            <input type="hidden" name="config_id" value="{{ key|e }}">
+                            <button type="submit">Disconnect</button>
+                        </form>
+
+                        <form class="inline" method="post" action="block">
+                            <input type="hidden" name="config_id" value="{{ key|e }}">
+                            <button type="submit">Block</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            {% endfor %}
+        {% endif %}
+
     </div> <!-- /container -->
 </body>
 </html>
