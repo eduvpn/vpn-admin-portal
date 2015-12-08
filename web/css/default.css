@@ -35,6 +35,16 @@ td {
     padding: 0.3em;
 }
 
+table ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+table li {
+    padding: 0;
+}
+
 form.center {
     text-align: center;
     padding: 0.5em;

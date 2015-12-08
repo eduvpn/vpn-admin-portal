@@ -26,10 +26,10 @@
 	    {% else %}
             {% for key, client in clientInfo %}
             <table>
-                <tr><th>Client ID</th><td><code>{{ key|e }}</code></tr>
-                <tr><th>Client IP</th><td><code>{{ client.client_ip|e }}</code></td></tr>
+                <tr><th colspan="2">{{ key|e }}</th></tr>
+                <tr><td>Client IP</td><td><code>{{ client.client_ip|e }}</code></td></tr>
                 <tr>
-                    <th>VPN IPs</th>
+                    <td>VPN IPs</td>
                     <td>
                         <ul>
                             {% for ip in client.vpn_ip %}
@@ -39,8 +39,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Actions</th>
-                    <td>
+                    <td colspan="2">
                         <form class="simple" method="post" action="disconnect">
                             <input type="hidden" name="config_id" value="{{ key|e }}">
                             <button type="submit">Disconnect</button>
