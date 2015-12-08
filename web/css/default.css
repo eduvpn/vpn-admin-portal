@@ -23,15 +23,7 @@ table {
     width: 100%;
 }
 
-th {
-    font-weight: bold;
-}
-
-td.right {
-    text-align: right;
-}
-
-td {
+th, td {
     padding: 0.3em;
 }
 
@@ -43,6 +35,23 @@ table ul {
 
 table li {
     padding: 0;
+}
+
+table.border {
+    border: 1px solid #ddd;
+    margin: 1em 0;
+}
+
+.textright {
+    text-align: right;
+}
+
+thead {
+    background-color: #eee;
+}
+
+th {
+    padding: 0.3em;
 }
 
 form.center {

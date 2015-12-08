@@ -25,11 +25,14 @@
 
 	    {% else %}
             {% for key, client in clientInfo %}
-            <table>
-                <tr><th colspan="2">{{ key|e }}</th></tr>
+            <table class="border">
+                <thead>
+                    <tr><th colspan="2">{{ key|e }}</th></tr>
+                </thead>
+                <tbody>
                 <tr><td>Client IP</td><td><code>{{ client.client_ip|e }}</code></td></tr>
                 <tr>
-                    <td>VPN IPs</td>
+                    <td>VPN IP(s)</td>
                     <td>
                         <ul>
                             {% for ip in client.vpn_ip %}
@@ -39,18 +42,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="2" class="textright">
                         <form class="simple" method="post" action="disconnect">
                             <input type="hidden" name="config_id" value="{{ key|e }}">
-                            <button type="submit">Disconnect</button>
+                            <button class="simple" type="submit">Disconnect</button>
                         </form>
 
                         <form class="simple" method="post" action="revoke">
                             <input type="hidden" name="config_id" value="{{ key|e }}">
-                            <button type="submit">Revoke</button>
+                            <button class="simple" type="submit">Revoke</button>
                         </form>
                     </td>
                 </tr>
+                </tbody>
             </table>
             {% endfor %}
         {% endif %}
