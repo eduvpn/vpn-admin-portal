@@ -101,18 +101,21 @@ try {
     );
 
     $service->post(
-        '/block',
+        '/revoke',
         function (Request $request) use ($vpnServerApiClient, $vpnCertServiceClient) {
             $configId = $request->getPostParameter('config_id');
 
             // revoke the configuration 
             $vpnCertServiceClient->revokeConfiguration($configId);
 
+            // trigger CRL reload
+            $vpnServerApiClient->postRefreshCrl();
+
             // disconnect the client from the VPN service
             $vpnServerApiClient->postDisconnect($configId);
 
             return new RedirectResponse(
-                sprintf('%s?msg=client "%s" blocked and disconnected!', $request->getUrl()->getRootUrl(), $configId),
+                sprintf('%s?msg=client "%s" revoked and disconnected!', $request->getUrl()->getRootUrl(), $configId),
                 302
             );
         }

@@ -29,7 +29,6 @@ class VpnServerApiClient
     {
         $requestUri = sprintf('%s/disconnect', $this->vpnServerApiUri);
 
-        // XXX: fix post body
         return $this->client->post(
             $requestUri,
             array(
@@ -38,5 +37,12 @@ class VpnServerApiClient
                 ),
             )
         )->getBody();
+    }
+
+    public function postRefreshCrl()
+    {
+        $requestUri = sprintf('%s/refreshCrl', $this->vpnServerApiUri);
+
+        return $this->client->post($requestUri)->getBody();
     }
 }
