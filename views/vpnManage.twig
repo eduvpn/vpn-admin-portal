@@ -15,7 +15,6 @@
             <li>Only currently connected clients are listed here;</li>
             <li><em>Disconnect</em> closes a current VPN connection (client can reconnect);</li>
             <li><em>Revoke</em> revokes the configuration certificate, and disconnects the client (client can no longer reconnect);</li>
-            <li><strong>TODO</strong>: <em>Block</em> temporary blocks a configuration, and disconnects the client (client can no longer connect, but can be reinstated);</li>
         </ul>
 
         <h2>Active Connections</h2>
@@ -50,11 +49,6 @@
                         <form class="inline" method="post" action="revoke">
                             <input type="hidden" name="config_id" value="{{ key|e }}">
                             <button type="submit">Revoke</button>
-                        </form>
-
-                        <form class="inline" method="post" action="block">
-                            <input type="hidden" name="config_id" value="{{ key|e }}">
-                            <button disabled="disabled" type="submit">Block</button>
                         </form>
                     </td>
                 </tr>
