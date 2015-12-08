@@ -30,6 +30,13 @@ class VpnServerApiClient
         $requestUri = sprintf('%s/disconnect', $this->vpnServerApiUri);
 
         // XXX: fix post body
-        return $this->client->post($requestUri)->getBody();
+        return $this->client->post(
+            $requestUri,
+            array(
+                'body' => array(
+                    'config_id' => $configId,
+                ),
+            )
+        )->getBody();
     }
 }
