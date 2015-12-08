@@ -4,61 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "547f427008a4f3df2b7321d49f6dac0c",
-    "content-hash": "701e2853d0e89fa44be57573b966652d",
+    "hash": "5eec6836024d2e0fa28ec250acb208f7",
+    "content-hash": "9b6f245dd2ca92e8727e18d845d3fd9f",
     "packages": [
-        {
-            "name": "clue/socket-raw",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/clue/php-socket-raw.git",
-                "reference": "8a10282bcb1e45e076a8a8285237681380e55ea5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/clue/php-socket-raw/zipball/8a10282bcb1e45e076a8a8285237681380e55ea5",
-                "reference": "8a10282bcb1e45e076a8a8285237681380e55ea5",
-                "shasum": ""
-            },
-            "require": {
-                "ext-sockets": "*",
-                "php": ">=5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Socket\\Raw\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christian Lück",
-                    "email": "christian@lueck.tv"
-                }
-            ],
-            "description": "Simple and lightweight OOP wrapper for PHP's low level sockets extension (ext-sockets)",
-            "homepage": "https://github.com/clue/php-socket-raw",
-            "keywords": [
-                "Socket",
-                "client",
-                "datagram",
-                "dgram",
-                "icmp",
-                "ipv6",
-                "server",
-                "stream",
-                "tcp",
-                "udg",
-                "udp",
-                "unix"
-            ],
-            "time": "2015-03-18 23:48:01"
-        },
         {
             "name": "fkooman/http",
             "version": "1.3.1",
@@ -738,8 +686,6 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "ext-sockets": "*"
-    },
+    "platform": [],
     "platform-dev": []
 }

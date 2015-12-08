@@ -8,10 +8,10 @@ use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Request;
 use fkooman\Rest\Service;
-use fkooman\OpenVPN\Manage;
 use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
 use fkooman\OpenVPN\VpnCertServiceClient;
+use fkooman\OpenVPN\VpnServerApiClient;
 
 try {
     $iniReader = IniReader::fromFile(
@@ -45,8 +45,6 @@ try {
         )
     );
 
-    $manage = new Manage($iniReader->v('socket'));
-
     // VPN Certificate Service Configuration
     $serviceUri = $iniReader->v('VpnCertService', 'serviceUri');
     $serviceAuth = $iniReader->v('VpnCertService', 'serviceUser');
@@ -60,14 +58,27 @@ try {
     );
     $vpnCertServiceClient = new VpnCertServiceClient($client, $serviceUri);
 
+    // VPN Server API Configuration
+    $serviceUri = $iniReader->v('VpnServerApi', 'serviceUri');
+    $serviceAuth = $iniReader->v('VpnServerApi', 'serviceUser');
+    $servicePass = $iniReader->v('VpnServerApi', 'servicePass');
+    $client = new Client(
+        array(
+            'defaults' => array(
+                'auth' => array($serviceAuth, $servicePass),
+            ),
+        )
+    );
+    $vpnServerApiClient = new VpnServerApiClient($client, $serviceUri);
+
     $service = new Service();
     $service->get(
         '/',
-        function (Request $request) use ($templateManager, $manage) {
+        function (Request $request) use ($templateManager, $vpnServerApiClient) {
             return $templateManager->render(
                 'vpnManage',
                 array(
-                    'clientInfo' => $manage->getClientInfo(),
+                    'clientInfo' => $vpnServerApiClient->getStatus(),
                     'msg' => $request->getUrl()->getQueryParameter('msg'),
                 )
             );
@@ -76,11 +87,11 @@ try {
 
     $service->post(
         '/disconnect',
-        function (Request $request) use ($manage) {
+        function (Request $request) use ($vpnServerApiClient) {
             $configId = $request->getPostParameter('config_id');
 
             // disconnect the client from the VPN service
-            $manage->killClient($configId);
+            $vpnServerApiClient->postDisconnect($configId);
 
             return new RedirectResponse(
                 sprintf('%s?msg=client "%s" disconnected!', $request->getUrl()->getRootUrl(), $configId),
@@ -91,14 +102,14 @@ try {
 
     $service->post(
         '/block',
-        function (Request $request) use ($manage, $vpnCertServiceClient) {
+        function (Request $request) use ($vpnServerApiClient, $vpnCertServiceClient) {
             $configId = $request->getPostParameter('config_id');
 
             // revoke the configuration 
             $vpnCertServiceClient->revokeConfiguration($configId);
 
             // disconnect the client from the VPN service
-            $manage->killClient($configId);
+            $vpnServerApiClient->postDisconnect($configId);
 
             return new RedirectResponse(
                 sprintf('%s?msg=client "%s" blocked and disconnected!', $request->getUrl()->getRootUrl(), $configId),

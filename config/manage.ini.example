@@ -1,8 +1,11 @@
-socket = "tcp://localhost:7505"
-
 [BasicAuthentication]
 ; foo:bar
 foo = $2y$10$nuIiy1pTYoBjPI89yuWfueTLTier0kBufq3V5jRxkH6xr2/QAH7UW
+
+[VpnServerApi]
+serviceUri  = 'http://localhost/vpn-server-api/api.php'
+serviceUser = 'admin'
+servicePass = 's3cr3t'
 
 [VpnCertService]
 serviceUri  = 'http://localhost/vpn-cert-service/api.php'
