@@ -22,7 +22,7 @@ class VpnServerApiClient
     {
         $requestUri = sprintf('%s/status', $this->vpnServerApiUri);
 
-        return $this->client->get($requestUri)->getBody();
+        return $this->client->get($requestUri)->json();
     }
 
     public function postDisconnect($configId)
