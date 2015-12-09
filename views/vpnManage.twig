@@ -13,21 +13,21 @@
             <li><em>Revoke</em> revokes the configuration certificate, and disconnects the client (client can no longer reconnect);</li>
         </ul>
 
-	    {% if clientInfo is empty %}
+	    {% if connectedClients.items is empty %}
             <p class="block">
                 No clients are currently connected!
             </p>	
 	    {% else %}
-            {% for key, client in clientInfo %}
+            {% for client in connectedClients.items %}
             <table class="border">
                 <thead>
-                    <tr><th colspan="2">{{ key|e }}</th></tr>
+                    <tr><th colspan="2">{{ client.common_name|e }}</th></tr>
                 </thead>
                 <tbody>
                 <tr><td>Bytes Received</td><td>{{ client.bytes_received|e }}</td></tr>
                 <tr><td>Bytes Sent</td><td>{{ client.bytes_sent|e }}</td></tr>
                 <tr><td>Client IP</td><td><code>{{ client.client_ip|e }}</code></td></tr>
-                <tr><td>Connected Since</td><td>{{ client.connected_since|e }}</td></tr>
+                <tr><td>Connected Since</td><td>{{ client.connected_since|e|date("Y-m-d H:i:s") }} ({{ date()|date("T") }})</td></tr>
                 <tr>
                     <td>VPN IP(s)</td>
                     <td>
@@ -41,12 +41,14 @@
                 <tr>
                     <td colspan="2" class="textright">
                         <form class="simple" method="post" action="disconnect">
-                            <input type="hidden" name="config_id" value="{{ key|e }}">
+                            <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
+                            <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
                             <button class="simple" type="submit">Disconnect</button>
                         </form>
 
                         <form class="simple" method="post" action="revoke">
-                            <input type="hidden" name="config_id" value="{{ key|e }}">
+                            <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
+                            <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
                             <button class="simple" type="submit">Revoke</button>
                         </form>
                     </td>
@@ -60,6 +62,7 @@
         <h3>Notes</h3>
         <ul>
             <li>All, non revoked, configurations are shown here;</li>
+            <li>If a configuration is revoked here, the client is NOT disconnected;</li>
         </ul>
 
         {% if allConfig is empty %}

@@ -25,7 +25,7 @@ class VpnServerApiClient
         return $this->client->get($requestUri)->json();
     }
 
-    public function postDisconnect($configId)
+    public function postDisconnect($socketId, $commonName)
     {
         $requestUri = sprintf('%s/disconnect', $this->vpnServerApiUri);
 
@@ -33,7 +33,8 @@ class VpnServerApiClient
             $requestUri,
             array(
                 'body' => array(
-                    'config_id' => $configId,
+                    'socket_id' => $socketId,
+                    'common_name' => $commonName,
                 ),
             )
         )->getBody();

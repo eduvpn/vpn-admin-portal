@@ -78,7 +78,7 @@ try {
             return $templateManager->render(
                 'vpnManage',
                 array(
-                    'clientInfo' => $vpnServerApiClient->getStatus(),
+                    'connectedClients' => $vpnServerApiClient->getStatus(),
                     'allConfig' => $vpnUserPortalClient->getAllConfigurations(),
                 )
             );
@@ -88,10 +88,11 @@ try {
     $service->post(
         '/disconnect',
         function (Request $request) use ($vpnServerApiClient) {
-            $configId = $request->getPostParameter('config_id');
+            $socketId = $request->getPostParameter('socket_id');
+            $commonName = $request->getPostParameter('common_name');
 
             // disconnect the client from the VPN service
-            $vpnServerApiClient->postDisconnect($configId);
+            $vpnServerApiClient->postDisconnect($socketId, $commonName);
 
             return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
         }
@@ -100,10 +101,11 @@ try {
     $service->post(
         '/revoke',
         function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
-            $configId = $request->getPostParameter('config_id');
+            $socketId = $request->getPostParameter('socket_id');
+            $commonName = $request->getPostParameter('common_name');
 
             // XXX: validate the input
-            list($userId, $configName) = explode('_', $configId, 2);
+            list($userId, $configName) = explode('_', $commonName, 2);
 
             // revoke the configuration 
             $vpnUserPortalClient->revokeConfiguration($userId, $configName);
@@ -112,7 +114,7 @@ try {
             $vpnServerApiClient->postRefreshCrl();
 
             // disconnect the client from the VPN service
-            $vpnServerApiClient->postDisconnect($configId);
+            $vpnServerApiClient->postDisconnect($socketId, $commonName);
 
             return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
         }
