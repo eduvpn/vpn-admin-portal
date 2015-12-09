@@ -7,7 +7,7 @@ serviceUri  = 'http://localhost/vpn-server-api/api.php'
 serviceUser = 'admin'
 servicePass = 's3cr3t'
 
-[VpnCertService]
-serviceUri  = 'http://localhost/vpn-cert-service/api.php'
+[VpnUserPortal]
+serviceUri  = 'http://localhost/vpn-user-portal/api.php'
 serviceUser = 'admin'
 servicePass = 's3cr3t'

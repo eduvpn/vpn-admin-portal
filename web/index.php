@@ -10,7 +10,7 @@ use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
-use fkooman\OpenVPN\VpnCertServiceClient;
+use fkooman\OpenVPN\VpnUserPortalClient;
 use fkooman\OpenVPN\VpnServerApiClient;
 
 try {
@@ -27,7 +27,7 @@ try {
 
             return $userList[$userId];
         },
-        array('realm' => 'VPN Management')
+        array('realm' => 'VPN Administrator Portal')
     );
 
     $request = new Request($_SERVER);
@@ -45,10 +45,10 @@ try {
         )
     );
 
-    // VPN Certificate Service Configuration
-    $serviceUri = $iniReader->v('VpnCertService', 'serviceUri');
-    $serviceAuth = $iniReader->v('VpnCertService', 'serviceUser');
-    $servicePass = $iniReader->v('VpnCertService', 'servicePass');
+    // VPN User Portal Configuration
+    $serviceUri = $iniReader->v('VpnUserPortal', 'serviceUri');
+    $serviceAuth = $iniReader->v('VpnUserPortal', 'serviceUser');
+    $servicePass = $iniReader->v('VpnUserPortal', 'servicePass');
     $client = new Client(
         array(
             'defaults' => array(
@@ -56,7 +56,7 @@ try {
             ),
         )
     );
-    $vpnCertServiceClient = new VpnCertServiceClient($client, $serviceUri);
+    $vpnUserPortalClient = new VpnUserPortalClient($client, $serviceUri);
 
     // VPN Server API Configuration
     $serviceUri = $iniReader->v('VpnServerApi', 'serviceUri');
@@ -74,12 +74,12 @@ try {
     $service = new Service();
     $service->get(
         '/',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
+        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
             return $templateManager->render(
                 'vpnManage',
                 array(
                     'clientInfo' => $vpnServerApiClient->getStatus(),
-                    'msg' => $request->getUrl()->getQueryParameter('msg'),
+                    'allConfig' => $vpnUserPortalClient->getAllConfigurations(),
                 )
             );
         }
@@ -93,20 +93,20 @@ try {
             // disconnect the client from the VPN service
             $vpnServerApiClient->postDisconnect($configId);
 
-            return new RedirectResponse(
-                sprintf('%s?msg=client "%s" disconnected!', $request->getUrl()->getRootUrl(), $configId),
-                302
-            );
+            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
         }
     );
 
     $service->post(
         '/revoke',
-        function (Request $request) use ($vpnServerApiClient, $vpnCertServiceClient) {
+        function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
             $configId = $request->getPostParameter('config_id');
 
+            // XXX: validate the input
+            list($userId, $configName) = explode('_', $configId, 2);
+
             // revoke the configuration 
-            $vpnCertServiceClient->revokeConfiguration($configId);
+            $vpnUserPortalClient->revokeConfiguration($userId, $configName);
 
             // trigger CRL reload
             $vpnServerApiClient->postRefreshCrl();
@@ -114,10 +114,7 @@ try {
             // disconnect the client from the VPN service
             $vpnServerApiClient->postDisconnect($configId);
 
-            return new RedirectResponse(
-                sprintf('%s?msg=client "%s" revoked and disconnected!', $request->getUrl()->getRootUrl(), $configId),
-                302
-            );
+            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
         }
     );
 

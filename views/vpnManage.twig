@@ -6,23 +6,17 @@
     <div id="container">
         {% include 'header.twig' %}
 
-        {% if msg %}
-            <p class="msg">{{ msg|e }}</p>
-        {% endif %}
-
-        <p>Notes:</p>
+        <h2>Connections</h2>
+        <h3>Notes</h3>
         <ul>
-            <li>Only currently connected clients are listed here;</li>
             <li><em>Disconnect</em> closes a current VPN connection (client can reconnect);</li>
             <li><em>Revoke</em> revokes the configuration certificate, and disconnects the client (client can no longer reconnect);</li>
         </ul>
 
-        <h2>Active Connections</h2>
-
-	    {% if not clientInfo %}
-
-            <span>No connected clients.</span>	
-
+	    {% if clientInfo is empty %}
+            <p class="block">
+                No clients are currently connected!
+            </p>	
 	    {% else %}
             {% for key, client in clientInfo %}
             <table class="border">
@@ -58,6 +52,40 @@
             </table>
             {% endfor %}
         {% endif %}
+
+        <h2>Configurations</h2>
+        <h3>Notes</h3>
+        <ul>
+            <li>All, non revoked, configurations are shown here;</li>
+        </ul>
+
+        {% if allConfig is empty %}
+            <p class="block">
+                No configurations are currently active!
+            </p>
+	    {% else %}
+	
+            {% for config in allConfig %}
+            <table class="border">
+                <thead>
+                    <tr><th colspan="2">{{ config.user_id|e }}_{{config.name|e }}</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="2" class="textright">
+                        <form class="simple" method="post" action="revoke">
+                            <input type="hidden" name="config_id" value="{{ config.user_id|e }}_{{config.name|e }}">
+                            <button class="simple" type="submit">Revoke</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {% endfor %}
+        {% endif %}
+
+        <h2>Users</h2>
+        <p>...</p>
 
         {% include 'footer.twig' %}
     </div> <!-- /container -->
