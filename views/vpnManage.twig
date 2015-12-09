@@ -24,7 +24,10 @@
                     <tr><th colspan="2">{{ key|e }}</th></tr>
                 </thead>
                 <tbody>
+                <tr><td>Bytes Received</td><td>{{ client.bytes_received|e }}</td></tr>
+                <tr><td>Bytes Sent</td><td>{{ client.bytes_sent|e }}</td></tr>
                 <tr><td>Client IP</td><td><code>{{ client.client_ip|e }}</code></td></tr>
+                <tr><td>Connected Since</td><td>{{ client.connected_since|e }}</td></tr>
                 <tr>
                     <td>VPN IP(s)</td>
                     <td>
