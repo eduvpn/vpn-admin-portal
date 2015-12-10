@@ -147,7 +147,14 @@ try {
     $authenticationPlugin = new AuthenticationPlugin();
     $authenticationPlugin->register($auth, 'user');
     $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
-    $service->run($request)->send();
+    $response = $service->run($request)
+
+    # CSP: https://developer.mozilla.org/en-US/docs/Security/CSP
+    $response->setHeader('Content-Security-Policy', "default-src 'self'");
+    # X-Frame-Options: https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options
+    $response->setHeader('X-Frame-Options', 'DENY');
+
+    $response->send();
 } catch (Exception $e) {
     error_log($e->getMessage());
     die(
