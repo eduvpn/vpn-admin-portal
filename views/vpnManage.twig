@@ -71,23 +71,26 @@
             </p>
 	    {% else %}
 	
-            {% for config in allConfig %}
             <table class="border">
                 <thead>
-                    <tr><th colspan="2">{{ config.user_id|e }}_{{config.name|e }}</th></tr>
+                    <tr><th>User ID</th><th>Config Name</th><th></th></tr>
                 </thead>
                 <tbody>
+            {% for config in allConfig %}
                 <tr>
-                    <td colspan="2" class="textright">
+                    <td>{{ config.user_id|e }}</td>
+                    <td>{{config.name|e }}</td>     
+                    <td class="textright">
                         <form class="simple" method="post" action="revoke">
                             <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
                             <button class="simple" type="submit">Revoke</button>
                         </form>
                     </td>
                 </tr>
+            {% endfor %}
                 </tbody>
             </table>
-            {% endfor %}
+
         {% endif %}
 
         <h2>Users</h2>
