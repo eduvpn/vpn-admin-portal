@@ -113,8 +113,11 @@ try {
             // trigger CRL reload
             $vpnServerApiClient->postRefreshCrl();
 
-            // disconnect the client from the VPN service
-            $vpnServerApiClient->postDisconnect($socketId, $commonName);
+            if (null !== $socketId) {
+                // disconnect the client from the VPN service if we know the
+                // socketId
+                $vpnServerApiClient->postDisconnect($socketId, $commonName);
+            }
 
             return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
         }
