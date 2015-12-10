@@ -39,4 +39,39 @@ class VpnUserPortalClient
             )
         )->getBody();
     }
+
+    public function getUsers()
+    {
+        $requestUri = sprintf('%s/users', $this->vpnUserPortalUri);
+
+        return $this->client->get($requestUri)->json();
+    }
+
+    public function blockUser($userId)
+    {
+        $requestUri = sprintf('%s/blockUser', $this->vpnUserPortalUri);
+
+        return $this->client->post(
+            $requestUri,
+            array(
+                'body' => array(
+                    'user_id' => $userId,
+                ),
+            )
+        )->getBody();
+    }
+
+    public function unblockUser($userId)
+    {
+        $requestUri = sprintf('%s/unblockUser', $this->vpnUserPortalUri);
+
+        return $this->client->post(
+            $requestUri,
+            array(
+                'body' => array(
+                    'user_id' => $userId,
+                ),
+            )
+        )->getBody();
+    }
 }

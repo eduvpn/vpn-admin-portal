@@ -91,7 +91,39 @@
         {% endif %}
 
         <h2>Users</h2>
-        <p>...</p>
+        <h3>Notes</h3>
+        <ul>
+            <li>If you <em>block</em> a user they will no longer be able to login to the VPN User Portal to create new configurations;</li>
+        </ul>
+        <table class="border">
+            <thead>
+                <tr><th>User ID</th><th>Blocked</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for user in users.items %}
+                <tr>
+                    <td>{{ user.user_id|e }}</td>
+                    {% if user.is_blocked %}
+                        <td>yes</td>
+                        <td class="textright">
+                            <form class="simple" method="post" action="unblockUser">
+                                <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
+                                <button class="simple" type="submit">Unblock</button>
+                            </form>
+                        </td>
+                    {% else %}
+                        <td>no</td>
+                        <td class="textright">
+                            <form class="simple" method="post" action="blockUser">
+                                <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
+                                <button class="simple" type="submit">Block</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
         {% include 'footer.twig' %}
     </div> <!-- /container -->

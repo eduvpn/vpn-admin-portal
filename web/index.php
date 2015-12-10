@@ -80,6 +80,7 @@ try {
                 array(
                     'connectedClients' => $vpnServerApiClient->getStatus(),
                     'allConfig' => $vpnUserPortalClient->getAllConfigurations(),
+                    'users' => $vpnUserPortalClient->getUsers(),
                 )
             );
         }
@@ -93,6 +94,26 @@ try {
 
             // disconnect the client from the VPN service
             $vpnServerApiClient->postDisconnect($socketId, $commonName);
+
+            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
+        }
+    );
+
+    $service->post(
+        '/blockUser',
+        function (Request $request) use ($vpnUserPortalClient) {
+            $userId = $request->getPostParameter('user_id');
+            $vpnUserPortalClient->blockUser($userId);
+
+            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
+        }
+    );
+
+    $service->post(
+        '/unblockUser',
+        function (Request $request) use ($vpnUserPortalClient) {
+            $userId = $request->getPostParameter('user_id');
+            $vpnUserPortalClient->unblockUser($userId);
 
             return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
         }
