@@ -62,7 +62,7 @@
         <h3>Notes</h3>
         <ul>
             <li>All, non revoked, configurations are shown here;</li>
-            <li>If a configuration is revoked here, the client is NOT disconnected;</li>
+            <li>If a configuration is revoked here, the client is NOT disconnected if it happened to be connected;</li>
         </ul>
 
         {% if allConfig is empty %}
@@ -98,7 +98,6 @@
         <ul>
             <li>If you <em>block</em> a user they will no longer be able to login to the VPN User Portal to create new configurations;</li>
             <li>Only users that have configurations are listed here;</li>
-            <li>Block is currently not enforced in the VPN User Portal;</li>
         </ul>
         <table class="border">
             <thead>
