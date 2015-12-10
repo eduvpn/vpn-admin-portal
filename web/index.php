@@ -147,7 +147,7 @@ try {
     $authenticationPlugin = new AuthenticationPlugin();
     $authenticationPlugin->register($auth, 'user');
     $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
-    $response = $service->run($request)
+    $response = $service->run($request);
 
     # CSP: https://developer.mozilla.org/en-US/docs/Security/CSP
     $response->setHeader('Content-Security-Policy', "default-src 'self'");
