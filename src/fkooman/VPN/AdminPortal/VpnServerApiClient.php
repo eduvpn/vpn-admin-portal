@@ -1,6 +1,6 @@
 <?php
 
-namespace fkooman\OpenVPN;
+namespace fkooman\VPN\AdminPortal;
 
 use GuzzleHttp\Client;
 

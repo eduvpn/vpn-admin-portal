@@ -10,8 +10,8 @@ use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
-use fkooman\OpenVPN\VpnUserPortalClient;
-use fkooman\OpenVPN\VpnServerApiClient;
+use fkooman\VPN\AdminPortal\VpnUserPortalClient;
+use fkooman\VPN\AdminPortal\VpnServerApiClient;
 
 try {
     $iniReader = IniReader::fromFile(
