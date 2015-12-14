@@ -1,6 +1,13 @@
+authMethod = BasicAuthentication
+;authMethod = MellonAuthentication
+
 [BasicAuthentication]
 ; foo:bar
 foo = $2y$10$nuIiy1pTYoBjPI89yuWfueTLTier0kBufq3V5jRxkH6xr2/QAH7UW
+
+[MellonAuthentication]
+attribute = 'MELLON_NAME_ID'
+;attribute = 'MELLON_eduPersonTargetedID'
 
 [VpnServerApi]
 serviceUri  = 'http://localhost/vpn-server-api/api.php'

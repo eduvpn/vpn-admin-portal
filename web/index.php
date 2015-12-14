@@ -33,17 +33,30 @@ try {
         dirname(__DIR__).'/config/manage.ini'
     );
 
-    $auth = new BasicAuthentication(
-        function ($userId) use ($iniReader) {
-            $userList = $iniReader->v('BasicAuthentication');
-            if (!array_key_exists($userId, $userList)) {
-                return false;
-            }
+    // Authentication
+    $authMethod = $iniReader->v('authMethod', false, 'BasicAuthentication');
+    switch ($authMethod) {
+        case 'MellonAuthentication':
+            $auth = new MellonAuthentication(
+                $iniReader->v('MellonAuthentication', 'attribute')
+            );
+            break;
+        case 'BasicAuthentication':
+            $auth = new BasicAuthentication(
+                function ($userId) use ($iniReader) {
+                    $userList = $iniReader->v('BasicAuthentication');
+                    if (!array_key_exists($userId, $userList)) {
+                        return false;
+                    }
 
-            return $userList[$userId];
-        },
-        array('realm' => 'VPN Administrator Portal')
-    );
+                    return $userList[$userId];
+                },
+                array('realm' => 'VPN Admin Portal')
+            );
+            break;
+        default:
+            throw new RuntimeException('unsupported authentication mechanism');
+    }
 
     $request = new Request($_SERVER);
 
