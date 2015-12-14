@@ -20,6 +20,7 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use fkooman\Ini\IniReader;
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
+use fkooman\Rest\Plugin\Authentication\Mellon\MellonAuthentication;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Request;
 use fkooman\Rest\Service;
