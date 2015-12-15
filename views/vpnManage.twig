@@ -10,7 +10,7 @@
 
 	    {% if connectedClients.items is empty %}
             <p class="block">
-                No clients are currently connected!
+                No clients are currently connected &#x1f61e;
             </p>	
 	    {% else %}
             {% for client in connectedClients.items %}
@@ -35,14 +35,6 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="textright">
-                        <!-- Not a use case! -->
-                        <!--
-                        <form class="simple" method="post" action="disconnect">
-                            <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
-                            <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                            <button class="simple" type="submit">Disconnect</button>
-                        </form>
-                        -->
                         <form class="simple" method="post" action="revoke">
                             <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
                             <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
@@ -64,7 +56,7 @@
 
         {% if allConfig is empty %}
             <p class="block">
-                No configurations are currently active!
+                No configurations are currently active &#x1f61e;
             </p>
 	    {% else %}
 	
@@ -94,9 +86,15 @@
         <h3>Notes</h3>
         <ul>
             <li>If you <em>block</em> a user they will no longer be able to login to the VPN User Portal to create new configurations;</li>
-            <li>Blocking a user will have NO effect on configurations the user has, connected or otherwise;</li>
-            <li>Only users that have configurations are listed here;</li>
+            <li>Blocking a user will have NO effect on VPN connections the user has, connected or otherwise;</li>
+            <li>Only users that have active configurations are listed here;</li>
         </ul>
+
+        {% if users.items is empty %}
+            <p class="block">
+                No users with active configurations &#x1f61e;
+            </p>
+        {% else %}
         <table class="border">
             <thead>
                 <tr><th>User ID</th><th>Blocked</th><th></th></tr>
@@ -126,6 +124,7 @@
             {% endfor %}
             </tbody>
         </table>
+        {% endif %}
 
         {% include 'footer.twig' %}
     </div> <!-- /container -->
