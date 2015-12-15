@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.3 (2015-12-15)
+- some template work
+
 ## 1.0.2 (2015-12-14)
 - add SAML support (mellon authentication)
 
