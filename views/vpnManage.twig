@@ -7,11 +7,6 @@
         {% include 'header.twig' %}
 
         <h2>Connections</h2>
-        <h3>Notes</h3>
-        <ul>
-            <li><em>Disconnect</em> closes a current VPN connection (client can reconnect);</li>
-            <li><em>Revoke</em> revokes the configuration certificate, and disconnects the client (client can no longer reconnect);</li>
-        </ul>
 
 	    {% if connectedClients.items is empty %}
             <p class="block">
@@ -40,16 +35,18 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="textright">
+                        <!-- Not a use case! -->
+                        <!--
                         <form class="simple" method="post" action="disconnect">
                             <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
                             <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
                             <button class="simple" type="submit">Disconnect</button>
                         </form>
-
+                        -->
                         <form class="simple" method="post" action="revoke">
                             <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
                             <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                            <button class="simple" type="submit">Revoke</button>
+                            <button class="simple" type="submit">Revoke &amp; Disconnect</button>
                         </form>
                     </td>
                 </tr>
@@ -61,8 +58,8 @@
         <h2>Configurations</h2>
         <h3>Notes</h3>
         <ul>
-            <li>All, non revoked, configurations are shown here;</li>
-            <li>If a configuration is revoked here, the client is NOT disconnected if it happened to be connected;</li>
+            <li>All existing, non revoked, configurations are shown here;</li>
+            <li>If a configuration is revoked here, the client is not automatically disconnected if it happened to be connected as well!</li>
         </ul>
 
         {% if allConfig is empty %}
@@ -97,6 +94,7 @@
         <h3>Notes</h3>
         <ul>
             <li>If you <em>block</em> a user they will no longer be able to login to the VPN User Portal to create new configurations;</li>
+            <li>Blocking a user will have NO effect on configurations the user has, connected or otherwise;</li>
             <li>Only users that have configurations are listed here;</li>
         </ul>
         <table class="border">
