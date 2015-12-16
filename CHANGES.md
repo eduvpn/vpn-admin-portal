@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0 (2015-12-16)
+- rename `config/manage.ini` to `config/config.ini`
+
 ## 1.0.3 (2015-12-15)
 - some template work
 
