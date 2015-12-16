@@ -31,7 +31,7 @@ use fkooman\VPN\AdminPortal\VpnServerApiClient;
 
 try {
     $iniReader = IniReader::fromFile(
-        dirname(__DIR__).'/config/manage.ini'
+        dirname(__DIR__).'/config/config.ini'
     );
 
     // Authentication
