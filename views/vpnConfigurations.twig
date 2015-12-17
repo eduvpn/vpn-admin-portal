@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    <div class="container">
+        {% include 'header.twig' %}
+
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="connections">Connections</a></li>
+          <li role="presentation" class="active"><a href="configurations">Configurations</a></li>
+          <li role="presentation"><a href="users">Users</a></li>
+        </ul>
+
+        <h2>Configurations</h2>
+        <h3>Notes</h3>
+        <ul>
+            <li>All existing, non revoked, configurations are shown here;</li>
+            <li>If a configuration is revoked here, the client is not automatically disconnected if it happened to be connected as well!</li>
+        </ul>
+
+        {% if allConfig is empty %}
+            <div class="alert alert-info" role="alert">No configurations are currently active &#x1f61e;</div>
+	    {% else %}
+	
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>User ID</th><th>Config Name</th><th></th></tr>
+                </thead>
+                <tbody>
+            {% for config in allConfig %}
+                <tr>
+                    <td>{{ config.user_id|e }}</td>
+                    <td>{{config.name|e }}</td>     
+                    <td class="text-right">
+                        <form method="post" action="revoke">
+                            <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
+                            <button class="btn btn-warning" type="submit">Revoke</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+
+        {% include 'footer.twig' %}
+    </div> <!-- /container -->
+</body>
+</html>

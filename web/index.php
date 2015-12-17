@@ -101,14 +101,44 @@ try {
     $vpnServerApiClient = new VpnServerApiClient($client, $serviceUri);
 
     $service = new Service();
+
     $service->get(
         '/',
+        function (Request $request) {
+            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
+        }
+    );
+
+    $service->get(
+        '/connections',
         function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
             return $templateManager->render(
-                'vpnManage',
+                'vpnConnections',
                 array(
                     'connectedClients' => $vpnServerApiClient->getStatus(),
+                )
+            );
+        }
+    );
+
+    $service->get(
+        '/configurations',
+        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+            return $templateManager->render(
+                'vpnConfigurations',
+                array(
                     'allConfig' => $vpnUserPortalClient->getAllConfigurations(),
+                )
+            );
+        }
+    );
+
+    $service->get(
+        '/users',
+        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+            return $templateManager->render(
+                'vpnUsers',
+                array(
                     'users' => $vpnUserPortalClient->getUsers(),
                 )
             );
@@ -124,7 +154,7 @@ try {
             // disconnect the client from the VPN service
             $vpnServerApiClient->postDisconnect($socketId, $commonName);
 
-            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
+            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
         }
     );
 
@@ -134,7 +164,7 @@ try {
             $userId = $request->getPostParameter('user_id');
             $vpnUserPortalClient->blockUser($userId);
 
-            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
+            return new RedirectResponse($request->getUrl()->getRootUrl().'users', 302);
         }
     );
 
@@ -144,7 +174,7 @@ try {
             $userId = $request->getPostParameter('user_id');
             $vpnUserPortalClient->unblockUser($userId);
 
-            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
+            return new RedirectResponse($request->getUrl()->getRootUrl().'users', 302);
         }
     );
 
@@ -169,7 +199,12 @@ try {
                 $vpnServerApiClient->postDisconnect($socketId, $commonName);
             }
 
-            return new RedirectResponse($request->getUrl()->getRootUrl(), 302);
+            if (null !== $socketId) {
+                // return to configurations
+                return new RedirectResponse($request->getUrl()->getRootUrl().'configurations', 302);
+            }
+
+            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
         }
     );
 

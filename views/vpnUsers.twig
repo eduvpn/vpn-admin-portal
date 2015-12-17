@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    <div class="container">
+        {% include 'header.twig' %}
+
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="connections">Connections</a></li>
+          <li role="presentation"><a href="configurations">Configurations</a></li>
+          <li role="presentation" class="active"><a href="users">Users</a></li>
+        </ul>
+
+        <h2>Users</h2>
+        <h3>Notes</h3>
+        <ul>
+            <li>If you <em>block</em> a user they will no longer be able to login to the VPN User Portal to create new configurations;</li>
+            <li>Blocking a user will have NO effect on VPN connections the user has, connected or otherwise;</li>
+            <li>Only users that have active configurations are listed here;</li>
+        </ul>
+
+        {% if users.items is empty %}
+            <div class="alert alert-info" role="alert">No users with active configurations &#x1f61e;</div>
+        {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr><th>User ID</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for user in users.items %}
+                <tr>
+                    <td>{{ user.user_id|e }}</td>
+                    {% if user.is_blocked %}
+                        <td class="text-right">
+                            <form class="simple" method="post" action="unblockUser">
+                                <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
+                                <button class="btn btn-success" type="submit">Unblock</button>
+                            </form>
+                        </td>
+                    {% else %}
+                        <td class="text-right">
+                            <form class="simple" method="post" action="blockUser">
+                                <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
+                                <button class="btn btn-warning" type="submit">Block</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% include 'footer.twig' %}
+    </div> <!-- /container -->
+</body>
+</html>
