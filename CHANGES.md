@@ -1,7 +1,8 @@
 # Changelog
 
-## 2.0.3 (...)
-- update connections tab
+## 2.0.3 (2015-12-17)
+- update connections tab, show human readable amount of data traffic
+- use alerts for notes
 
 ## 2.0.2 (2015-12-17)
 - use responsive table to show connections
