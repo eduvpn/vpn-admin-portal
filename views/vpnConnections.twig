@@ -17,18 +17,24 @@
 	    {% if connectedClients.items is empty %}
             <div class="alert alert-info" role="alert">No clients are currently connected &#x1f61e;</div>
 	    {% else %}
-            {% for client in connectedClients.items %}
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr><th colspan="2">{{ client.common_name|e }}</th></tr>
-                </thead>
-                <tbody>
-                <tr><td>Bytes Received</td><td>{{ client.bytes_received|e }}</td></tr>
-                <tr><td>Bytes Sent</td><td>{{ client.bytes_sent|e }}</td></tr>
-                <tr><td>Client IP</td><td><code>{{ client.client_ip|e }}</code></td></tr>
-                <tr><td>Connected Since</td><td>{{ client.connected_since|e|date("Y-m-d H:i:s") }} ({{ date()|date("T") }})</td></tr>
+            <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>VPN IP(s)</td>
+                    <th>Common Name</th>
+                    <th>Client IP</th>
+                    <th>VPN IP(s)</th>
+                    <th>Received (bytes)</th>
+                    <th>Sent (bytes)</th>
+                    <th>Connected ({{ date()|date("T") }})</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for client in connectedClients.items %}
+                <tr>
+                    <td>{{ client.common_name|e }}</td>
+                    <td>{{ client.client_ip|e }}</td>
                     <td>
                         <ul class="list-unstyled">
                             {% for ip in client.vpn_ip %}
@@ -36,9 +42,10 @@
                             {% endfor %}
                         </ul>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="text-right">
+                    <td>{{ client.bytes_received|e }}</td>
+                    <td>{{ client.bytes_sent|e }}</td>
+                    <td>{{ client.connected_since|e|date("Y-m-d H:i:s") }}</td>
+                    <td>
                         <form method="post" action="revoke">
                             <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
                             <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
@@ -46,9 +53,10 @@
                         </form>
                     </td>
                 </tr>
-                </tbody>
-            </table>
             {% endfor %}
+            </tbody>
+            </table>
+            </div>
         {% endif %}
 
         {% include 'footer.twig' %}
