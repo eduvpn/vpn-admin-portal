@@ -3,18 +3,16 @@
 <html lang="en">
 {% include 'head.twig' %}
 <body>
-    <div id="container">
+    <div class="container">
         {% include 'header.twig' %}
 
         <h2>Connections</h2>
 
 	    {% if connectedClients.items is empty %}
-            <p class="block">
-                No clients are currently connected &#x1f61e;
-            </p>	
+            <div class="alert alert-info" role="alert">No clients are currently connected &#x1f61e;</div>
 	    {% else %}
             {% for client in connectedClients.items %}
-            <table class="border">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr><th colspan="2">{{ client.common_name|e }}</th></tr>
                 </thead>
@@ -26,7 +24,7 @@
                 <tr>
                     <td>VPN IP(s)</td>
                     <td>
-                        <ul>
+                        <ul class="list-unstyled">
                             {% for ip in client.vpn_ip %}
                             <li><code>{{ ip|e }}</code></li>
                             {% endfor %}
@@ -34,11 +32,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="textright">
-                        <form class="simple" method="post" action="revoke">
+                    <td colspan="2" class="text-right">
+                        <form method="post" action="revoke">
                             <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
                             <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                            <button class="simple" type="submit">Revoke &amp; Disconnect</button>
+                            <button class="btn btn-warning" type="submit">Revoke &amp; Disconnect</button>
                         </form>
                     </td>
                 </tr>
@@ -55,12 +53,10 @@
         </ul>
 
         {% if allConfig is empty %}
-            <p class="block">
-                No configurations are currently active &#x1f61e;
-            </p>
+            <div class="alert alert-info" role="alert">No configurations are currently active &#x1f61e;</div>
 	    {% else %}
 	
-            <table class="border">
+            <table class="table table-striped">
                 <thead>
                     <tr><th>User ID</th><th>Config Name</th><th></th></tr>
                 </thead>
@@ -69,10 +65,10 @@
                 <tr>
                     <td>{{ config.user_id|e }}</td>
                     <td>{{config.name|e }}</td>     
-                    <td class="textright">
-                        <form class="simple" method="post" action="revoke">
+                    <td class="text-right">
+                        <form method="post" action="revoke">
                             <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                            <button class="simple" type="submit">Revoke</button>
+                            <button class="btn btn-warning" type="submit">Revoke</button>
                         </form>
                     </td>
                 </tr>
@@ -91,32 +87,28 @@
         </ul>
 
         {% if users.items is empty %}
-            <p class="block">
-                No users with active configurations &#x1f61e;
-            </p>
+            <div class="alert alert-info" role="alert">No users with active configurations &#x1f61e;</div>
         {% else %}
-        <table class="border">
+        <table class="table table-striped">
             <thead>
-                <tr><th>User ID</th><th>Blocked</th><th></th></tr>
+                <tr><th>User ID</th><th></th></tr>
             </thead>
             <tbody>
             {% for user in users.items %}
                 <tr>
                     <td>{{ user.user_id|e }}</td>
                     {% if user.is_blocked %}
-                        <td>yes</td>
-                        <td class="textright">
+                        <td class="text-right">
                             <form class="simple" method="post" action="unblockUser">
                                 <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
-                                <button class="simple" type="submit">Unblock</button>
+                                <button class="btn btn-success" type="submit">Unblock</button>
                             </form>
                         </td>
                     {% else %}
-                        <td>no</td>
-                        <td class="textright">
+                        <td class="text-right">
                             <form class="simple" method="post" action="blockUser">
                                 <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
-                                <button class="simple" type="submit">Block</button>
+                                <button class="btn btn-warning" type="submit">Block</button>
                             </form>
                         </td>
                     {% endif %}
