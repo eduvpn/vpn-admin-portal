@@ -34,7 +34,7 @@
             {% for client in connectedClients.items %}
                 <tr>
                     <td>{{ client.common_name|e }}</td>
-                    <td>{{ client.client_ip|e }}</td>
+                    <td><code>{{ client.client_ip|e }}</code></td>
                     <td>
                         <ul class="list-unstyled">
                             {% for ip in client.vpn_ip %}
