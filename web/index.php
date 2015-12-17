@@ -146,19 +146,6 @@ try {
     );
 
     $service->post(
-        '/disconnect',
-        function (Request $request) use ($vpnServerApiClient) {
-            $socketId = $request->getPostParameter('socket_id');
-            $commonName = $request->getPostParameter('common_name');
-
-            // disconnect the client from the VPN service
-            $vpnServerApiClient->postDisconnect($socketId, $commonName);
-
-            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
-        }
-    );
-
-    $service->post(
         '/blockUser',
         function (Request $request) use ($vpnUserPortalClient) {
             $userId = $request->getPostParameter('user_id');
@@ -201,10 +188,10 @@ try {
 
             if (null !== $socketId) {
                 // return to configurations
-                return new RedirectResponse($request->getUrl()->getRootUrl().'configurations', 302);
+                return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
             }
 
-            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
+            return new RedirectResponse($request->getUrl()->getRootUrl().'configurations', 302);
         }
     );
 
