@@ -37,7 +37,7 @@
                     <td><tt>{{ client.client_ip|e }}</tt></td>
                     <td>
                         <ul class="list-unstyled">
-                            {% for ip in client.vpn_ip %}
+                            {% for ip in client.vpn_ip|sort %}
                             <li><tt>{{ ip|e }}</tt></li>
                             {% endfor %}
                         </ul>
