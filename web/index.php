@@ -74,6 +74,27 @@ try {
         )
     );
 
+    // add filter to show byte count in human readable amount
+    $templateManager->addFilter(
+        new Twig_SimpleFilter(
+            'sizeToHuman',
+            function ($byteSize) {
+                $kB = 1024;
+                $MB = $kB * 1024;
+                $GB = $MB * 1024;
+
+                if ($byteSize > $GB) {
+                    return sprintf('%0.2fGB', $byteSize / $GB);
+                }
+                if ($byteSize > $MB) {
+                    return sprintf('%0.2fMB', $byteSize / $MB);
+                }
+
+                return sprintf('%0.0fkB', $byteSize / $kB);
+            }
+        )
+    );
+
     // VPN User Portal Configuration
     $serviceUri = $iniReader->v('VpnUserPortal', 'serviceUri');
     $serviceAuth = $iniReader->v('VpnUserPortal', 'serviceUser');

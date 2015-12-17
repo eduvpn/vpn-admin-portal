@@ -31,7 +31,7 @@
             {% for config in allConfig %}
                 <tr>
                     <td>{{ config.user_id|e }}</td>
-                    <td>{{config.name|e }}</td>     
+                    <td>{{ config.name|e }}</td>     
                     <td class="text-right">
                         <form method="post" action="revoke">
                             <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">

@@ -20,7 +20,7 @@
         "fkooman/rest-plugin-authentication": "^2.0.0",
         "fkooman/rest-plugin-authentication-basic": "^2.0.0",
         "fkooman/rest-plugin-authentication-mellon": "^2.0.0",
-        "fkooman/tpl-twig": "^1.0.0",
+        "fkooman/tpl-twig": "^1.1.0",
         "guzzlehttp/guzzle": "^5.3"
     }
 }
