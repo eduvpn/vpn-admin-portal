@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1 (2015-12-17)
+- use bootstrap for UI
+
 ## 2.0.0 (2015-12-16)
 - rename `config/manage.ini` to `config/config.ini`
 
