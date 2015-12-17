@@ -13,12 +13,14 @@
         </ul>
 
         <h2>Users</h2>
-        <h3>Notes</h3>
-        <ul>
-            <li>If you <em>block</em> a user they will no longer be able to login to the VPN User Portal to create new configurations;</li>
-            <li>Blocking a user will have NO effect on VPN connections the user has, connected or otherwise;</li>
-            <li>Only users that have active configurations are listed here;</li>
-        </ul>
+
+        <div class="alert alert-info" role="alert">
+            <ul>
+                <li>Prevents users from interacting with the User Portal;</li>
+                <li>Does <strong>NOT</strong> revoke configurations, see <a href="configurations">Configurations</a>;</li>
+                <li>Does <strong>NOT</strong> disconnect clients, see <a href="connections">Connections</a></li>
+            </ul>
+        </div>
 
         {% if users.items is empty %}
             <div class="alert alert-info" role="alert">No users with active configurations &#x1f61e;</div>
