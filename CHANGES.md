@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.3 (...)
+- update connections tab
+
 ## 2.0.2 (2015-12-17)
 - use responsive table to show connections
 
