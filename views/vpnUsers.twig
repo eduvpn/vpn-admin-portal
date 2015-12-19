@@ -14,6 +14,9 @@
 
         <h2>Users</h2>
 
+        {% if users.items is empty %}
+            <div class="alert alert-info" role="alert">No users with active configurations &#x1f61e;</div>
+        {% else %}
         <div class="alert alert-info" role="alert">
             <ul>
                 <li>Prevents users from interacting with the User Portal;</li>
@@ -21,10 +24,6 @@
                 <li>Does <strong>NOT</strong> disconnect clients, see <a href="connections">Connections</a></li>
             </ul>
         </div>
-
-        {% if users.items is empty %}
-            <div class="alert alert-info" role="alert">No users with active configurations &#x1f61e;</div>
-        {% else %}
         <table class="table table-striped">
             <thead>
                 <tr><th>User ID</th><th></th></tr>

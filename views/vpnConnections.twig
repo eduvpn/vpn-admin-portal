@@ -14,15 +14,15 @@
 
         <h2>Connections</h2>
         
-        <div class="alert alert-info" role="alert">
-            <ul>
-                <li><em>Revoke &amp; Disconnect</em> can <strong>NOT</strong> be undone!</li>
-            </ul>
-        </div>
-
 	    {% if connectedClients.items is empty %}
             <div class="alert alert-info" role="alert">No clients are currently connected &#x1f61e;</div>
 	    {% else %}
+            <div class="alert alert-info" role="alert">
+                <ul>
+                    <li><em>Revoke &amp; Disconnect</em> can <strong>NOT</strong> be undone!</li>
+                </ul>
+            </div>
+
             <div class="table-responsive">
             <table class="table table-striped">
             <thead>

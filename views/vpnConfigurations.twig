@@ -14,17 +14,16 @@
 
         <h2>Configurations</h2>
 
-        <div class="alert alert-info" role="alert">
-            <ul>
-                <li>All active configurations are shown here;</li>
-                <li>Revoke does <strong>NOT</strong> disconnect a client, see <a href="connections">Connections</a>;</li>
-                <li>Can <strong>NOT</strong> be undone!</li>
-            </ul>
-        </div>
-
         {% if allConfig is empty %}
             <div class="alert alert-info" role="alert">No configurations are currently active &#x1f61e;</div>
 	    {% else %}
+            <div class="alert alert-info" role="alert">
+                <ul>
+                    <li>All active configurations are shown here;</li>
+                    <li>Revoke does <strong>NOT</strong> disconnect a client, see <a href="connections">Connections</a>;</li>
+                    <li>Can <strong>NOT</strong> be undone!</li>
+                </ul>
+            </div>
 	
             <table class="table table-striped">
                 <thead>
