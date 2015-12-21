@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.4 (2015-12-21)
+- cleanup templates
+
 ## 2.0.3 (2015-12-17)
 - update connections tab, show human readable amount of data traffic
 - use alerts for notes
