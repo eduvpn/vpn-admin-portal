@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0 (2015-12-22)
+- implement server info
+- add documentation tab, remove alerts from other pages
+
 ## 2.0.4 (2015-12-21)
 - cleanup templates
 
