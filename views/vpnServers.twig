@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    <div class="container">
+        {% include 'header.twig' %}
+
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="connections">Connections</a></li>
+          <li role="presentation" class="active"><a href="servers">Servers</a></li>
+          <li role="presentation"><a href="configurations">Configurations</a></li>
+          <li role="presentation"><a href="users">Users</a></li>
+        </ul>
+
+        <h2>Servers</h2>
+        
+	    {% if vpnServers.items is empty %}
+            <div class="alert alert-info" role="alert">No servers configured &#x1f61e;</div>
+	    {% else %}
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Socket</th>
+                    <th>Version</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for server in vpnServers.items %}
+                <tr>
+                    <td>{{ server.socket|e }}</td>
+                    <td>{{ server.version|e }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+        {% include 'footer.twig' %}
+    </div> <!-- /container -->
+</body>
+</html>

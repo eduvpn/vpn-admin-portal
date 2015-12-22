@@ -143,6 +143,18 @@ try {
     );
 
     $service->get(
+        '/servers',
+        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+            return $templateManager->render(
+                'vpnServers',
+                array(
+                    'vpnServers' => $vpnServerApiClient->getServerInfo(),
+                )
+            );
+        }
+    );
+
+    $service->get(
         '/configurations',
         function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
             return $templateManager->render(
