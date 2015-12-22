@@ -11,27 +11,20 @@
           <li role="presentation"><a href="servers">Servers</a></li>
           <li role="presentation" class="active"><a href="configurations">Configurations</a></li>
           <li role="presentation"><a href="users">Users</a></li>
+          <li role="presentation"><a href="documentation">Documentation</a></li>
         </ul>
 
         <h2>Configurations</h2>
 
         {% if allConfig is empty %}
-            <div class="alert alert-info" role="alert">No configurations are currently active &#x1f61e;</div>
+            <p class="well">No configurations are currently active &#x1f61e;</p>
 	    {% else %}
-            <div class="alert alert-info" role="alert">
-                <ul>
-                    <li>All active configurations are shown here;</li>
-                    <li>Revoke does <strong>NOT</strong> disconnect a client, see <a href="connections">Connections</a>;</li>
-                    <li>Can <strong>NOT</strong> be undone!</li>
-                </ul>
-            </div>
-	
             <table class="table table-striped">
                 <thead>
                     <tr><th>User ID</th><th>Name</th><th></th></tr>
                 </thead>
                 <tbody>
-            {% for config in allConfig %}
+                {% for config in allConfig %}
                 <tr>
                     <td>{{ config.user_id|e }}</td>
                     <td>{{ config.name|e }}</td>     
@@ -42,7 +35,7 @@
                         </form>
                     </td>
                 </tr>
-            {% endfor %}
+                {% endfor %}
                 </tbody>
             </table>
 

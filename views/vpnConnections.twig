@@ -11,19 +11,14 @@
           <li role="presentation"><a href="servers">Servers</a></li>
           <li role="presentation"><a href="configurations">Configurations</a></li>
           <li role="presentation"><a href="users">Users</a></li>
+          <li role="presentation"><a href="documentation">Documentation</a></li>
         </ul>
 
         <h2>Connections</h2>
         
 	    {% if connectedClients.items is empty %}
-            <div class="alert alert-info" role="alert">No clients are currently connected &#x1f61e;</div>
+            <p class="well">No clients are currently connected &#x1f61e;</p>
 	    {% else %}
-            <div class="alert alert-info" role="alert">
-                <ul>
-                    <li><em>Revoke &amp; Disconnect</em> can <strong>NOT</strong> be undone!</li>
-                </ul>
-            </div>
-
             <div class="table-responsive">
             <table class="table table-striped">
             <thead>

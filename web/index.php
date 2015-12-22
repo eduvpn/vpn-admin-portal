@@ -178,6 +178,16 @@ try {
         }
     );
 
+    $service->get(
+        '/documentation',
+        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+            return $templateManager->render(
+                'vpnDocumentation',
+                array()
+            );
+        }
+    );
+
     $service->post(
         '/blockUser',
         function (Request $request) use ($vpnUserPortalClient) {

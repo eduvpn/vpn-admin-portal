@@ -11,12 +11,13 @@
           <li role="presentation" class="active"><a href="servers">Servers</a></li>
           <li role="presentation"><a href="configurations">Configurations</a></li>
           <li role="presentation"><a href="users">Users</a></li>
+          <li role="presentation"><a href="documentation">Documentation</a></li>
         </ul>
 
         <h2>Servers</h2>
         
 	    {% if vpnServers.items is empty %}
-            <div class="alert alert-info" role="alert">No servers configured &#x1f61e;</div>
+            <p class="well" role="alert">No servers active &#x1f61e;</p>
 	    {% else %}
             <table class="table table-striped">
             <thead>
