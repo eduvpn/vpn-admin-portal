@@ -17,46 +17,39 @@
         <h2>Documentation</h2>
         <p>
             The Admin Portal can be used to manage the VPN for day-to-day 
-            operation. Some of its functions require a little explanation. 
-            These are documented here.
+            operation. Here you will find common scenarios and how to deal with
+            them.
         </p>
 
-        <h3>Connections</h3>
+        <h3>Compromised Client</h3>
         <p>
-            A <em>connection</em> is a client that is currently connected to
-            one of the VPN servers managed by this instance. They can be found 
-            in the <a href="connections">Connections</a> tab. The connection 
-            tab allows the administrator to <em>Revoke &amp; Disconnect</em> a
-            session which means the certificate belonging to the configuration
-            is revoked and the connection is closed.
+            A user has the VPN connection open, but it is clear that his 
+            computer is infected with malware and needs to be stopped.
         </p>
-        
-        <h3>Configurations</h3>
         <p>
-            A <em>configuration</em> is a VPN configuration created by a user 
-            and configured in their device. It may or may not be currently 
-            connected. The configurations can be seen in the 
-            <a href="configurations">Configurations</a> tab. Configurations can
-            be revoked which makes it impossible for a client with this 
-            configuration to connect to the VPN. If the client is currently 
-            connected it will <em>not</em> be disconnected!
+            If the user is currently connected, their connection can be 
+            terminated and the configuration revoked in the 
+            <a href="connections">Connections</a> tab. This will prevent the 
+            user from (automatically) reconnecting and require downloading a
+            new configuration from the User Portal.
+        </p>    
+        <p>
+            If the user is not currently connected, the configuration can be
+            revoked from the <a href="configurations">Configurations</a> tab.
         </p>
 
-        <h3>Users</h3>
+        <h3>Misbehaving User</h3>
         <p>
-            A <em>user</em> created a configuration and used that configuration
-            to connect to the VPN. The users that have configurations for this
-            VPN are listed under the <a href="users">Users</a> tab. A user can
-            be <em>blocked</em>, which means they can no longer login to the
-            User Portal. Active configurations and VPN connections are not 
-            terminated when a user is blocked.
+            If stopping a user by revoking their configuration and 
+            disconnecting them does not work, the user can be prevented from
+            creating a new configuration in the User Portal. The can be 
+            accomplished in the <a href="users">Users</a> tab. 
         </p>
-
-        <h3>Servers</h3>
         <p>
-            The <em>servers</em> listed in the <a href="servers">Servers</a> 
-            tab are available for connections. A brief status overview is
-            given for each server.
+            This will not automatically disconnect and revoke existing 
+            configurations for that user, this can be accomplished through the 
+            <a href="connections">Connections</a> and 
+            <a href="configurations">Configurations</a> tabs.
         </p>
 
         {% include 'footer.twig' %}
