@@ -23,6 +23,9 @@
                 <tr>
                     <th>Socket</th>
                     <th>Version</th>
+                    <th># Clients</th>
+                    <th>From Clients</th>
+                    <th>To Clients</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +33,9 @@
                 <tr>
                     <td>{{ server.socket|e }}</td>
                     <td>{{ server.version|e }}</td>
+                    <td>{{ server.stats.nclients|e }}</td>
+                    <td>{{ server.stats.bytesin|sizeToHuman|e }}</td>
+                    <td>{{ server.stats.bytesout|sizeToHuman|e }}</td>
                 </tr>
             {% endfor %}
             </tbody>
