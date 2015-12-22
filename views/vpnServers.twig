@@ -22,6 +22,7 @@
             <thead>
                 <tr>
                     <th>Socket</th>
+                    <th>Status</th>
                     <th>Version</th>
                     <th># Clients</th>
                     <th>From Clients</th>
@@ -32,10 +33,18 @@
             {% for server in vpnServers.items %}
                 <tr>
                     <td>{{ server.socket|e }}</td>
-                    <td>{{ server.version|e }}</td>
-                    <td>{{ server.stats.nclients|e }}</td>
-                    <td>{{ server.stats.bytesin|sizeToHuman|e }}</td>
-                    <td>{{ server.stats.bytesout|sizeToHuman|e }}</td>
+                    <td>{% if server.available %}<span class="text-success"><strong>Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
+                    {% if server.available %}
+                        <td>{{ server.version|e }}</td>
+                        <td>{{ server.stats.nclients|e }}</td>
+                        <td>{{ server.stats.bytesin|sizeToHuman|e }}</td>
+                        <td>{{ server.stats.bytesout|sizeToHuman|e }}</td>
+                    {% else %}
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
