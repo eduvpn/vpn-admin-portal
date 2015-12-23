@@ -17,12 +17,12 @@
         <h2>Servers</h2>
         
 	    {% if vpnServers.items is empty %}
-            <p class="well" role="alert">No servers active &#x1f61e;</p>
+            <p class="well" role="alert">No servers configured &#x1f61e;</p>
 	    {% else %}
             <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Socket</th>
+                    <th>Name</th>
                     <th>Status</th>
                     <th>Version</th>
                     <th># Clients</th>
@@ -33,13 +33,13 @@
             <tbody>
             {% for server in vpnServers.items %}
                 <tr>
-                    <td>{{ server.socket|e }}</td>
-                    <td>{% if server.available %}<span class="text-success"><strong>Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
-                    {% if server.available %}
+                    <td><span title="{{ server.id|e }}">{{ server.name|e }}</a></td>
+                    <td>{% if server.up %}<span class="text-success"><strong>Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
+                    {% if server.up %}
                         <td>{{ server.version|e }}</td>
-                        <td>{{ server.stats.nclients|e }}</td>
-                        <td>{{ server.stats.bytesin|sizeToHuman|e }}</td>
-                        <td>{{ server.stats.bytesout|sizeToHuman|e }}</td>
+                        <td>{{ server.number_of_clients|e }}</td>
+                        <td>{{ server.bytes_in|sizeToHuman|e }}</td>
+                        <td>{{ server.bytes_out|sizeToHuman|e }}</td>
                     {% else %}
                         <td class="text-muted">-</td>
                         <td class="text-muted">-</td>

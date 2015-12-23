@@ -32,29 +32,32 @@ class VpnServerApiClient
         $this->vpnServerApiUri = $vpnServerApiUri;
     }
 
-    public function getStatus()
+    public function getConnections()
     {
-        $requestUri = sprintf('%s/status', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/connections', $this->vpnServerApiUri);
+
+        $response = $this->client->get($requestUri);
+        error_log($response);
+
+        return $response->json();
+    }
+
+    public function getServers()
+    {
+        $requestUri = sprintf('%s/servers', $this->vpnServerApiUri);
 
         return $this->client->get($requestUri)->json();
     }
 
-    public function getServerInfo()
+    public function postKillClient($id, $commonName)
     {
-        $requestUri = sprintf('%s/info', $this->vpnServerApiUri);
-
-        return $this->client->get($requestUri)->json();
-    }
-
-    public function postDisconnect($socketId, $commonName)
-    {
-        $requestUri = sprintf('%s/disconnect', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/kill', $this->vpnServerApiUri);
 
         return $this->client->post(
             $requestUri,
             array(
                 'body' => array(
-                    'socket_id' => $socketId,
+                    'id' => $id,
                     'common_name' => $commonName,
                 ),
             )

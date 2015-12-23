@@ -17,50 +17,62 @@
         <h2>Connections</h2>
         
 	    {% if connectedClients.items is empty %}
-            <p class="well">No clients are currently connected &#x1f61e;</p>
+            <p class="well">No servers configured &#x1f61e;</p>
 	    {% else %}
-            <div class="table-responsive">
-            <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>Client IP</th>
-                    <th>VPN IP(s)</th>
-                    <th>From Client</th>
-                    <th>To Client</th>
-                    <th>Connected ({{ date()|date("T") }})</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for client in connectedClients.items %}
-                <tr>
-                    <td>{{ client.common_name|split('_', 2)|first|e }}</td>
-                    <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
-                    <td>{{ client.client_ip|e }}</td>
-                    <td>
-                        <ul class="list-unstyled">
-                            {% for ip in client.vpn_ip|sort %}
-                            <li>{{ ip|e }}</li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <td>{{ client.bytes_received|sizeToHuman|e }}</td>
-                    <td>{{ client.bytes_sent|sizeToHuman|e }}</td>
-                    <td>{{ client.connected_since|e|date("Y-m-d H:i:s") }}</td>
-                    <td>
-                        <form method="post" action="revoke">
-                            <input type="hidden" name="socket_id" value="{{ client.socket_id|e }}">
-                            <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                            <button class="btn btn-warning" type="submit">Revoke &amp; Disconnect</button>
-                        </form>
-                    </td>
-                </tr>
+            {% for server in connectedClients.items %}
+                <h3>{{ server.name|e }}</h3>
+                {% if server.clients is empty %}
+                    <p class="well">No clients connected to this server &#x1f61e;</p>
+                {% else %}
+                    <div class="table-responsive">
+                    <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Client IP</th>
+                            <th>VPN IP(s)</th>
+                            <th>From Client</th>
+                            <th>To Client</th>
+                            <th>Connected ({{ date()|date("T") }})</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for client in server.clients %}
+                        <tr>
+                            <td>{{ client.common_name|split('_', 2)|first|e }}</td>
+                            <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
+                            <td>{{ client.real_address|e }}</td>
+                            <td>
+                                <ul class="list-unstyled">
+                                    {% for ip in client.virtual_address|sort %}
+                                    <li>{{ ip|e }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ client.bytes_in|sizeToHuman|e }}</td>
+                            <td>{{ client.bytes_out|sizeToHuman|e }}</td>
+                            <td>{{ client.connected_since|e|date("Y-m-d H:i:s") }}</td>
+                            <td>
+                                <form class="form-inline" method="post" action="killClient">
+                                    <input type="hidden" name="id" value="{{ server.id|e }}">
+                                    <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
+                                    <button class="btn btn-info" type="submit">Disconnect</button>
+                                </form>
+                                <form class="form-inline" method="post" action="revoke">
+                                    <input type="hidden" name="id" value="{{ server.id|e }}">
+                                    <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
+                                    <button class="btn btn-warning" type="submit">Revoke &amp; Disconnect</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                    </div>
+                {% endif %}
             {% endfor %}
-            </tbody>
-            </table>
-            </div>
         {% endif %}
 
         {% include 'footer.twig' %}

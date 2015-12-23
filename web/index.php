@@ -136,7 +136,7 @@ try {
             return $templateManager->render(
                 'vpnConnections',
                 array(
-                    'connectedClients' => $vpnServerApiClient->getStatus(),
+                    'connectedClients' => $vpnServerApiClient->getConnections(),
                 )
             );
         }
@@ -148,7 +148,7 @@ try {
             return $templateManager->render(
                 'vpnServers',
                 array(
-                    'vpnServers' => $vpnServerApiClient->getServerInfo(),
+                    'vpnServers' => $vpnServerApiClient->getServers(),
                 )
             );
         }
@@ -209,9 +209,20 @@ try {
     );
 
     $service->post(
+        '/killClient',
+        function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
+            $id = $request->getPostParameter('id');
+            $commonName = $request->getPostParameter('common_name');
+            $vpnServerApiClient->postKillClient($id, $commonName);
+
+            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
+        }
+    );
+
+    $service->post(
         '/revoke',
         function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
-            $socketId = $request->getPostParameter('socket_id');
+            $id = $request->getPostParameter('id');
             $commonName = $request->getPostParameter('common_name');
 
             // XXX: validate the input
@@ -223,14 +234,12 @@ try {
             // trigger CRL reload
             $vpnServerApiClient->postRefreshCrl();
 
-            if (null !== $socketId) {
+            if (null !== $id) {
                 // disconnect the client from the VPN service if we know the
-                // socketId
-                $vpnServerApiClient->postDisconnect($socketId, $commonName);
-            }
+                // id
+                $vpnServerApiClient->postKillClient($id, $commonName);
 
-            if (null !== $socketId) {
-                // return to configurations
+                // return to connections
                 return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
             }
 
