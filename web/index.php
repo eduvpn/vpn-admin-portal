@@ -94,6 +94,25 @@ try {
             }
         )
     );
+    $templateManager->addFilter(
+        new Twig_SimpleFilter(
+            'cleanIp',
+            function ($ipAddress) {
+                if (0 === strpos($ipAddress, '::ffff:')) {
+                    // v6 server mode with v4 connection, no port
+                    // strip the v6 info
+                    $ipAddress = substr($ipAddress, 7);
+                }
+                if (1 === substr_count($ipAddress, ':')) {
+                    // v4 server with v4 connection, with port
+                    // strip port
+                    $ipAddress = substr($ipAddress, 0, strpos($ipAddress, ':'));
+                }
+
+                return $ipAddress;
+            }
+        )
+    );
 
     // VPN User Portal Configuration
     $serviceUri = $iniReader->v('VpnUserPortal', 'serviceUri');

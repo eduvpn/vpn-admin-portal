@@ -43,7 +43,7 @@
                         <tr>
                             <td>{{ client.common_name|split('_', 2)|first|e }}</td>
                             <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
-                            <td>{{ client.real_address|e }}</td>
+                            <td>{{ client.real_address|cleanIp|e }}</td>
                             <td>
                                 <ul class="list-unstyled">
                                     {% for ip in client.virtual_address|sort %}

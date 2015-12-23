@@ -36,10 +36,7 @@ class VpnServerApiClient
     {
         $requestUri = sprintf('%s/connections', $this->vpnServerApiUri);
 
-        $response = $this->client->get($requestUri);
-        error_log($response);
-
-        return $response->json();
+        return $this->client->get($requestUri)->json();
     }
 
     public function getServers()
