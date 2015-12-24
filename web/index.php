@@ -28,6 +28,7 @@ use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
 use fkooman\VPN\AdminPortal\VpnUserPortalClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
+use fkooman\VPN\AdminPortal\TwigFilters;
 
 try {
     $iniReader = IniReader::fromFile(
@@ -73,46 +74,8 @@ try {
             'rootFolder' => $request->getUrl()->getRoot(),
         )
     );
-
-    // add filter to show byte count in human readable amount
-    $templateManager->addFilter(
-        new Twig_SimpleFilter(
-            'sizeToHuman',
-            function ($byteSize) {
-                $kB = 1024;
-                $MB = $kB * 1024;
-                $GB = $MB * 1024;
-
-                if ($byteSize > $GB) {
-                    return sprintf('%0.2fGB', $byteSize / $GB);
-                }
-                if ($byteSize > $MB) {
-                    return sprintf('%0.2fMB', $byteSize / $MB);
-                }
-
-                return sprintf('%0.0fkB', $byteSize / $kB);
-            }
-        )
-    );
-    $templateManager->addFilter(
-        new Twig_SimpleFilter(
-            'cleanIp',
-            function ($ipAddress) {
-                if (0 === strpos($ipAddress, '::ffff:')) {
-                    // v6 server mode with v4 connection, no port
-                    // strip the v6 info
-                    $ipAddress = substr($ipAddress, 7);
-                }
-                if (1 === substr_count($ipAddress, ':')) {
-                    // v4 server with v4 connection, with port
-                    // strip port
-                    $ipAddress = substr($ipAddress, 0, strpos($ipAddress, ':'));
-                }
-
-                return $ipAddress;
-            }
-        )
-    );
+    $templateManager->addFilter(TwigFilters::sizeToHuman());
+    $templateManager->addFilter(TwigFilters::cleanIp());
 
     // VPN User Portal Configuration
     $serviceUri = $iniReader->v('VpnUserPortal', 'serviceUri');
