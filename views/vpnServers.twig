@@ -32,7 +32,7 @@
             <tbody>
             {% for server in vpnServers.items %}
                 <tr>
-                    <td><span title="{{ server.id|e }}">{{ server.name|e }}</a></td>
+                    <td><a href="connections#{{ server.id|e }}" title="{{ server.id|e }}">{{ server.name|e }}</a></td>
                     <td>{% if server.up %}<span class="text-success"><strong title="{{ server.version|e }}">Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
                     {% if server.up %}
                         <td>{{ server.number_of_clients|e }}</td>
@@ -48,7 +48,6 @@
             {% endfor %}
             </tbody>
             </table>
-            </div>
         {% endif %}
 
         {% include 'footer.twig' %}

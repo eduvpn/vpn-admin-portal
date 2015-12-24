@@ -20,7 +20,7 @@
             <p class="well">No servers configured &#x1f61e;</p>
 	    {% else %}
             {% for server in connectedClients.items %}
-                <h3>{{ server.name|e }}</h3>
+                <h3 id="{{ server.id|e }}">{{ server.name|e }}</h3>
                 {% if server.clients is empty %}
                     <p class="well">No clients connected to this server &#x1f61e;</p>
                 {% else %}
