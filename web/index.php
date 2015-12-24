@@ -30,8 +30,9 @@ use fkooman\VPN\AdminPortal\VpnUserPortalClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\TwigFilters;
 use fkooman\Http\Exception\InternalServerErrorException;
+use fkooman\VPN\Config\SimpleError;
 
-set_error_handler(array('fkooman\Rest\Service', 'handleErrors'));
+SimpleError::register();
 
 try {
     $iniReader = IniReader::fromFile(
