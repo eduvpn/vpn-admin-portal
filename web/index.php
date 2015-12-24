@@ -29,6 +29,9 @@ use GuzzleHttp\Client;
 use fkooman\VPN\AdminPortal\VpnUserPortalClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\TwigFilters;
+use fkooman\Http\Exception\InternalServerErrorException;
+
+set_error_handler(array('fkooman\Rest\Service', 'handleErrors'));
 
 try {
     $iniReader = IniReader::fromFile(
@@ -241,12 +244,8 @@ try {
 
     $response->send();
 } catch (Exception $e) {
-    error_log($e->getMessage());
-    die(
-        sprintf(
-            'ERROR: %s<br>%s',
-            $e->getMessage(),
-            $e->getTraceAsString()
-        )
-    );
+    // internal server error
+    error_log($e->__toString());
+    $e = new InternalServerErrorException($e->getMessage());
+    $e->getHtmlResponse()->send();
 }
