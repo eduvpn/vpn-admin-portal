@@ -24,7 +24,6 @@
                 <tr>
                     <th>Name</th>
                     <th>Status</th>
-                    <th>Version</th>
                     <th># Clients</th>
                     <th>From Clients</th>
                     <th>To Clients</th>
@@ -34,9 +33,8 @@
             {% for server in vpnServers.items %}
                 <tr>
                     <td><span title="{{ server.id|e }}">{{ server.name|e }}</a></td>
-                    <td>{% if server.up %}<span class="text-success"><strong>Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
+                    <td>{% if server.up %}<span class="text-success"><strong title="{{ server.version|e }}">Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
                     {% if server.up %}
-                        <td>{{ server.version|e }}</td>
                         <td>{{ server.number_of_clients|e }}</td>
                         <td>{{ server.bytes_in|sizeToHuman|e }}</td>
                         <td>{{ server.bytes_out|sizeToHuman|e }}</td>
