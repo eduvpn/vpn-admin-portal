@@ -143,10 +143,14 @@ try {
     $service->get(
         '/configurations',
         function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+            // XXX: validate input
+            $filterByUser = $request->getUrl()->getQueryParameter('filterByUser');
+
             return $templateManager->render(
                 'vpnConfigurations',
                 array(
-                    'allConfig' => $vpnUserPortalClient->getAllConfigurations(),
+                    'vpnConfigurations' => $vpnUserPortalClient->getConfigurations($filterByUser),
+                    'filterByUser' => $filterByUser,
                 )
             );
         }

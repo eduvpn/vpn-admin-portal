@@ -32,9 +32,13 @@ class VpnUserPortalClient
         $this->vpnUserPortalUri = $vpnUserPortalUri;
     }
 
-    public function getAllConfigurations()
+    public function getConfigurations($filterByUser)
     {
-        $requestUri = sprintf('%s/configurations', $this->vpnUserPortalUri);
+        if (!is_null($filterByUser)) {
+            $requestUri = sprintf('%s/configurations?filterByUser=%s', $this->vpnUserPortalUri, $filterByUser);
+        } else {
+            $requestUri = sprintf('%s/configurations', $this->vpnUserPortalUri);
+        }
 
         return $this->client->get($requestUri)->json();
     }

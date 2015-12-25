@@ -26,7 +26,7 @@
                 <tbody>
                 {% for user in users.items %}
                     <tr>
-                        <td>{{ user.user_id|e }}</td>
+                        <td><a href="configurations?filterByUser={{ user.user_id|e }}">{{ user.user_id|e }}</a></td>
                         {% if user.is_blocked %}
                             <td class="text-right">
                                 <form class="simple" method="post" action="unblockUser">
