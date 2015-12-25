@@ -18,7 +18,7 @@
 
         {% if vpnConfigurations is empty %}
             {% if filterByUser %}
-                <p class="well">No configurations are currently active for user <em>{{ filterByUser|e }}</em> &#x1f61e; See <a href="configurations">all</a>.</p>
+                <p class="well">No configurations are currently active for <em>{{ filterByUser|e }}</em> &#x1f61e; See <a href="configurations">all</a>.</p>
             {% else %}            
                 <p class="well">No configurations are currently active &#x1f61e;</p>
             {% endif %}
