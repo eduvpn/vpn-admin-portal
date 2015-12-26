@@ -46,6 +46,41 @@ class VpnServerApiClient
         return $this->client->get($requestUri)->json();
     }
 
+    public function disableCommonName($commonName)
+    {
+        $requestUri = sprintf('%s/disableCommonName', $this->vpnServerApiUri);
+
+        return $this->client->post(
+            $requestUri,
+            array(
+                'body' => array(
+                    'common_name' => $commonName,
+                ),
+            )
+        )->getBody();
+    }
+
+    public function enableCommonName($commonName)
+    {
+        $requestUri = sprintf('%s/enableCommonName', $this->vpnServerApiUri);
+
+        return $this->client->post(
+            $requestUri,
+            array(
+                'body' => array(
+                    'common_name' => $commonName,
+                ),
+            )
+        )->getBody();
+    }
+
+    public function getDisabledCommonNames()
+    {
+        $requestUri = sprintf('%s/disabledCommonNames', $this->vpnServerApiUri);
+
+        return $this->client->get($requestUri)->json();
+    }
+
     public function postKillClient($id, $commonName)
     {
         $requestUri = sprintf('%s/kill', $this->vpnServerApiUri);

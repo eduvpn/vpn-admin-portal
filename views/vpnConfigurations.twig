@@ -34,9 +34,9 @@
             <table class="table table-striped">
                 <thead>
                     {% if filterByUser %}
-                        <tr><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th></tr> 
+                        <tr><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th><th></th></tr> 
                     {% else %}
-                        <tr><th>User ID</th><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th></tr> 
+                        <tr><th>User ID</th><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th><th></th></tr> 
                     {% endif %}
                 </thead>
                 <tbody>
@@ -48,9 +48,28 @@
                     <td>{{ config.name|e }}</td>
                     <td>{{config.created_at|e|date('Y-m-d H:i:s') }}</td>
                     <td class="text-right">
+                        {% if config.disabled %} 
+                            <form method="post" action="enableCommonName">
+                                <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
+                                {% if filterByUser %}
+                                    <input type="hidden" name="filterByUser" value="{{ filterByUser|e }}">
+                                {% endif %}
+                                <button class="btn btn-success" type="submit">Enable</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="disableCommonName">
+                                <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
+                                {% if filterByUser %}
+                                    <input type="hidden" name="filterByUser" value="{{ filterByUser|e }}">
+                                {% endif %}
+                                <button class="btn btn-warning" type="submit">Disable</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                    <td class="text-right">
                         <form method="post" action="revoke">
                             <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                            <button class="btn btn-warning" type="submit">Revoke</button>
+                            <button class="btn btn-danger" type="submit">Revoke</button>
                         </form>
                     </td>
                 </tr>

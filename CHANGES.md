@@ -2,6 +2,7 @@
 
 ## 3.0.0 (...)
 - update to work with new vpn-server-api
+- implement 'blocking' configurations temporary
 
 ## 2.1.0 (2015-12-22)
 - implement server info

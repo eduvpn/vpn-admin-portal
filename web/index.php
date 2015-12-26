@@ -146,10 +146,22 @@ try {
             // XXX: validate input
             $filterByUser = $request->getUrl()->getQueryParameter('filterByUser');
 
+            $vpnConfigurations = $vpnUserPortalClient->getConfigurations($filterByUser);
+            $vpnDisabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
+
+            foreach ($vpnConfigurations as $key => $vpnConfiguration) {
+                $commonName = sprintf('%s_%s', $vpnConfiguration['user_id'], $vpnConfiguration['name']);
+                if (in_array($commonName, $vpnDisabledCommonNames['items'])) {
+                    $vpnConfigurations[$key]['disabled'] = true;
+                } else {
+                    $vpnConfigurations[$key]['disabled'] = false;
+                }
+            }
+
             return $templateManager->render(
                 'vpnConfigurations',
                 array(
-                    'vpnConfigurations' => $vpnUserPortalClient->getConfigurations($filterByUser),
+                    'vpnConfigurations' => $vpnConfigurations,
                     'filterByUser' => $filterByUser,
                 )
             );
@@ -175,6 +187,44 @@ try {
                 'vpnDocumentation',
                 array()
             );
+        }
+    );
+
+    $service->post(
+        '/disableCommonName',
+        function (Request $request) use ($vpnServerApiClient) {
+            // XXX: validate input
+            $commonName = $request->getPostParameter('common_name');
+            $filterByUser = $request->getPostParameter('filterByUser');
+
+            $vpnServerApiClient->disableCommonName($commonName);
+
+            if ($filterByUser) {
+                $returnUrl = sprintf('%sconfigurations?filterByUser=%s', $request->getUrl()->getRootUrl(), $filterByUser);
+            } else {
+                $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
+            }
+
+            return new RedirectResponse($returnUrl, 302);
+        }
+    );
+
+    $service->post(
+        '/enableCommonName',
+        function (Request $request) use ($vpnServerApiClient) {
+            // XXX: validate input
+            $commonName = $request->getPostParameter('common_name');
+            $filterByUser = $request->getPostParameter('filterByUser');
+
+            $vpnServerApiClient->enableCommonName($commonName);
+
+            if ($filterByUser) {
+                $returnUrl = sprintf('%sconfigurations?filterByUser=%s', $request->getUrl()->getRootUrl(), $filterByUser);
+            } else {
+                $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
+            }
+
+            return new RedirectResponse($returnUrl, 302);
         }
     );
 
