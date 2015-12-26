@@ -17,7 +17,6 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use fkooman\Ini\IniReader;
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Rest\Plugin\Authentication\Mellon\MellonAuthentication;
@@ -31,26 +30,28 @@ use fkooman\VPN\AdminPortal\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\TwigFilters;
 use fkooman\Http\Exception\InternalServerErrorException;
 use fkooman\VPN\AdminPortal\SimpleError;
+use fkooman\Config\Reader;
+use fkooman\Config\YamlFile;
 
 SimpleError::register();
 
 try {
-    $iniReader = IniReader::fromFile(
-        dirname(__DIR__).'/config/config.ini'
+    $reader = new Reader(
+        new YamlFile(dirname(__DIR__).'/config/config.yaml')
     );
 
     // Authentication
-    $authMethod = $iniReader->v('authMethod', false, 'BasicAuthentication');
+    $authMethod = $reader->v('authMethod', false, 'BasicAuthentication');
     switch ($authMethod) {
         case 'MellonAuthentication':
             $auth = new MellonAuthentication(
-                $iniReader->v('MellonAuthentication', 'attribute')
+                $reader->v('MellonAuthentication', 'attribute')
             );
             break;
         case 'BasicAuthentication':
             $auth = new BasicAuthentication(
                 function ($userId) use ($iniReader) {
-                    $userList = $iniReader->v('BasicAuthentication');
+                    $userList = $reader->v('BasicAuthentication');
                     if (!array_key_exists($userId, $userList)) {
                         return false;
                     }
@@ -71,7 +72,7 @@ try {
             dirname(__DIR__).'/views',
             dirname(__DIR__).'/config/views',
         ),
-        $iniReader->v('templateCache', false, null)
+        $reader->v('templateCache', false, null)
     );
     $templateManager->setDefault(
         array(
@@ -82,9 +83,9 @@ try {
     $templateManager->addFilter(TwigFilters::cleanIp());
 
     // VPN User Portal Configuration
-    $serviceUri = $iniReader->v('VpnUserPortal', 'serviceUri');
-    $serviceAuth = $iniReader->v('VpnUserPortal', 'serviceUser');
-    $servicePass = $iniReader->v('VpnUserPortal', 'servicePass');
+    $serviceUri = $reader->v('VpnUserPortal', 'serviceUri');
+    $serviceAuth = $reader->v('VpnUserPortal', 'serviceUser');
+    $servicePass = $reader->v('VpnUserPortal', 'servicePass');
     $client = new Client(
         array(
             'defaults' => array(
@@ -95,9 +96,9 @@ try {
     $vpnUserPortalClient = new VpnUserPortalClient($client, $serviceUri);
 
     // VPN Server API Configuration
-    $serviceUri = $iniReader->v('VpnServerApi', 'serviceUri');
-    $serviceAuth = $iniReader->v('VpnServerApi', 'serviceUser');
-    $servicePass = $iniReader->v('VpnServerApi', 'servicePass');
+    $serviceUri = $reader->v('VpnServerApi', 'serviceUri');
+    $serviceAuth = $reader->v('VpnServerApi', 'serviceUser');
+    $servicePass = $reader->v('VpnServerApi', 'servicePass');
     $client = new Client(
         array(
             'defaults' => array(

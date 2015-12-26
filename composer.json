@@ -14,8 +14,8 @@
     "license": "Apache-2.0",
     "name": "eduVPN/vpn-admin-portal",
     "require": {
+        "fkooman/config": "^1.0.0",
         "fkooman/http": "^1.0.0",
-        "fkooman/ini": "^1.0.0",
         "fkooman/rest": "^1.0.0",
         "fkooman/rest-plugin-authentication": "^2.0.0",
         "fkooman/rest-plugin-authentication-basic": "^2.0.0",
