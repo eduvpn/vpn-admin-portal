@@ -16,6 +16,15 @@
 
         <h2>Configurations</h2>
 
+        <div class="text-right">
+            <form class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="filterByUser" value="{{ filterByUser|e }}" placeholder="User ID" required>
+                </div>
+                <button type="submit" class="btn btn-default">Filter</button>
+            </form>
+        </div>
+            
         {% if vpnConfigurations is empty %}
             {% if filterByUser %}
                 <p class="well">No configurations are currently active for <em>{{ filterByUser|e }}</em> &#x1f61e; See <a href="configurations">all</a>.</p>
