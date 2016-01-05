@@ -1,8 +1,10 @@
 # Changelog
 
-## 3.0.0 (...)
+## 3.0.0 (2016-01-05)
 - update to work with new vpn-server-api
 - implement 'blocking' configurations temporary
+- many UI updates
+- switch to YAML for configuration
 
 ## 2.1.0 (2015-12-22)
 - implement server info
