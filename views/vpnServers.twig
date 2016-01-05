@@ -32,12 +32,12 @@
             <tbody>
             {% for server in vpnServers.items %}
                 <tr>
-                    <td><a href="connections#{{ server.id|e }}" title="{{ server.id|e }}">{{ server.name|e }}</a></td>
-                    <td>{% if server.up %}<span class="text-success"><strong title="{{ server.version|e }}">Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
-                    {% if server.up %}
-                        <td>{{ server.number_of_clients|e }}</td>
-                        <td>{{ server.bytes_in|sizeToHuman|e }}</td>
-                        <td>{{ server.bytes_out|sizeToHuman|e }}</td>
+                    <td><a href="connections#{{ server.id|e }}" title="{{ server.id|e }}">{{ server.id|e }}</a></td>
+                    <td>{% if server.ok %}<span class="text-success"><strong>Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
+                    {% if server.ok %}
+                        <td>{{ attribute(server, 'load-stats').number_of_clients|e }}</td>
+                        <td>{{ attribute(server, 'load-stats').bytes_in|sizeToHuman|e }}</td>
+                        <td>{{ attribute(server, 'load-stats').bytes_out|sizeToHuman|e }}</td>
                     {% else %}
                         <td class="text-muted">-</td>
                         <td class="text-muted">-</td>

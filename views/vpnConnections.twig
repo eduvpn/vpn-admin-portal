@@ -20,8 +20,8 @@
             <p class="well">No servers configured &#x1f61e;</p>
 	    {% else %}
             {% for server in connectedClients.items %}
-                <h3 id="{{ server.id|e }}">{{ server.name|e }}</h3>
-                {% if server.clients is empty %}
+                <h3 id="{{ server.id|e }}">{{ server.id|e }}</h3>
+                {% if server.status is empty %}
                     <p class="well">No clients connected to this server &#x1f61e;</p>
                 {% else %}
                     <div class="table-responsive">
@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for client in server.clients %}
+                        {% for client in server.status %}
                             <tr>
                                 <td><a href="configurations?filterByUser={{ client.common_name|split('_', 2)|first|e }}">{{ client.common_name|split('_', 2)|first|e }}</a></td>
                                 <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>

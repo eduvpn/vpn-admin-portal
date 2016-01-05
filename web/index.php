@@ -123,7 +123,7 @@ try {
             return $templateManager->render(
                 'vpnConnections',
                 array(
-                    'connectedClients' => $vpnServerApiClient->getConnections(),
+                    'connectedClients' => $vpnServerApiClient->getStatus(),
                 )
             );
         }
@@ -135,7 +135,7 @@ try {
             return $templateManager->render(
                 'vpnServers',
                 array(
-                    'vpnServers' => $vpnServerApiClient->getServers(),
+                    'vpnServers' => $vpnServerApiClient->getLoadStats(),
                 )
             );
         }
@@ -148,11 +148,11 @@ try {
             $filterByUser = $request->getUrl()->getQueryParameter('filterByUser');
 
             $vpnConfigurations = $vpnUserPortalClient->getConfigurations($filterByUser);
-            $vpnDisabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
+            $vpnDisabledCommonNames = $vpnServerApiClient->getCcdDisable();
 
             foreach ($vpnConfigurations as $key => $vpnConfiguration) {
                 $commonName = sprintf('%s_%s', $vpnConfiguration['user_id'], $vpnConfiguration['name']);
-                if (in_array($commonName, $vpnDisabledCommonNames['items'])) {
+                if (in_array($commonName, $vpnDisabledCommonNames['disabled'])) {
                     $vpnConfigurations[$key]['disabled'] = true;
                 } else {
                     $vpnConfigurations[$key]['disabled'] = false;
@@ -198,7 +198,7 @@ try {
             $commonName = $request->getPostParameter('common_name');
             $filterByUser = $request->getPostParameter('filterByUser');
 
-            $vpnServerApiClient->disableCommonName($commonName);
+            $vpnServerApiClient->postCcdDisable($commonName);
 
             if ($filterByUser) {
                 $returnUrl = sprintf('%sconfigurations?filterByUser=%s', $request->getUrl()->getRootUrl(), $filterByUser);
@@ -217,7 +217,7 @@ try {
             $commonName = $request->getPostParameter('common_name');
             $filterByUser = $request->getPostParameter('filterByUser');
 
-            $vpnServerApiClient->enableCommonName($commonName);
+            $vpnServerApiClient->deleteCcdDisable($commonName);
 
             if ($filterByUser) {
                 $returnUrl = sprintf('%sconfigurations?filterByUser=%s', $request->getUrl()->getRootUrl(), $filterByUser);
@@ -252,9 +252,8 @@ try {
     $service->post(
         '/killClient',
         function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
-            $id = $request->getPostParameter('id');
             $commonName = $request->getPostParameter('common_name');
-            $vpnServerApiClient->postKillClient($id, $commonName);
+            $vpnServerApiClient->postKill($commonName);
 
             return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
         }
@@ -273,12 +272,14 @@ try {
             $vpnUserPortalClient->revokeConfiguration($userId, $configName);
 
             // trigger CRL reload
-            $vpnServerApiClient->postRefreshCrl();
+            $vpnServerApiClient->postCrlFetch();
 
             if (null !== $id) {
                 // disconnect the client from the VPN service if we know the
                 // id
-                $vpnServerApiClient->postKillClient($id, $commonName);
+                // actually, all clients with this config are killed! so this
+                // XXX needs to be refactored
+                $vpnServerApiClient->postKill($commonName);
 
                 // return to connections
                 return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
