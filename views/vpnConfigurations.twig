@@ -52,7 +52,7 @@
                 {% for config in vpnConfigurations %}
                 <tr>
                     {% if not filterByUser %}
-                        <td>{{ config.user_id|e }}</td>
+                        <td><a href="configurations?filterByUser={{ config.user_id|e }}">{{ config.user_id|e }}</a></td>
                     {% endif %}
                     <td>{{ config.name|e }}</td>
                     <td>{{config.created_at|e|date('Y-m-d H:i:s') }}</td>

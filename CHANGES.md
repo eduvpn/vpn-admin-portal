@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.1 (2016-01-09)
+- fix issue where if server is down the Connections page would not 
+  work
+- make User ID clickable in the Configurations page
+
 ## 3.0.0 (2016-01-05)
 - update to work with new vpn-server-api
 - implement 'blocking' configurations temporary
