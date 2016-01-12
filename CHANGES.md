@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.2 (2016-01-12)
+- do not show 'real IP' in connections tab, this may come back in the
+  connection log Tab when implemented
+- do not show 'disconnect and revoke' in connections tab, only disconnect, 
+  revoke is available in configurations
+- remove the filter box in configurations page, not really helpful anyway
+
 ## 3.0.1 (2016-01-09)
 - fix issue where if server is down the Connections page would not 
   work

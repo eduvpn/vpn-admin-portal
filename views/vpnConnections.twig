@@ -33,12 +33,10 @@
                                 <tr>
                                     <th>User ID</th>
                                     <th>Name</th>
-                                    <th>Client IP</th>
                                     <th>VPN IP(s)</th>
                                     <th>From Client</th>
                                     <th>To Client</th>
                                     <th>Connected ({{ date()|date("T") }})</th>
-                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -47,7 +45,6 @@
                                 <tr>
                                     <td><a href="configurations?filterByUser={{ client.common_name|split('_', 2)|first|e }}">{{ client.common_name|split('_', 2)|first|e }}</a></td>
                                     <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
-                                    <td>{{ client.real_address|cleanIp|e }}</td>
                                     <td>
                                         <ul class="list-unstyled">
                                             {% for ip in client.virtual_address|sort %}
@@ -63,13 +60,6 @@
                                             <input type="hidden" name="id" value="{{ server.id|e }}">
                                             <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
                                             <button class="btn btn-warning" title="Disconnect a client, but allow it to reconnect" type="submit">Disconnect</button>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form class="form-inline" method="post" action="revoke">
-                                            <input type="hidden" name="id" value="{{ server.id|e }}">
-                                            <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                            <button class="btn btn-danger" title="Revoke a configuration and disconnect the client, it will not be allowed to reconnect" type="submit">Revoke &amp; Disconnect</button>
                                         </form>
                                     </td>
                                 </tr>
