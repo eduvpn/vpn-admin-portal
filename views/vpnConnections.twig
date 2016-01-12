@@ -34,8 +34,7 @@
                                     <th>User ID</th>
                                     <th>Name</th>
                                     <th>VPN IP(s)</th>
-                                    <th>From Client</th>
-                                    <th>To Client</th>
+                                    <th>Traffic</th>
                                     <th>Connected ({{ date()|date("T") }})</th>
                                     <th></th>
                                 </tr>
@@ -52,8 +51,7 @@
                                             {% endfor %}
                                         </ul>
                                     </td>
-                                    <td>{{ client.bytes_in|sizeToHuman|e }}</td>
-                                    <td>{{ client.bytes_out|sizeToHuman|e }}</td>
+                                    <td>{{ (client.bytes_in+client.bytes_out)|sizeToHuman|e }}</td>
                                     <td>{{ client.connected_since|e|date("Y-m-d H:i:s") }}</td>
                                     <td>
                                         <form class="form-inline" method="post" action="killClient">

@@ -1,7 +1,9 @@
 # Changelog
 
-## 3.0.3 (...)
-- remove extra column in Servers tab when a server down
+## 3.0.3 (2016-01-12)
+- remove extra column in Servers tab when a server is down
+- add the traffic from and to clients and show it in one column reducing the
+  required table width even more
 
 ## 3.0.2 (2016-01-12)
 - do not show 'real IP' in connections tab, this may come back in the
