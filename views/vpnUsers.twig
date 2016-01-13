@@ -3,52 +3,50 @@
 <html lang="en">
 {% include 'head.twig' %}
 <body>
-    <div class="container">
-        {% include 'header.twig' %}
+    {% include 'header.twig' %}
 
-        <ul class="nav nav-pills">
-          <li role="presentation"><a href="connections">Connections</a></li>
-          <li role="presentation"><a href="servers">Servers</a></li>
-          <li role="presentation"><a href="configurations">Configurations</a></li>
-          <li role="presentation" class="active"><a href="users">Users</a></li>
-          <li role="presentation"><a href="documentation">Documentation</a></li>
-        </ul>
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li><a href="servers">Servers</a></li>
+      <li><a href="configurations">Configurations</a></li>
+      <li class="active"><a href="users">Users</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
 
-        <h2>Users</h2>
+    <h2>Users</h2>
 
-        {% if users.items is empty %}
-            <p class="well">No users with active configurations &#x1f61e;</p>
-        {% else %}
-            <table class="table table-striped">
-                <thead>
-                    <tr><th>User ID</th><th></th></tr>
-                </thead>
-                <tbody>
-                {% for user in users.items %}
-                    <tr>
-                        <td><a href="configurations?filterByUser={{ user.user_id|e }}">{{ user.user_id|e }}</a></td>
-                        {% if user.is_blocked %}
-                            <td class="text-right">
-                                <form class="simple" method="post" action="unblockUser">
-                                    <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
-                                    <button class="btn btn-success" type="submit">Unblock</button>
-                                </form>
-                            </td>
-                        {% else %}
-                            <td class="text-right">
-                                <form class="simple" method="post" action="blockUser">
-                                    <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
-                                    <button class="btn btn-warning" type="submit">Block</button>
-                                </form>
-                            </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
+    {% if users.items is empty %}
+        <p class="plain">No users with active configurations &#x1f61e;</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr><th>User ID</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for user in users.items %}
+                <tr>
+                    <td><a href="configurations?filterByUser={{ user.user_id|e }}">{{ user.user_id|e }}</a></td>
+                    {% if user.is_blocked %}
+                        <td class="text-right">
+                            <form method="post" action="unblockUser">
+                                <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
+                                <button type="submit">Unblock</button>
+                            </form>
+                        </td>
+                    {% else %}
+                        <td class="text-right">
+                            <form method="post" action="blockUser">
+                                <input type="hidden" name="user_id" value="{{ user.user_id|e }}">
+                                <button class="warning" type="submit">Block</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 
-        {% include 'footer.twig' %}
-    </div> <!-- /container -->
+    {% include 'footer.twig' %}
 </body>
 </html>

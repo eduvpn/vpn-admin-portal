@@ -3,74 +3,70 @@
 <html lang="en">
 {% include 'head.twig' %}
 <body>
-    <div class="container">
-        {% include 'header.twig' %}
+    {% include 'header.twig' %}
 
-        <ul class="nav nav-pills">
-          <li role="presentation" class="active"><a href="connections">Connections</a></li>
-          <li role="presentation"><a href="servers">Servers</a></li>
-          <li role="presentation"><a href="configurations">Configurations</a></li>
-          <li role="presentation"><a href="users">Users</a></li>
-          <li role="presentation"><a href="documentation">Documentation</a></li>
-        </ul>
+    <ul class="mainMenu">
+      <li class="active"><a href="connections">Connections</a></li>
+      <li><a href="servers">Servers</a></li>
+      <li><a href="configurations">Configurations</a></li>
+      <li><a href="users">Users</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
 
-        <h2>Connections</h2>
-        
-	    {% if connectedClients.items is empty %}
-            <p class="well">No servers configured &#x1f61e;</p>
-	    {% else %}
-            {% for server in connectedClients.items %}
-                <h3 id="{{ server.id|e }}">{{ server.id|e }}</h3>
-                {% if not server.ok %}
-                    <p class="well">The VPN server is not running &#x1f61e;</p>
+    <h2>Connections</h2>
+    
+    {% if connectedClients.items is empty %}
+        <p class="well">No servers configured &#x1f61e;</p>
+    {% else %}
+        {% for server in connectedClients.items %}
+            <h3 id="{{ server.id|e }}">{{ server.id|e }}</h3>
+            {% if not server.ok %}
+                <p class="plain">The VPN server is not running &#x1f61e;</p>
+            {% else %}
+                {% if server.status is empty %}
+                    <p class="plain">No clients connected to this server &#x1f61e;</p>
                 {% else %}
-                    {% if server.status is empty %}
-                        <p class="well">No clients connected to this server &#x1f61e;</p>
-                    {% else %}
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>User ID</th>
-                                    <th>Name</th>
-                                    <th>VPN IP(s)</th>
-                                    <th>Traffic</th>
-                                    <th>Connected ({{ date()|date("T") }})</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for client in server.status %}
-                                <tr>
-                                    <td><a href="configurations?filterByUser={{ client.common_name|split('_', 2)|first|e }}">{{ client.common_name|split('_', 2)|first|e }}</a></td>
-                                    <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
-                                    <td>
-                                        <ul class="list-unstyled">
-                                            {% for ip in client.virtual_address|sort %}
-                                            <li>{{ ip|e }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </td>
-                                    <td>{{ (client.bytes_in+client.bytes_out)|sizeToHuman|e }}</td>
-                                    <td>{{ client.connected_since|e|date("Y-m-d H:i:s") }}</td>
-                                    <td>
-                                        <form class="form-inline" method="post" action="killClient">
-                                            <input type="hidden" name="id" value="{{ server.id|e }}">
-                                            <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                            <button class="btn btn-warning" title="Disconnect a client, but allow it to reconnect" type="submit">Disconnect</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            </table>
-                        </div>
-                    {% endif %}
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>VPN IP(s)</th>
+                            <th>Traffic</th>
+                            <th>Connected ({{ date()|date("T") }})</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for client in server.status %}
+                        <tr>
+                            <td><a href="configurations?filterByUser={{ client.common_name|split('_', 2)|first|e }}">{{ client.common_name|split('_', 2)|first|e }}</a></td>
+                            <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
+                            <td>
+                                <ul class="ipList">
+                                    {% for ip in client.virtual_address|sort %}
+                                    <li>{{ ip|e }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ (client.bytes_in+client.bytes_out)|sizeToHuman|e }}</td>
+                            <td>{{ client.connected_since|e|date("Y-m-d H:i:s") }}</td>
+                            <td class="text-right">
+                                <form class="form-inline" method="post" action="killClient">
+                                    <input type="hidden" name="id" value="{{ server.id|e }}">
+                                    <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
+                                    <button class="warning" title="Disconnect a client, but allow it to reconnect" type="submit">Disconnect</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
                 {% endif %}
-            {% endfor %}
-        {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
-        {% include 'footer.twig' %}
-    </div> <!-- /container -->
+    {% include 'footer.twig' %}
 </body>
 </html>

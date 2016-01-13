@@ -3,83 +3,79 @@
 <html lang="en">
 {% include 'head.twig' %}
 <body>
-    <div class="container">
-        {% include 'header.twig' %}
+    {% include 'header.twig' %}
 
-        <ul class="nav nav-pills">
-          <li role="presentation"><a href="connections">Connections</a></li>
-          <li role="presentation"><a href="servers">Servers</a></li>
-          <li role="presentation" class="active"><a href="configurations">Configurations</a></li>
-          <li role="presentation"><a href="users">Users</a></li>
-          <li role="presentation"><a href="documentation">Documentation</a></li>
-        </ul>
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li><a href="servers">Servers</a></li>
+      <li class="active"><a href="configurations">Configurations</a></li>
+      <li><a href="users">Users</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
 
-        <h2>Configurations</h2>
-           
-        {% if vpnConfigurations is empty %}
-            {% if filterByUser %}
-                <p class="well">No configurations are currently active for <em>{{ filterByUser|e }}</em> &#x1f61e; See <a href="configurations">all</a>.</p>
-            {% else %}            
-                <p class="well">No configurations are currently active &#x1f61e;</p>
-            {% endif %}
-	    {% else %}
-            <p>
-                {% if filterByUser %}
-                    Showing all active configurations for <em>{{ filterByUser|e }}</em>. See <a href="configurations">all</a>.
-                {% else %}
-                    Showing all active configurations.
-                {% endif %}
-            </p>
-
-            <table class="table table-striped">
-                <thead>
-                    {% if filterByUser %}
-                        <tr><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th><th></th></tr> 
-                    {% else %}
-                        <tr><th>User ID</th><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th><th></th></tr> 
-                    {% endif %}
-                </thead>
-                <tbody>
-                {% for config in vpnConfigurations %}
-                <tr>
-                    {% if not filterByUser %}
-                        <td><a href="configurations?filterByUser={{ config.user_id|e }}">{{ config.user_id|e }}</a></td>
-                    {% endif %}
-                    <td>{{ config.name|e }}</td>
-                    <td>{{config.created_at|e|date('Y-m-d H:i:s') }}</td>
-                    <td class="text-right">
-                        {% if config.disabled %} 
-                            <form method="post" action="enableCommonName">
-                                <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                                {% if filterByUser %}
-                                    <input type="hidden" name="filterByUser" value="{{ filterByUser|e }}">
-                                {% endif %}
-                                <button class="btn btn-success" type="submit">Enable</button>
-                            </form>
-                        {% else %}
-                            <form method="post" action="disableCommonName">
-                                <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                                {% if filterByUser %}
-                                    <input type="hidden" name="filterByUser" value="{{ filterByUser|e }}">
-                                {% endif %}
-                                <button class="btn btn-warning" type="submit">Disable</button>
-                            </form>
-                        {% endif %}
-                    </td>
-                    <td class="text-right">
-                        <form method="post" action="revoke">
-                            <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                            <button class="btn btn-danger" type="submit">Revoke</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
+    <h2>Configurations</h2>
+       
+    {% if vpnConfigurations is empty %}
+        {% if filterByUser %}
+            <p class="plain">No configurations are currently active for <em>{{ filterByUser|e }}</em> &#x1f61e; See <a href="configurations">all</a>.</p>
+        {% else %}            
+            <p class="plain">No configurations are currently active &#x1f61e;</p>
         {% endif %}
+    {% else %}
+        <p>
+            {% if filterByUser %}
+                Showing all active configurations for <em>{{ filterByUser|e }}</em>. See <a href="configurations">all</a>.
+            {% else %}
+                Showing all active configurations.
+            {% endif %}
+        </p>
 
-        {% include 'footer.twig' %}
-    </div> <!-- /container -->
+        <table>
+            <thead>
+                {% if filterByUser %}
+                    <tr><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th></tr> 
+                {% else %}
+                    <tr><th>User ID</th><th>Name</th><th>Created ({{ date()|date('T') }})</th><th></th></tr> 
+                {% endif %}
+            </thead>
+            <tbody>
+            {% for config in vpnConfigurations %}
+            <tr>
+                {% if not filterByUser %}
+                    <td><a href="configurations?filterByUser={{ config.user_id|e }}">{{ config.user_id|e }}</a></td>
+                {% endif %}
+                <td>{{ config.name|e }}</td>
+                <td>{{config.created_at|e|date('Y-m-d H:i:s') }}</td>
+                <td class="text-right">
+                    {% if config.disabled %} 
+                        <form class="inline" method="post" action="enableCommonName">
+                            <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
+                            {% if filterByUser %}
+                                <input type="hidden" name="filterByUser" value="{{ filterByUser|e }}">
+                            {% endif %}
+                            <button type="submit">Enable</button>
+                        </form>
+                    {% else %}
+                        <form class="inline" method="post" action="disableCommonName">
+                            <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
+                            {% if filterByUser %}
+                                <input type="hidden" name="filterByUser" value="{{ filterByUser|e }}">
+                            {% endif %}
+                            <button class="warning" type="submit">Disable</button>
+                        </form>
+                    {% endif %}
+                    <form class="inline" method="post" action="revoke">
+                        <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
+                        <button class="danger" type="submit">Revoke</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+    {% include 'footer.twig' %}
 </body>
 </html>

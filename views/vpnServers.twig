@@ -3,50 +3,48 @@
 <html lang="en">
 {% include 'head.twig' %}
 <body>
-    <div class="container">
-        {% include 'header.twig' %}
+    {% include 'header.twig' %}
 
-        <ul class="nav nav-pills">
-          <li role="presentation"><a href="connections">Connections</a></li>
-          <li role="presentation" class="active"><a href="servers">Servers</a></li>
-          <li role="presentation"><a href="configurations">Configurations</a></li>
-          <li role="presentation"><a href="users">Users</a></li>
-          <li role="presentation"><a href="documentation">Documentation</a></li>
-        </ul>
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li class="active"><a href="servers">Servers</a></li>
+      <li><a href="configurations">Configurations</a></li>
+      <li><a href="users">Users</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
 
-        <h2>Servers</h2>
-        
-	    {% if vpnServers.items is empty %}
-            <p class="well" role="alert">No servers configured &#x1f61e;</p>
-	    {% else %}
-            <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th># Clients</th>
-                    <th>Traffic</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for server in vpnServers.items %}
-                <tr>
-                    <td><a href="connections#{{ server.id|e }}" title="{{ server.id|e }}">{{ server.id|e }}</a></td>
-                    <td>{% if server.ok %}<span class="text-success"><strong>Up</strong></span>{% else %}<span class="text-danger"><strong>Down</strong></span>{% endif %}</td>
-                    {% if server.ok %}
-                        <td>{{ attribute(server, 'load-stats').number_of_clients|e }}</td>
-                        <td>{{ (attribute(server, 'load-stats').bytes_in + attribute(server, 'load-stats').bytes_out)|sizeToHuman|e }}</td>
-                    {% else %}
-                        <td class="text-muted">-</td>
-                        <td class="text-muted">-</td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-            </tbody>
-            </table>
-        {% endif %}
+    <h2>Servers</h2>
+    
+    {% if vpnServers.items is empty %}
+        <p class="plain">No servers configured &#x1f61e;</p>
+    {% else %}
+        <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th># Clients</th>
+                <th>Traffic</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for server in vpnServers.items %}
+            <tr>
+                <td><a href="connections#{{ server.id|e }}" title="{{ server.id|e }}">{{ server.id|e }}</a></td>
+                <td>{% if server.ok %}Up{% else %}Down{% endif %}</td>
+                {% if server.ok %}
+                    <td>{{ attribute(server, 'load-stats').number_of_clients|e }}</td>
+                    <td>{{ (attribute(server, 'load-stats').bytes_in + attribute(server, 'load-stats').bytes_out)|sizeToHuman|e }}</td>
+                {% else %}
+                    <td>-</td>
+                    <td>-</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% endif %}
 
-        {% include 'footer.twig' %}
-    </div> <!-- /container -->
+    {% include 'footer.twig' %}
 </body>
 </html>
