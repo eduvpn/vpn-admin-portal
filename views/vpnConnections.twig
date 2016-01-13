@@ -68,7 +68,7 @@
                                     <form class="inline" method="post" action="killClient">
                                         <input type="hidden" name="id" value="{{ server.id|e }}">
                                         <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                        <button class="warning" title="Disconnect a client, but allow it to reconnect" type="submit">Block</button>
+                                        <button class="warning" title="Disable a configuration and disconnect the client." type="submit">Disable</button>
                                     </form>
                                     <form class="inline" method="post" action="killClient">
                                         <input type="hidden" name="id" value="{{ server.id|e }}">
@@ -107,7 +107,7 @@
                                     <form class="inline" method="post" action="killClient">
                                         <input type="hidden" name="id" value="{{ server.id|e }}">
                                         <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                        <button class="warning" title="Disable a configuration and disconnect it." type="submit">Disable</button>
+                                        <button class="warning" title="Disable a configuration and disconnect the client." type="submit">Disable</button>
                                     </form>
                                 </td>
                             </tr>
