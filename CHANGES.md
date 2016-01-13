@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.5 (2016-01-13)
+- some minor tweaks to CSS
+- introduce advanced mode for connections page to avoid too wide tables
+
 ## 3.0.4 (2016-01-13)
 - remove bootstrap, use minimal CSS
 
