@@ -109,11 +109,6 @@
                                         <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
                                         <button class="warning" title="Disconnect a client, but allow it to reconnect" type="submit">Block</button>
                                     </form>
-                                    <form class="inline" method="post" action="killClient">
-                                        <input type="hidden" name="id" value="{{ server.id|e }}">
-                                        <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                        <button class="warning" title="Disconnect a client, but allow it to reconnect" type="submit">Disconnect</button>
-                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}
