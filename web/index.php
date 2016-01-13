@@ -124,6 +124,7 @@ try {
                 'vpnConnections',
                 array(
                     'connectedClients' => $vpnServerApiClient->getStatus(),
+                    'advanced' => (bool) $request->getUrl()->getQueryParameter('advanced'),
                 )
             );
         }
