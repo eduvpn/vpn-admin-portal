@@ -16,7 +16,7 @@
     <h2>Connections</h2>
     
     {% if connectedClients.items is empty %}
-        <p class="well">No servers configured &#x1f61e;</p>
+        <p class="plain">No servers configured &#x1f61e;</p>
     {% else %}
         {% for server in connectedClients.items %}
             <h3 id="{{ server.id|e }}">{{ server.id|e }}</h3>
