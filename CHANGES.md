@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.4 (2016-01-13)
+- remove bootstrap, use minimal CSS
+
 ## 3.0.3 (2016-01-12)
 - remove extra column in Servers tab when a server is down
 - add the traffic from and to clients and show it in one column reducing the
