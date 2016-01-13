@@ -163,6 +163,14 @@ button.warning:hover {
     background-color: #db860e;
 }
 
+button.success {
+    background-color: #449d44;
+}
+
+button.success:hover {
+    background-color: #338c33;
+}
+
 span.help {
     display: block;
     color: #888;

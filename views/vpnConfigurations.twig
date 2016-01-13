@@ -53,7 +53,7 @@
                             {% if filterByUser %}
                                 <input type="hidden" name="filterByUser" value="{{ filterByUser|e }}">
                             {% endif %}
-                            <button type="submit">Enable</button>
+                            <button class="success" type="submit">Enable</button>
                         </form>
                     {% else %}
                         <form class="inline" method="post" action="disableCommonName">
