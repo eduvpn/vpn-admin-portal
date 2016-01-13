@@ -59,6 +59,15 @@ ul {
     padding: 0;
 }
 
+/** Info **/
+dl {
+    margin: 0;
+}
+
+dt {
+    font-weight: bold;
+}
+
 /** IP LIST **/
 ul.ipList li {
     list-style: none;
@@ -171,6 +180,7 @@ table {
 td, th {
     padding: 0.5em;
     text-align: left;
+    vertical-align: top;
 }
 
 tr:nth-child(even) {
