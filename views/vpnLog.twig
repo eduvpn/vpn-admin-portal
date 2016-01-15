@@ -15,8 +15,10 @@
     </ul>
 
     <h2>Log</h2>
-    <p>This page shows the history of client connections. Ongoing connections 
-        can be found in the <a href="connections">Connections</a> tab.
+    <p>This page shows the history of client connections. <strong>Only</strong> 
+        terminated connections are shown. Ongoing connections 
+        can be found in the <a href="connections">Connections</a> tab. The 
+        entries are sorted by disconnect time, most recently disconnected first.
     </p>
 
     {% if log.history is empty %}
