@@ -200,6 +200,7 @@ try {
             $filterByUser = $request->getPostParameter('filterByUser');
 
             $vpnServerApiClient->postCcdDisable($commonName);
+            $vpnServerApiClient->postKill($commonName);
 
             if ($filterByUser) {
                 $returnUrl = sprintf('%sconfigurations?filterByUser=%s', $request->getUrl()->getRootUrl(), $filterByUser);
