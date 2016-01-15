@@ -53,6 +53,13 @@ class VpnServerApiClient
         return $this->client->get($requestUri)->json();
     }
 
+    public function getLog()
+    {
+        $requestUri = sprintf('%s/log/history', $this->vpnServerApiUri);
+
+        return $this->client->get($requestUri)->json();
+    }
+
     public function postCcdDisable($commonName)
     {
         $requestUri = sprintf('%s/ccd/disable', $this->vpnServerApiUri);

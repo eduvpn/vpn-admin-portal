@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    {% include 'header.twig' %}
+
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li><a href="servers">Servers</a></li>
+      <li><a href="configurations">Configurations</a></li>
+      <li><a href="users">Users</a></li>
+      <li><a href="documentation">Documentation</a></li>
+      <li class="active"><a href="log">Log</a></li>
+    </ul>
+
+    <h2>Log</h2>
+
+    {% if log.history is empty %}
+        <p class="plain">No log available &#x1f61e;</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr><th>User ID</th><th>Name</th><th>Connected ({{ date()|date("T") }})</th><th>Disconnected ({{ date()|date("T") }})</th><th>IP address</th><th>Traffic</th></tr>
+            </thead>
+            <tbody>
+            {% for entry in log.history %}
+                <tr>
+                    <td>{{ entry.common_name|split('_', 2)|first|e }}</td>
+                    <td>{{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
+                    <td>{{ entry.time_unix|e|date("Y-m-d H:i:s") }}</td>
+                    <td>{{ entry.disconnect_time_unix|e|date("Y-m-d H:i:s") }}</td>
+                    <td>
+                        <ul class="ipList">
+                            <li>{{ entry.ifconfig_pool_remote_ip|e }}</li>
+                            <li>{{ entry.ifconfig_ipv6_remote }}</li>
+                        </ul>
+                    </td>
+                    <td>{{ (entry.bytes_received+entry.bytes_sent)|sizeToHuman|e }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% include 'footer.twig' %}
+</body>
+</html>

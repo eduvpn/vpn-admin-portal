@@ -290,6 +290,18 @@ try {
         }
     );
 
+    $service->get(
+        '/log',
+        function (Request $request) use ($templateManager, $vpnServerApiClient) {
+            return $templateManager->render(
+                'vpnLog',
+                array(
+                    'log' => $vpnServerApiClient->getLog(),
+                )
+            );
+        }
+    );
+
     $authenticationPlugin = new AuthenticationPlugin();
     $authenticationPlugin->register($auth, 'user');
     $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
