@@ -264,7 +264,6 @@ try {
     $service->post(
         '/revoke',
         function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
-            $id = $request->getPostParameter('id');
             $commonName = $request->getPostParameter('common_name');
 
             // XXX: validate the input
@@ -276,16 +275,8 @@ try {
             // trigger CRL reload
             $vpnServerApiClient->postCrlFetch();
 
-            if (null !== $id) {
-                // disconnect the client from the VPN service if we know the
-                // id
-                // actually, all clients with this config are killed! so this
-                // XXX needs to be refactored
-                $vpnServerApiClient->postKill($commonName);
-
-                // return to connections
-                return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
-            }
+            // disconnect the configuration
+            $vpnServerApiClient->postKill($commonName);
 
             return new RedirectResponse($request->getUrl()->getRootUrl().'configurations', 302);
         }
