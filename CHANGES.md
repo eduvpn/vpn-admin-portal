@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.1.0 (2016-10-18)
+- implement 'Log' tab to show connection history
+- fix 'Block' in the connections tab to actually block the configuration
+- both Revoke and Block will now automatically disconnect the client
+  as well
+- update documentation tab 
+
 ## 3.0.5 (2016-01-13)
 - some minor tweaks to CSS
 - introduce advanced mode for connections page to avoid too wide tables
