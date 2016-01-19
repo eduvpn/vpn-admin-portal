@@ -5,11 +5,11 @@ body {
     padding: 0.5em;
 }
 
-body, button, input, select {
+body, button, input, select, option {
     font-family: sans-serif;
 }
 
-button, input, code, select, body {
+button, input, code, select, body, option {
     line-height: 1.5;
     font-size: 90%;
 }

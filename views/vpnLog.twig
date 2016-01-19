@@ -29,7 +29,11 @@
         <form method="get">
             <select name="daysAgo">
                 {% for key, timestamp in selectBox %}
-                    <option value="{{ key|e }}">{{ timestamp|e|date('Y-m-d') }}</option>
+                    {% if key == daysAgo %}
+                        <option selected="selected" value="{{ key|e }}">{{ timestamp|e|date('Y-m-d') }}</option>
+                    {% else %}
+                        <option value="{{ key|e }}">{{ timestamp|e|date('Y-m-d') }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
             <button type="submit">Go</button>
