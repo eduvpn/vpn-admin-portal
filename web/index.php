@@ -287,9 +287,15 @@ try {
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
             $daysAgo = intval($request->getUrl()->getQueryParameter('daysAgo'));
 
+            $selectBox = array();
+            for($i = 0; $i <= 31; $i++) {
+                $selectBox[] = strtotime(sprintf('today -%d days', $i));
+            }                                
+
             return $templateManager->render(
                 'vpnLog',
                 array(
+                    'selectBox' => $selectBox,
                     'daysAgo' => $daysAgo,
                     'log' => $vpnServerApiClient->getLog($daysAgo),
                 )

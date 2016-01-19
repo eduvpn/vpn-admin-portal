@@ -26,24 +26,18 @@
             entries are sorted by disconnect time, most recently disconnected first.
         </p>
 
+        <form method="get">
+            <select name="daysAgo">
+                {% for key, timestamp in selectBox %}
+                    <option value="{{ key|e }}">{{ timestamp|e|date('Y-m-d') }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Go</button>
+        </form>
+
         {% if log.history is empty %}
-            <p class="plain">No log available &#x1f61e;</p>
+            <p class="plain">No log available &#x1f61e;. Try another day.</p>
         {% else %}
-
-            <form method="get">
-                <select name="daysAgo">
-                    <option value="0">Today</option>
-                    <option value="1">Yesterday</option>
-                    <option value="2">2 Days Ago</option>
-                    <option value="3">3 Days Ago</option>
-                    <option value="4">4 Days Ago</option>
-                    <option value="5">5 Days Ago</option>
-                    <option value="6">6 Days Ago</option>
-                    <option value="7">7 Days Ago</option>
-                </select>
-                <button type="submit">Go</button>
-            </form>
-
             <table>
                 <thead>
                     <tr><th>User ID</th><th>Name</th><th>Connected ({{ date()|date("T") }})</th><th>Disconnected ({{ date()|date("T") }})</th><th>IP address</th><th>Traffic</th></tr>
