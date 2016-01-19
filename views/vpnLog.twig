@@ -29,6 +29,12 @@
         {% if log.history is empty %}
             <p class="plain">No log available &#x1f61e;</p>
         {% else %}
+
+            <form method="get">
+                <input type="text" name="daysBack" value="0">
+                <button type="submit">Go</button>
+            </form>
+
             <table>
                 <thead>
                     <tr><th>User ID</th><th>Name</th><th>Connected ({{ date()|date("T") }})</th><th>Disconnected ({{ date()|date("T") }})</th><th>IP address</th><th>Traffic</th></tr>

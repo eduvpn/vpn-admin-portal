@@ -285,10 +285,12 @@ try {
     $service->get(
         '/log',
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
+            $daysBack = intval($request->getUrl()->getQueryParameter('daysBack'));
+
             return $templateManager->render(
                 'vpnLog',
                 array(
-                    'log' => $vpnServerApiClient->getLog(),
+                    'log' => $vpnServerApiClient->getLog($daysBack),
                 )
             );
         }

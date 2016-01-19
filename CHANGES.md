@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.1 (...)
+- implement going back in time in connection log page
+
 ## 3.1.0 (2016-10-18)
 - implement 'Log' tab to show connection history
 - fix 'Block' in the connections tab to actually block the configuration
