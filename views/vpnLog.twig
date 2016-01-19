@@ -27,7 +27,10 @@
         </p>
 
         <form method="get">
-            <select name="daysAgo">
+            <fieldset>
+            <legend>Select Date</legend>
+            <label for="daysAgo">Date </label>
+            <select name="daysAgo" id="daysAgo">
                 {% for key, timestamp in selectBox %}
                     {% if key == daysAgo %}
                         <option selected="selected" value="{{ key|e }}">{{ timestamp|e|date('Y-m-d') }}</option>
@@ -37,6 +40,7 @@
                 {% endfor %}
             </select>
             <button type="submit">Go</button>
+            <fieldset>
         </form>
 
         {% if log.history is empty %}
