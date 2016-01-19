@@ -55,7 +55,7 @@ class VpnServerApiClient
 
     public function getLog($daysAgo = 0)
     {
-        $requestUri = sprintf('%s/log/history?daysBack=%d', $this->vpnServerApiUri, $daysAgo);
+        $requestUri = sprintf('%s/log/history?daysAgo=%d', $this->vpnServerApiUri, $daysAgo);
 
         return $this->client->get($requestUri)->json();
     }
