@@ -53,7 +53,7 @@
                 <tbody>
                 {% for entry in log.history %}
                     <tr>
-                        <td>{{ entry.common_name|split('_', 2)|first|e }}</td>
+                        <td><a href="configurations?filterByUser={{ client.common_name|split('_', 2)|first|e }}">{{ client.common_name|split('_', 2)|first|e }}</a></td>
                         <td>{{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
                         <td>{{ entry.time_unix|e|date("Y-m-d H:i:s") }}</td>
                         <td>{{ entry.disconnect_time_unix|e|date("Y-m-d H:i:s") }}</td>
