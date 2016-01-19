@@ -31,7 +31,16 @@
         {% else %}
 
             <form method="get">
-                <input type="text" name="daysBack" value="0">
+                <select name="daysAgo">
+                    <option value="0">Today</option>
+                    <option value="1">Yesterday</option>
+                    <option value="2">2 Days Ago</option>
+                    <option value="3">3 Days Ago</option>
+                    <option value="4">4 Days Ago</option>
+                    <option value="5">5 Days Ago</option>
+                    <option value="6">6 Days Ago</option>
+                    <option value="7">7 Days Ago</option>
+                </select>
                 <button type="submit">Go</button>
             </form>
 
