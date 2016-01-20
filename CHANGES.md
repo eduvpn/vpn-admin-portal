@@ -1,7 +1,8 @@
 # Changelog
 
-## 3.1.1 (...)
+## 3.1.1 (2016-10-20)
 - implement going back in time in connection log page
+- move Log tab before Documentation tab
 
 ## 3.1.0 (2016-10-18)
 - implement 'Log' tab to show connection history
