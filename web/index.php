@@ -285,19 +285,21 @@ try {
     $service->get(
         '/log',
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            $daysAgo = intval($request->getUrl()->getQueryParameter('daysAgo'));
+            $showDate = $request->getUrl()->getQueryParameter('showDate');
+            if (is_null($showDate)) {
+                $showDate = date('Y-m-d');
+            }
 
-            $selectBox = array();
-            for($i = 0; $i <= 31; $i++) {
-                $selectBox[] = strtotime(sprintf('today -%d days', $i));
-            }                                
+            // XXX validate date, backend will take care of it as well, so not
+            // the most important here...
 
             return $templateManager->render(
                 'vpnLog',
                 array(
-                    'selectBox' => $selectBox,
-                    'daysAgo' => $daysAgo,
-                    'log' => $vpnServerApiClient->getLog($daysAgo),
+                    'minDate' => date('Y-m-d', strtotime('today -31 days')),
+                    'maxDate' => date('Y-m-d', strtotime('today')),
+                    'showDate' => $showDate,
+                    'log' => $vpnServerApiClient->getLog($showDate),
                 )
             );
         }

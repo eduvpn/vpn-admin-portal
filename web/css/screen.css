@@ -5,11 +5,11 @@ body {
     padding: 0.5em;
 }
 
-body, button, input, option {
+body, button, input {
     font-family: sans-serif;
 }
 
-button, input, code, option, body {
+button, input, code, body {
     line-height: 1.5;
     font-size: 90%;
 }
@@ -126,7 +126,7 @@ label {
     display: block;
 }
 
-input[type="text"], input[type="checkbox"], select {
+input[type="text"], input[type="checkbox"], input[type="date"] {
     margin: 0;
     padding: 0.5em 0.7em;
     border: 1px solid #ddd;

@@ -53,9 +53,14 @@ class VpnServerApiClient
         return $this->client->get($requestUri)->json();
     }
 
-    public function getLog($daysAgo = 0)
+    /**
+     * Get the log for a particular date.
+     *
+     * @param string $showDate date in format YYYY-MM-DD
+     */
+    public function getLog($showDate)
     {
-        $requestUri = sprintf('%s/log/history?daysAgo=%d', $this->vpnServerApiUri, $daysAgo);
+        $requestUri = sprintf('%s/log/history?showDate=%s', $this->vpnServerApiUri, $showDate);
 
         return $this->client->get($requestUri)->json();
     }

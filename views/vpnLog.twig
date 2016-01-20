@@ -28,18 +28,10 @@
 
         <form method="get">
             <fieldset>
-            <legend>Select Date</legend>
-            <label for="daysAgo">Date </label>
-            <select name="daysAgo" id="daysAgo">
-                {% for key, timestamp in selectBox %}
-                    {% if key == daysAgo %}
-                        <option selected="selected" value="{{ key|e }}">{{ timestamp|e|date('Y-m-d') }}</option>
-                    {% else %}
-                        <option value="{{ key|e }}">{{ timestamp|e|date('Y-m-d') }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-            <button type="submit">Go</button>
+            <legend>Show Date</legend>
+            <label for="showDate">Date </label>
+            <input id="showDate" name="showDate" type="date" value="{{ showDate|e }}" min="{{ minDate|e|date('Y-m-d') }}" max="{{ maxDate|e|date('Y-m-d') }}" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+            <button type="submit">Filter</button>
             </fieldset>
         </form>
 
