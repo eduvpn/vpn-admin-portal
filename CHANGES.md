@@ -1,10 +1,15 @@
 # Changelog
 
-## 3.1.1 (2016-10-20)
+## 3.1.2 (2016-01-27)
+- the input type date is not really working well, so go back to simple text
+  box
+- update CSS
+
+## 3.1.1 (2016-01-20)
 - implement going back in time in connection log page
 - move Log tab before Documentation tab
 
-## 3.1.0 (2016-10-18)
+## 3.1.0 (2016-01-18)
 - implement 'Log' tab to show connection history
 - fix 'Block' in the connections tab to actually block the configuration
 - both Revoke and Block will now automatically disconnect the client
