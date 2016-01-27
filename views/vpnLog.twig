@@ -21,22 +21,23 @@
     {% else %} 
 
         <p>This page shows the history of client connections. <strong>Only</strong> 
-            terminated connections are shown. Ongoing connections 
+            closed connections are shown. Ongoing connections 
             can be found in the <a href="connections">Connections</a> tab. The 
             entries are sorted by disconnect time, most recently disconnected first.
+            You can view the log of a date between {{ minDate|e }} and {{ maxDate|e }}.
         </p>
 
         <form method="get">
             <fieldset>
-            <legend>Show Date</legend>
-            <label for="showDate">Date </label>
-            <input id="showDate" name="showDate" type="date" value="{{ showDate|e }}" min="{{ minDate|e|date('Y-m-d') }}" max="{{ maxDate|e|date('Y-m-d') }}" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
-            <button type="submit">Filter</button>
+                <legend>View Log On Date</legend>
+                <label for="showDate">Date</label>
+                <input id="showDate" name="showDate" type="text" value="{{ showDate|e }}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
+                <button type="submit">View</button>
             </fieldset>
         </form>
 
         {% if log.history is empty %}
-            <p class="plain">No log available &#x1f61e; You could try another day.</p>
+            <p class="plain">No log available &#x1f61e; Try another day.</p>
         {% else %}
             <table>
                 <thead>
