@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.2.0 (2016-02-03)
+- switch to form authentication from basic authentication
+
 ## 3.1.3 (2016-02-03)
 - update CSS
 

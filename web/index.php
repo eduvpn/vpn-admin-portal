@@ -18,11 +18,12 @@
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
-use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
+use fkooman\Rest\Plugin\Authentication\Form\FormAuthentication;
 use fkooman\Rest\Plugin\Authentication\Mellon\MellonAuthentication;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Request;
 use fkooman\Rest\Service;
+use fkooman\Http\Session;
 use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
 use fkooman\VPN\AdminPortal\VpnUserPortalClient;
@@ -40,30 +41,7 @@ try {
         new YamlFile(dirname(__DIR__).'/config/config.yaml')
     );
 
-    // Authentication
-    $authMethod = $reader->v('authMethod', false, 'BasicAuthentication');
-    switch ($authMethod) {
-        case 'MellonAuthentication':
-            $auth = new MellonAuthentication(
-                $reader->v('MellonAuthentication', 'attribute')
-            );
-            break;
-        case 'BasicAuthentication':
-            $auth = new BasicAuthentication(
-                function ($userId) use ($reader) {
-                    $userList = $reader->v('BasicAuthentication');
-                    if (!array_key_exists($userId, $userList)) {
-                        return false;
-                    }
-
-                    return $userList[$userId];
-                },
-                array('realm' => 'VPN Admin Portal')
-            );
-            break;
-        default:
-            throw new RuntimeException('unsupported authentication mechanism');
-    }
+    $serverMode = $reader->v('serverMode', false, 'production');
 
     $request = new Request($_SERVER);
 
@@ -81,6 +59,38 @@ try {
     );
     $templateManager->addFilter(TwigFilters::sizeToHuman());
     $templateManager->addFilter(TwigFilters::cleanIp());
+
+    // Authentication
+    $authMethod = $reader->v('authMethod', false, 'BasicAuthentication');
+    switch ($authMethod) {
+        case 'MellonAuthentication':
+            $auth = new MellonAuthentication(
+                $reader->v('MellonAuthentication', 'attribute')
+            );
+            break;
+        case 'FormAuthentication':
+            $session = new Session(
+                'vpn-admin-portal',
+                array(
+                    'secure' => 'development' !== $serverMode,
+                )
+            );
+            $auth = new FormAuthentication(
+                function ($userId) use ($reader) {
+                    $userList = $reader->v('Users');
+                    if (null === $userList || !array_key_exists($userId, $userList)) {
+                        return false;
+                    }
+
+                    return $userList[$userId];
+                },
+                $templateManager,
+                $session
+            );
+            break;
+        default:
+            throw new RuntimeException('unsupported authentication mechanism');
+    }
 
     // VPN User Portal Configuration
     $serviceUri = $reader->v('VpnUserPortal', 'serviceUri');

@@ -1,7 +1,10 @@
-authMethod: BasicAuthentication
+serverMode: production
+#serverMode: development
+
+authMethod: FormAuthentication
 #authMethod: MellonAuthentication
 
-BasicAuthentication:
+Users:
     foo: $2y$10$sWzE0MjAP13srnNI/Pg8SuBM6LVmq8/hnznJwkQRF00Obe321PqGq
 
 MellonAuthentication:
