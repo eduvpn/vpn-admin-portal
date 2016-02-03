@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.3 (2016-02-03)
+- update CSS
+
 ## 3.1.2 (2016-01-27)
 - the input type date is not really working well, so go back to simple text
   box
