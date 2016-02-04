@@ -2,3 +2,11 @@
 <p class="footer">
     VPN Admin Portal
 </p>
+{% if login_hint is not defined %}
+    <form class="footer" method="post" action="_auth/form/logout">
+        <fieldset>
+            <legend>Sign Out</legend>
+            <button type="submit">Sign Out</button>
+        </fieldset>
+    </form>
+{% endif %}
