@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.2.1 (2016-02-03)
+- implement sign out button
+
 ## 3.2.0 (2016-02-03)
 - switch to form authentication from basic authentication
 

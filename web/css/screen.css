@@ -88,8 +88,10 @@ ul.mainMenu li {
 
 ul.mainMenu li a {
     padding: 0.7em;
+    margin: 0.2em 0;
     text-decoration: none;
     border-radius: 0.2em;
+    display: inline-block;
 }
 
 ul.mainMenu li.active a {
