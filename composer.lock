@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e439db26d251f13cc9f8a84d37d2210d",
-    "content-hash": "879a8c90ce1dc6480eaa8b9f965522ed",
+    "hash": "690154c18172f4a3156e1fee2cdaa4ab",
+    "content-hash": "f3e836625648f3b0501aea79b6bb38cf",
     "packages": [
         {
             "name": "fkooman/config",
@@ -307,20 +307,20 @@
         },
         {
             "name": "fkooman/tpl",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-tpl.git",
-                "reference": "ce51fa8da33d231aaeefd4558f1d813a1edc5931"
+                "reference": "d6abca430ff050890f93eb353158b8ed3dc91bf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-tpl/zipball/ce51fa8da33d231aaeefd4558f1d813a1edc5931",
-                "reference": "ce51fa8da33d231aaeefd4558f1d813a1edc5931",
+                "url": "https://api.github.com/repos/fkooman/php-lib-tpl/zipball/d6abca430ff050890f93eb353158b8ed3dc91bf4",
+                "reference": "d6abca430ff050890f93eb353158b8ed3dc91bf4",
                 "shasum": ""
             },
             "require": {
-                "php": ">= 5.3.3"
+                "php": ">= 5.3.0"
             },
             "type": "library",
             "autoload": {
@@ -339,25 +339,25 @@
                 }
             ],
             "description": "Simple Template Abstraction Library",
-            "time": "2015-08-10 11:04:40"
+            "time": "2016-02-04 10:00:40"
         },
         {
             "name": "fkooman/tpl-twig",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-tpl-twig.git",
-                "reference": "c1f50f49ffe430b12e36c2a8e5441cd87830484a"
+                "reference": "be1eb48678b12bbd501c1be5abfe3263551dc976"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-tpl-twig/zipball/c1f50f49ffe430b12e36c2a8e5441cd87830484a",
-                "reference": "c1f50f49ffe430b12e36c2a8e5441cd87830484a",
+                "url": "https://api.github.com/repos/fkooman/php-lib-tpl-twig/zipball/be1eb48678b12bbd501c1be5abfe3263551dc976",
+                "reference": "be1eb48678b12bbd501c1be5abfe3263551dc976",
                 "shasum": ""
             },
             "require": {
                 "ext-spl": "*",
-                "fkooman/tpl": "^2.0.0",
+                "fkooman/tpl": "^2.1.0",
                 "php": ">= 5.3.3",
                 "twig/twig": "^1.18"
             },
@@ -378,7 +378,7 @@
                 }
             ],
             "description": "Twig for Simple Template Abstraction Library",
-            "time": "2015-12-17 20:20:16"
+            "time": "2016-02-04 10:14:35"
         },
         {
             "name": "guzzlehttp/guzzle",

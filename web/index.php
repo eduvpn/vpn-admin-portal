@@ -61,7 +61,9 @@ try {
     $templateManager->addFilter(TwigFilters::cleanIp());
 
     // Authentication
-    $authMethod = $reader->v('authMethod', false, 'BasicAuthentication');
+    $authMethod = $reader->v('authMethod', false, 'FormAuthentication');
+    $templateManager->addDefault(array('authMethod' => $authMethod));
+
     switch ($authMethod) {
         case 'MellonAuthentication':
             $auth = new MellonAuthentication(
