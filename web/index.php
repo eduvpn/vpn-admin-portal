@@ -27,6 +27,7 @@ use fkooman\Http\Session;
 use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
 use fkooman\VPN\AdminPortal\VpnUserPortalClient;
+use fkooman\VPN\AdminPortal\VpnConfigApiClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\TwigFilters;
 use fkooman\Http\Exception\InternalServerErrorException;
@@ -107,6 +108,19 @@ try {
     );
     $vpnUserPortalClient = new VpnUserPortalClient($client, $serviceUri);
 
+    // VPN Config API Configuration
+    $serviceUri = $reader->v('VpnConfigApi', 'serviceUri');
+    $serviceAuth = $reader->v('VpnConfigApi', 'serviceUser');
+    $servicePass = $reader->v('VpnConfigApi', 'servicePass');
+    $client = new Client(
+        array(
+            'defaults' => array(
+                'auth' => array($serviceAuth, $servicePass),
+            ),
+        )
+    );
+    $vpnConfigApiClient = new VpnConfigApiClient($client, $serviceUri);
+
     // VPN Server API Configuration
     $serviceUri = $reader->v('VpnServerApi', 'serviceUri');
     $serviceAuth = $reader->v('VpnServerApi', 'serviceUser');
@@ -156,43 +170,79 @@ try {
 
     $service->get(
         '/configurations',
-        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
             // XXX: validate input
-            $filterByUser = $request->getUrl()->getQueryParameter('filterByUser');
-
-            $vpnConfigurations = $vpnUserPortalClient->getConfigurations($filterByUser);
+            $userId = $request->getUrl()->getQueryParameter('userId');
+            $certList = $vpnConfigApiClient->getCertList($userId);
             $vpnDisabledCommonNames = $vpnServerApiClient->getCcdDisable();
 
-            foreach ($vpnConfigurations as $key => $vpnConfiguration) {
-                $commonName = sprintf('%s_%s', $vpnConfiguration['user_id'], $vpnConfiguration['name']);
-                if (in_array($commonName, $vpnDisabledCommonNames['disabled'])) {
-                    $vpnConfigurations[$key]['disabled'] = true;
-                } else {
-                    $vpnConfigurations[$key]['disabled'] = false;
+            $activeVpnConfigurations = array();
+            $revokedVpnConfigurations = array();
+            $disabledVpnConfigurations = array();
+            $expiredVpnConfigurations = array();
+
+            foreach ($certList['items'] as $c) {
+                if ('E' === $c['state']) {
+                    $expiredVpnConfigurations[] = $c;
+                } elseif ('R' === $c['state']) {
+                    $revokedVpnConfigurations[] = $c;
+                } elseif ('V' === $c['state']) {
+                    $commonName = $c['user_id'].'_'.$c['name'];
+                    if (in_array($commonName, $vpnDisabledCommonNames['disabled'])) {
+                        $disabledVpnConfigurations[] = $c;
+                    } else {
+                        $activeVpnConfigurations[] = $c;
+                    }
                 }
             }
 
             return $templateManager->render(
                 'vpnConfigurations',
                 array(
-                    'vpnConfigurations' => $vpnConfigurations,
-                    'filterByUser' => $filterByUser,
+                    'activeVpnConfigurations' => $activeVpnConfigurations,
+                    'disabledVpnConfigurations' => $disabledVpnConfigurations,
+                    'revokedVpnConfigurations' => $revokedVpnConfigurations,
+                    'expiredVpnConfigurations' => $expiredVpnConfigurations,
+                    'userId' => $userId,
                 )
             );
+
+#            $vpnConfigList = array();
+
+#            foreach ($certList['items'] as $u => $userCerts) {
+#                foreach ($userCerts as $cert) {
+#                    $commonName = sprintf('%s_%s', $u, $cert['name']);
+#                    $cert['user_id'] = $u;
+#                    if (in_array($commonName, $vpnDisabledCommonNames['disabled'])) {
+#                        $cert['disabled'] = true;
+#                    } else {
+#                        $cert['disabled'] = false;
+#                    }
+#                    $vpnConfigList[] = $cert;
+#                }
+#            }
+
+#            return $templateManager->render(
+#                'vpnConfigurations',
+#                array(
+#                    'vpnConfigurations' => $vpnConfigList,
+#                    'userId' => $userId,
+#                )
+#            );
         }
     );
 
-    $service->get(
-        '/users',
-        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
-            return $templateManager->render(
-                'vpnUsers',
-                array(
-                    'users' => $vpnUserPortalClient->getUsers(),
-                )
-            );
-        }
-    );
+#    $service->get(
+#        '/users',
+#        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+#            return $templateManager->render(
+#                'vpnUsers',
+#                array(
+#                    'users' => $vpnUserPortalClient->getUsers(),
+#                )
+#            );
+#        }
+#    );
 
     $service->get(
         '/documentation',
@@ -209,13 +259,13 @@ try {
         function (Request $request) use ($vpnServerApiClient) {
             // XXX: validate input
             $commonName = $request->getPostParameter('common_name');
-            $filterByUser = $request->getPostParameter('filterByUser');
+            $userId = $request->getPostParameter('userId');
 
             $vpnServerApiClient->postCcdDisable($commonName);
             $vpnServerApiClient->postKill($commonName);
 
-            if ($filterByUser) {
-                $returnUrl = sprintf('%sconfigurations?filterByUser=%s', $request->getUrl()->getRootUrl(), $filterByUser);
+            if ($userId) {
+                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $userId);
             } else {
                 $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
             }
@@ -229,12 +279,12 @@ try {
         function (Request $request) use ($vpnServerApiClient) {
             // XXX: validate input
             $commonName = $request->getPostParameter('common_name');
-            $filterByUser = $request->getPostParameter('filterByUser');
+            $userId = $request->getPostParameter('userId');
 
             $vpnServerApiClient->deleteCcdDisable($commonName);
 
-            if ($filterByUser) {
-                $returnUrl = sprintf('%sconfigurations?filterByUser=%s', $request->getUrl()->getRootUrl(), $filterByUser);
+            if ($userId) {
+                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $userId);
             } else {
                 $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
             }

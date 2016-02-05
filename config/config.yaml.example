@@ -16,6 +16,11 @@ VpnServerApi:
     serviceUser: admin
     servicePass: s3cr3t
 
+VpnConfigApi:
+    serviceUri: 'http://localhost/vpn-config-api/api.php'
+    serviceUser: admin
+    servicePass: s3cr3t
+
 VpnUserPortal:
     serviceUri: 'http://localhost/vpn-user-portal/api.php'
     serviceUser: admin
