@@ -206,29 +206,6 @@ try {
                     'userId' => $userId,
                 )
             );
-
-#            $vpnConfigList = array();
-
-#            foreach ($certList['items'] as $u => $userCerts) {
-#                foreach ($userCerts as $cert) {
-#                    $commonName = sprintf('%s_%s', $u, $cert['name']);
-#                    $cert['user_id'] = $u;
-#                    if (in_array($commonName, $vpnDisabledCommonNames['disabled'])) {
-#                        $cert['disabled'] = true;
-#                    } else {
-#                        $cert['disabled'] = false;
-#                    }
-#                    $vpnConfigList[] = $cert;
-#                }
-#            }
-
-#            return $templateManager->render(
-#                'vpnConfigurations',
-#                array(
-#                    'vpnConfigurations' => $vpnConfigList,
-#                    'userId' => $userId,
-#                )
-#            );
         }
     );
 
@@ -325,14 +302,14 @@ try {
 
     $service->post(
         '/revoke',
-        function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
+        function (Request $request) use ($vpnServerApiClient, $vpnConfigApiClient) {
             $commonName = $request->getPostParameter('common_name');
 
             // XXX: validate the input
             list($userId, $configName) = explode('_', $commonName, 2);
 
             // revoke the configuration 
-            $vpnUserPortalClient->revokeConfiguration($userId, $configName);
+            $vpnConfigApiClient->revokeConfiguration($userId, $configName);
 
             // trigger CRL reload
             $vpnServerApiClient->postCrlFetch();
