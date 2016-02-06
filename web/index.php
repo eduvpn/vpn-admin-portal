@@ -30,11 +30,8 @@ use fkooman\VPN\AdminPortal\VpnConfigApiClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\TwigFilters;
 use fkooman\Http\Exception\InternalServerErrorException;
-use fkooman\VPN\AdminPortal\SimpleError;
 use fkooman\Config\Reader;
 use fkooman\Config\YamlFile;
-
-SimpleError::register();
 
 try {
     $reader = new Reader(
