@@ -4,7 +4,7 @@ serverMode: production
 authMethod: FormAuthentication
 #authMethod: MellonAuthentication
 
-Users:
+FormAuthentication:
     foo: $2y$10$sWzE0MjAP13srnNI/Pg8SuBM6LVmq8/hnznJwkQRF00Obe321PqGq
 
 MellonAuthentication:
@@ -18,10 +18,5 @@ VpnServerApi:
 
 VpnConfigApi:
     serviceUri: 'http://localhost/vpn-config-api/api.php'
-    serviceUser: admin
-    servicePass: s3cr3t
-
-VpnUserPortal:
-    serviceUri: 'http://localhost/vpn-user-portal/api.php'
     serviceUser: admin
     servicePass: s3cr3t

@@ -79,7 +79,7 @@ try {
             );
             $auth = new FormAuthentication(
                 function ($userId) use ($reader) {
-                    $userList = $reader->v('Users');
+                    $userList = $reader->v('FormAuthentication');
                     if (null === $userList || !array_key_exists($userId, $userList)) {
                         return false;
                     }
