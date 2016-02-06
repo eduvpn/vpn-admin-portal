@@ -26,7 +26,6 @@ use fkooman\Rest\Service;
 use fkooman\Http\Session;
 use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
-use fkooman\VPN\AdminPortal\VpnUserPortalClient;
 use fkooman\VPN\AdminPortal\VpnConfigApiClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\TwigFilters;
@@ -95,19 +94,6 @@ try {
             throw new RuntimeException('unsupported authentication mechanism');
     }
 
-    // VPN User Portal Configuration
-    $serviceUri = $reader->v('VpnUserPortal', 'serviceUri');
-    $serviceAuth = $reader->v('VpnUserPortal', 'serviceUser');
-    $servicePass = $reader->v('VpnUserPortal', 'servicePass');
-    $client = new Client(
-        array(
-            'defaults' => array(
-                'auth' => array($serviceAuth, $servicePass),
-            ),
-        )
-    );
-    $vpnUserPortalClient = new VpnUserPortalClient($client, $serviceUri);
-
     // VPN Config API Configuration
     $serviceUri = $reader->v('VpnConfigApi', 'serviceUri');
     $serviceAuth = $reader->v('VpnConfigApi', 'serviceUser');
@@ -145,7 +131,7 @@ try {
 
     $service->get(
         '/connections',
-        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+        function (Request $request) use ($templateManager, $vpnServerApiClient) {
             return $templateManager->render(
                 'vpnConnections',
                 array(
@@ -158,7 +144,7 @@ try {
 
     $service->get(
         '/servers',
-        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+        function (Request $request) use ($templateManager, $vpnServerApiClient) {
             return $templateManager->render(
                 'vpnServers',
                 array(
@@ -209,21 +195,9 @@ try {
         }
     );
 
-#    $service->get(
-#        '/users',
-#        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
-#            return $templateManager->render(
-#                'vpnUsers',
-#                array(
-#                    'users' => $vpnUserPortalClient->getUsers(),
-#                )
-#            );
-#        }
-#    );
-
     $service->get(
         '/documentation',
-        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnUserPortalClient) {
+        function (Request $request) use ($templateManager) {
             return $templateManager->render(
                 'vpnDocumentation',
                 array()
@@ -271,53 +245,12 @@ try {
     );
 
     $service->post(
-        '/blockUser',
-        function (Request $request) use ($vpnUserPortalClient) {
-            $userId = $request->getPostParameter('user_id');
-            $vpnUserPortalClient->blockUser($userId);
-
-            return new RedirectResponse($request->getUrl()->getRootUrl().'users', 302);
-        }
-    );
-
-    $service->post(
-        '/unblockUser',
-        function (Request $request) use ($vpnUserPortalClient) {
-            $userId = $request->getPostParameter('user_id');
-            $vpnUserPortalClient->unblockUser($userId);
-
-            return new RedirectResponse($request->getUrl()->getRootUrl().'users', 302);
-        }
-    );
-
-    $service->post(
         '/killClient',
-        function (Request $request) use ($vpnServerApiClient, $vpnUserPortalClient) {
+        function (Request $request) use ($vpnServerApiClient) {
             $commonName = $request->getPostParameter('common_name');
             $vpnServerApiClient->postKill($commonName);
 
             return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
-        }
-    );
-
-    $service->post(
-        '/revoke',
-        function (Request $request) use ($vpnServerApiClient, $vpnConfigApiClient) {
-            $commonName = $request->getPostParameter('common_name');
-
-            // XXX: validate the input
-            list($userId, $configName) = explode('_', $commonName, 2);
-
-            // revoke the configuration 
-            $vpnConfigApiClient->revokeConfiguration($userId, $configName);
-
-            // trigger CRL reload
-            $vpnServerApiClient->postCrlFetch();
-
-            // disconnect the configuration
-            $vpnServerApiClient->postKill($commonName);
-
-            return new RedirectResponse($request->getUrl()->getRootUrl().'configurations', 302);
         }
     );
 

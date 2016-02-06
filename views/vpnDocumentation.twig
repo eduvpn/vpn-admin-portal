@@ -14,39 +14,18 @@
 
     <h2>Documentation</h2>
     <p>
-        The Admin Portal can be used to manage the VPN for day-to-day 
-        operation. Here you will find common operation scenarios and how to deal with
-        them.
+        This portal can be used for day-to-day management of the VPN service. 
+        Below some common scenarios are listed and how to deal with them.
     </p>
 
     <h3>Compromised Client</h3>
     <p>
-A user has the VPN connection open, but it is clear that it needs to be 
-stopped. This might be the case when his computer is infected with malware.
-    </p>
-    <p>
-If the user is currently connected, their connection can be blocked in the 
-<a href="connections">Connections</a> tab. Blocking the connection will 
-both disconnect the client and prevent it from reconnecting again. Once the 
-problem with the client is resolved it can be unblocked again.
-    </p>
-
-    <h3>Misbehaving User</h3>
-    <p>
-If stopping a user by blocking their configuration does not work, the user can 
-be prevented from creating a new configuration in the User Portal. This can 
-be accomplished in the <a href="users">Users</a> tab.
+The VPN is used by malware and needs to be stopped. If the connection is 
+currently active the connection can be disabled on the 
+<a href="connections">Connections</a> page. This will also terminate the 
+connection.
     </p>
     
-    <h3>Lost Device</h3>
-    <p>
-Revoking a configuration is usually not necessary. Revocation is meant for 
-the situation when a device is stolen or when it is sure that the configuration
-will never be used again. Configurations can be revoked on the 
-<a href="configurations">Configurations</a> tab. Revocation can 
-<strong>NOT</strong> be undone.
-    </p>
-
     {% include 'footer.twig' %}
 </body>
 </html>

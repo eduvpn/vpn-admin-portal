@@ -65,10 +65,6 @@
                         {% endif %}
                         <button class="warning" type="submit">Disable</button>
                     </form>
-                    <form class="inline" method="post" action="revoke">
-                        <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                        <button class="danger" type="submit">Revoke</button>
-                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -110,10 +106,6 @@
                             <input type="hidden" name="userId" value="{{ userId|e }}">
                         {% endif %}
                         <button class="success" type="submit">Enable</button>
-                    </form>
-                    <form class="inline" method="post" action="revoke">
-                        <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                        <button class="danger" type="submit">Revoke</button>
                     </form>
                 </td>
             </tr>

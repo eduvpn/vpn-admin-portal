@@ -18,14 +18,6 @@ class VpnConfigApiClient
         $this->vpnConfigApiUri = $vpnConfigApiUri;
     }
 
-    public function revokeConfiguration($userId, $configName)
-    {
-        $vpnConfigName = sprintf('%s_%s', $userId, $configName);
-        $requestUri = sprintf('%s/config/%s', $this->vpnConfigApiUri, $vpnConfigName);
-
-        return $this->client->delete($requestUri)->getBody();
-    }
-
     public function getCertList($userId = null)
     {
         if (is_null($userId)) {
