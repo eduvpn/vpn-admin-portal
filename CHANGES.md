@@ -3,6 +3,14 @@
 ## 3.2.0 (...)
 - switch to form authentication from basic authentication
 - implement sign out button for form authentication
+- no longer use VPN User Portal to list/revoke configurations
+- **NOTE**: for now no longer allow admin to block users, 
+  blocking should be done on different level, rethink implementation
+- no longer allow admin to revoke configurations, only disable
+- show active/disabled/revoked/expired configurations now instead
+  of online active and disabled
+- change UI, no longer show create date, only expiry date
+- sort by expiry date (first expiring on top)
 
 ## 3.1.3 (2016-02-03)
 - update CSS

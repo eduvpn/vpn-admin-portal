@@ -22,6 +22,9 @@
         {% if revokedVpnConfigurations is not empty %}
             <li><a href="#revoked">Revoked</a></li>
         {% endif %}
+        {% if expiredVpnConfigurations is not empty %}
+            <li><a href="#expired">Expired</a></li>
+        {% endif %}
     </ul>
 
     <h3 id="active">Active</h3>
@@ -141,6 +144,39 @@
                 {% endif %}
                 <td>{{ config.name|e }}</td>
                 <td>{{config.rev|e|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+    {% if expiredVpnConfigurations is not empty %}
+        <h3 id="revoked">Expired</h3>
+        <p>
+            {% if userId %}
+                Showing all expired configurations for <em>{{ userId|e }}</em>. See <a href="configurations#expired">all</a>.
+            {% else %}
+                Showing all expired configurations.
+            {% endif %}
+        </p>
+
+        <table>
+            <thead>
+                {% if userId %}
+                    <tr><th>Name</th><th>Expired ({{ date()|date('T') }})</th></tr> 
+                {% else %}
+                    <tr><th>User ID</th><th>Name</th><th>Expired ({{ date()|date('T') }})</th></tr> 
+                {% endif %}
+            </thead>
+            <tbody>
+            {% for config in expiredVpnConfigurations %}
+            <tr>
+                {% if not userId %}
+                    <td><a href="configurations?userId={{ config.user_id|e }}">{{ config.user_id|e }}</a></td>
+                {% endif %}
+                <td>{{ config.name|e }}</td>
+                <td>{{config.exp|e|date('Y-m-d H:i:s') }}</td>
             </tr>
             {% endfor %}
             </tbody>
