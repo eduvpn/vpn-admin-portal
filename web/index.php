@@ -140,18 +140,6 @@ try {
     );
 
     $service->get(
-        '/servers',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            return $templateManager->render(
-                'vpnServers',
-                array(
-                    'vpnServers' => $vpnServerApiClient->getLoadStats(),
-                )
-            );
-        }
-    );
-
-    $service->get(
         '/configurations',
         function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
             // XXX: validate input
@@ -189,6 +177,41 @@ try {
                     'userId' => $userId,
                 )
             );
+        }
+    );
+
+    $service->get(
+        '/edit',
+        function (Request $request) use ($templateManager, $vpnServerApiClient) {
+            // XXX validate input
+            $commonName = $request->getUrl()->getQueryParameter('common_name');
+
+            return $templateManager->render(
+                'vpnEdit',
+                array(
+                    'userId' => explode('_', $commonName, 2)[0],
+                    'configName' => explode('_', $commonName, 2)[1],
+                    'static' => $vpnServerApiClient->getStaticAddresses($commonName)['static'],
+                )
+            );
+        }
+    );
+
+    $service->post(
+        '/edit',
+        function (Request $request) use ($templateManager, $vpnServerApiClient) {
+            // XXX validate input
+            $commonName = $request->getPostParameter('common_name');
+            $v4 = $request->getPostParameter('v4');
+            $v4 = empty($v4) ? null : $v4;
+            $v6 = $request->getPostParameter('v6');
+            $v6 = empty($v6) ? null : $v6;
+
+            $vpnServerApiClient->setStaticAddresses($commonName, $v4, $v6);
+
+            $returnUrl = sprintf('%sedit?common_name=%s', $request->getUrl()->getRootUrl(), $commonName);
+
+            return new RedirectResponse($returnUrl);
         }
     );
 
