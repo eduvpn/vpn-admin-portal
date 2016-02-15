@@ -96,35 +96,6 @@ class VpnServerApiClient
         return $this->client->get($requestUri)->json();
     }
 
-    public function getStaticAddresses($commonName)
-    {
-        $requestUri = sprintf('%s/ccd/static?common_name=%s', $this->vpnServerApiUri, $commonName);
-
-        return $this->client->get($requestUri)->json();
-    }
-
-    public function setStaticAddresses($commonName, $v4, $v6)
-    {
-        $requestUri = sprintf('%s/ccd/static', $this->vpnServerApiUri);
-
-        $p = array(
-            'common_name' => $commonName,
-        );
-        if (!is_null($v4)) {
-            $p['v4'] = $v4;
-        }
-        if (!is_null($v6)) {
-            $p['v6'] = $v6;
-        }
-
-        return $this->client->post(
-            $requestUri,
-            array(
-                'body' => $p,
-            )
-        )->json();
-    }
-
     public function postKill($commonName)
     {
         $requestUri = sprintf('%s/kill', $this->vpnServerApiUri);

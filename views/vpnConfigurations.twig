@@ -58,11 +58,6 @@
                 <td>{{ config.name|e }}</td>
                 <td>{{config.exp|e|date('Y-m-d H:i:s') }}</td>
                 <td class="text-right">
-                    <form class="inline" method="get" action="edit">
-                        <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                        <button class="plain" type="submit">Edit</button>
-                    </form>
-
                     <form class="inline" method="post" action="disableCommonName">
                         <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
                         {% if userId %}
