@@ -147,12 +147,12 @@ label {
     display: block;
 }
 
-input[type="text"], input[type="password"] {
-    margin: 0 0 0.5em 0;
+input[type="text"], input[type="password"], input[type="checkbox"] {
+    margin: 0 0 1em 0;
     padding: 0.5em 0.7em;
     border: 1px solid #ddd;
     border-radius: 0.2em;
-    display: block;
+    display: inline-block;
 }
 
 button {
@@ -201,6 +201,14 @@ button.plain:hover {
     background-color: #ddd;
 }
 
+span.help {
+    display: inline-block;
+    color: #888;
+    margin: 0.2em 0 1em 1em;
+    padding: 0;
+    font-size: 90%;
+}
+
 /** TABLE **/
 table {
     width: 100%;
@@ -227,7 +235,6 @@ th {
 /** FOOTER & SIGN OUT **/
 hr { 
     border: 0; 
-    margin-bottom: 1em;
 }
 
 p.footer, form.footer {
