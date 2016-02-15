@@ -14,6 +14,8 @@
     "license": "Apache-2.0",
     "name": "eduVPN/vpn-admin-portal",
     "require": {
+        "ext-date": "*",
+        "ext-spl": "*",
         "fkooman/config": "^1.0.0",
         "fkooman/http": "^1.0.0",
         "fkooman/rest": "^1.0.0",
@@ -21,6 +23,7 @@
         "fkooman/rest-plugin-authentication-form": "^3.0.1",
         "fkooman/rest-plugin-authentication-mellon": "^2.0.0",
         "fkooman/tpl-twig": "^1.2.0",
-        "guzzlehttp/guzzle": "^5.3"
+        "guzzlehttp/guzzle": "^5.3",
+        "twig/twig": "^1.18"
     }
 }

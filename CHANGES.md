@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.2.0 (...)
+## 3.2.0 (2016-02-15)
 - switch to form authentication from basic authentication
 - implement sign out button for form authentication
 - no longer use VPN User Portal to list/revoke configurations
