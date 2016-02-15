@@ -140,18 +140,6 @@ try {
     );
 
     $service->get(
-        '/servers',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            return $templateManager->render(
-                'vpnServers',
-                array(
-                    'vpnServers' => $vpnServerApiClient->getLoadStats(),
-                )
-            );
-        }
-    );
-
-    $service->get(
         '/configurations',
         function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
             // XXX: validate input
