@@ -14,9 +14,11 @@
 
     <h2>Edit</h2>
     <p>
-Modifying the IP address for <em>{{ configName|e }}</em> of user 
-<em>{{ userId|e }}</em>. An IPv6 address will be automatically chosen based on 
-the IPv4 address.
+Assigning an IP address for <em>{{ configName|e }}</em> of user 
+<em>{{ userId|e }}</em>. Leave the box empty to remove the static assignment.
+    </p>
+    <p>
+An IPv6 address will be automatically chosen based on the IPv4 address.
     </p>
 
     </p>
@@ -26,8 +28,6 @@ the IPv4 address.
             <legend>Edit Configuration</legend>
             <label for="v4">Static IPv4</label>
             <input type="text" id="v4" name="v4" value="{{ static.v4|e }}">
-<!--            <label for="v6">Static IPv6</label>-->
-<!--            <input type="text" id="v6" name="v6" value="{{ static.v6|e }}">-->
             <input type="hidden" name="for_user" value="{{ for_user|e }}">
             <input type="hidden" name="common_name" value="{{ userId|e }}_{{ configName|e}}">
             <button type="submit">Save</button>

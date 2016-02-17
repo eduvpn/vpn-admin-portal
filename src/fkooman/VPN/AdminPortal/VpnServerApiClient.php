@@ -16,7 +16,9 @@
  */
 namespace fkooman\VPN\AdminPortal;
 
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Client;
+use RuntimeException; 
 
 class VpnServerApiClient
 {
@@ -62,7 +64,14 @@ class VpnServerApiClient
     {
         $requestUri = sprintf('%s/log/history?showDate=%s', $this->vpnServerApiUri, $showDate);
 
-        return $this->client->get($requestUri)->json();
+        try { 
+            return $this->client->get($requestUri)->json();
+        } catch (BadResponseException $e) {
+            $responseBody = $e->getResponse()->json();
+            throw new RuntimeException(
+                $responseBody['error']
+            );
+        }
     }
 
     public function postCcdDisable($commonName)
@@ -96,35 +105,32 @@ class VpnServerApiClient
         return $this->client->get($requestUri)->json();
     }
 
-    public function getAllStaticAddresses($userId = null)
+    public function getStaticAddresses($userId = null)
     {
-        $requestUri = sprintf('%s/ccd/all-static', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/static/ip', $this->vpnServerApiUri);
         if (!is_null($userId)) {
-            $requestUri = sprintf('%s/ccd/all-static?user_id=%s', $this->vpnServerApiUri, $userId);
+            $requestUri = sprintf('%s/static/ip?user_id=%s', $this->vpnServerApiUri, $userId);
         }
 
         return $this->client->get($requestUri)->json();
     }
 
-    public function getStaticAddresses($commonName)
+    public function getStaticAddress($commonName)
     {
-        $requestUri = sprintf('%s/ccd/static?common_name=%s', $this->vpnServerApiUri, $commonName);
+        $requestUri = sprintf('%s/static/ip?common_name=%s', $this->vpnServerApiUri, $commonName);
 
         return $this->client->get($requestUri)->json();
     }
 
     public function setStaticAddresses($commonName, $v4, $v6)
     {
-        $requestUri = sprintf('%s/ccd/static', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/static/ip', $this->vpnServerApiUri);
 
         $p = array(
             'common_name' => $commonName,
         );
-        if (!is_null($v4)) {
+        if (!is_null($v4) && !empty($v4)) {
             $p['v4'] = $v4;
-        }
-        if (!is_null($v6)) {
-            $p['v6'] = $v6;
         }
 
         return $this->client->post(
