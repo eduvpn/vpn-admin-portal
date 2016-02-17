@@ -187,8 +187,9 @@ try {
             $userId = $request->getUrl()->getQueryParameter('userId');
             $certList = $vpnConfigApiClient->getCertList($userId);
             $vpnDisabledCommonNames = $vpnServerApiClient->getCcdDisable();
-
+            $vpnStaticCommonNames = $vpnServerApiClient->getAllStaticAddresses($userId);
             $activeVpnConfigurations = array();
+            $staticVpnConfigurations = array();
             $revokedVpnConfigurations = array();
             $disabledVpnConfigurations = array();
             $expiredVpnConfigurations = array();
@@ -199,9 +200,12 @@ try {
                 } elseif ('R' === $c['state']) {
                     $revokedVpnConfigurations[] = $c;
                 } elseif ('V' === $c['state']) {
-                    $commonName = $c['user_id'].'_'.$c['name'];
+                    $commonName = $c['user_id'].'_'.$c['name']; 
                     if (in_array($commonName, $vpnDisabledCommonNames['disabled'])) {
                         $disabledVpnConfigurations[] = $c;
+                    } elseif (array_key_exists($commonName, $vpnStaticCommonNames['static'])) {
+                        $c['v4'] = $vpnStaticCommonNames['static'][$commonName]['v4'];
+                        $staticVpnConfigurations[] = $c;
                     } else {
                         $activeVpnConfigurations[] = $c;
                     }
@@ -212,6 +216,7 @@ try {
                 'vpnConfigurations',
                 array(
                     'activeVpnConfigurations' => $activeVpnConfigurations,
+                    'staticVpnConfigurations' => $staticVpnConfigurations,
                     'disabledVpnConfigurations' => $disabledVpnConfigurations,
                     'revokedVpnConfigurations' => $revokedVpnConfigurations,
                     'expiredVpnConfigurations' => $expiredVpnConfigurations,

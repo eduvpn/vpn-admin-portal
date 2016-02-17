@@ -96,6 +96,16 @@ class VpnServerApiClient
         return $this->client->get($requestUri)->json();
     }
 
+    public function getAllStaticAddresses($userId = null)
+    {
+        $requestUri = sprintf('%s/ccd/all-static', $this->vpnServerApiUri);
+        if (!is_null($userId)) {
+            $requestUri = sprintf('%s/ccd/all-static?user_id=%s', $this->vpnServerApiUri, $userId);
+        }
+
+        return $this->client->get($requestUri)->json();
+    }
+
     public function getStaticAddresses($commonName)
     {
         $requestUri = sprintf('%s/ccd/static?common_name=%s', $this->vpnServerApiUri, $commonName);
