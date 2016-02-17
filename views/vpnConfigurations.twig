@@ -63,12 +63,15 @@
                 <td class="text-right">
                     <form class="inline" method="get" action="edit">
                         <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
+                        {% if userId %}
+                            <input type="hidden" name="for_user" value="{{ userId|e }}">
+                        {% endif %}
                         <button class="plain" type="submit">Edit</button>
                     </form>
                     <form class="inline" method="post" action="disableCommonName">
                         <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
                         {% if userId %}
-                            <input type="hidden" name="userId" value="{{ userId|e }}">
+                            <input type="hidden" name="for_user" value="{{ userId|e }}">
                         {% endif %}
                         <button class="warning" type="submit">Disable</button>
                     </form>

@@ -28,6 +28,7 @@ the IPv4 address.
             <input type="text" id="v4" name="v4" value="{{ static.v4|e }}">
 <!--            <label for="v6">Static IPv6</label>-->
 <!--            <input type="text" id="v6" name="v6" value="{{ static.v6|e }}">-->
+            <input type="hidden" name="for_user" value="{{ for_user|e }}">
             <input type="hidden" name="common_name" value="{{ userId|e }}_{{ configName|e}}">
             <button type="submit">Save</button>
         </fieldset>

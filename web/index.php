@@ -144,11 +144,13 @@ try {
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
             // XXX validate input
             $commonName = $request->getUrl()->getQueryParameter('common_name');
+            $forUser = $request->getUrl()->getQueryParameter('for_user');
 
             return $templateManager->render(
                 'vpnEdit',
                 array(
                     'userId' => explode('_', $commonName, 2)[0],
+                    'for_user' => $forUser,
                     'configName' => explode('_', $commonName, 2)[1],
                     'static' => $vpnServerApiClient->getStaticAddresses($commonName)['static'],
                 )
@@ -160,12 +162,19 @@ try {
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
             // XXX validate input
             $commonName = $request->getPostParameter('common_name');
+            $forUser = $request->getPostParameter('for_user');
+
             $v4 = $request->getPostParameter('v4');
             $v4 = empty($v4) ? null : $v4;
             $v6 = $request->getPostParameter('v6');
             $v6 = empty($v6) ? null : $v6;
             $vpnServerApiClient->setStaticAddresses($commonName, $v4, $v6);
-            $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl(), $commonName);
+
+            if ($forUser) {
+                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $forUser);
+            } else {
+                $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
+            }
 
             return new RedirectResponse($returnUrl);
         }
@@ -227,13 +236,13 @@ try {
         function (Request $request) use ($vpnServerApiClient) {
             // XXX: validate input
             $commonName = $request->getPostParameter('common_name');
-            $userId = $request->getPostParameter('userId');
+            $forUser = $request->getPostParameter('for_user');
 
             $vpnServerApiClient->postCcdDisable($commonName);
             $vpnServerApiClient->postKill($commonName);
 
-            if ($userId) {
-                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $userId);
+            if ($forUser) {
+                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $forUser);
             } else {
                 $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
             }
