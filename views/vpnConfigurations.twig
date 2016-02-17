@@ -45,7 +45,7 @@
         <table>
             <thead>
                 {% if userId %}
-                    <tr><th>Name</th><th>IP</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
+                    <tr><th>Name</th><th>Static IP</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
                 {% else %}
                     <tr><th>User ID</th><th>Name</th><th>Static IP</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
                 {% endif %}
@@ -94,7 +94,7 @@
         <table>
             <thead>
                 {% if userId %}
-                    <tr><th>Name</th><th>IP</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
+                    <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
                 {% else %}
                     <tr><th>User ID</th><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
                 {% endif %}
