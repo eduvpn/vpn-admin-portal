@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3.0 (...)
+- allow setting static IP address per configuration
+
 ## 3.2.0 (2016-02-15)
 - switch to form authentication from basic authentication
 - implement sign out button for form authentication
