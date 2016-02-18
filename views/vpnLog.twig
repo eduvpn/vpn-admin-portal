@@ -50,8 +50,8 @@
                         <td>{{ entry.disconnect_time_unix|e|date("Y-m-d H:i:s") }}</td>
                         <td>
                             <ul class="ipList">
-                                <li>{{ entry.ifconfig_pool_remote_ip|e }}</li>
-                                <li>{{ entry.ifconfig_ipv6_remote }}</li>
+                                <li>{{ entry.v4|e }}</li>
+                                <li>{{ entry.v6 }}</li>
                             </ul>
                         </td>
                         <td>{{ (entry.bytes_received+entry.bytes_sent)|sizeToHuman|e }}</td>
