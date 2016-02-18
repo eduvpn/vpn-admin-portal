@@ -1,7 +1,8 @@
 # Changelog
 
-## 3.3.0 (...)
+## 3.3.0 (2016-02-18)
 - allow setting static IP address per configuration
+- update configurations tab to split out the static configuration
 
 ## 3.2.0 (2016-02-15)
 - switch to form authentication from basic authentication
