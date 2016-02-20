@@ -18,7 +18,7 @@ namespace fkooman\VPN\AdminPortal;
 
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Client;
-use RuntimeException; 
+use RuntimeException;
 
 class VpnServerApiClient
 {
@@ -64,7 +64,7 @@ class VpnServerApiClient
     {
         $requestUri = sprintf('%s/log/history?showDate=%s', $this->vpnServerApiUri, $showDate);
 
-        try { 
+        try {
             return $this->client->get($requestUri)->json();
         } catch (BadResponseException $e) {
             $responseBody = $e->getResponse()->json();

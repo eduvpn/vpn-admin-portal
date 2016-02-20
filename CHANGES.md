@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.1 (...)
+- show the IP ranges that are available for static addresses on the
+  edit page
+
 ## 3.3.0 (2016-02-18)
 - allow setting static IP address per configuration
 - update configurations tab to split out the static configuration

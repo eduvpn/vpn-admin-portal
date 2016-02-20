@@ -28,7 +28,7 @@ class VpnConfigApiClient
             $requestUri = sprintf('%s/config?userId=%s', $this->vpnConfigApiUri, $userId);
         }
 
-        try { 
+        try {
             return $this->client->get($requestUri)->json();
         } catch (BadResponseException $e) {
             $responseBody = $e->getResponse()->json();
