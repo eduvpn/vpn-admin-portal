@@ -3,20 +3,15 @@
 namespace fkooman\VPN\AdminPortal;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-use RuntimeException;
 
-class VpnConfigApiClient
+class VpnConfigApiClient extends VpnApiClient
 {
-    /** @var \GuzzleHttp\Client */
-    private $client;
-
     /** @var string */
     private $vpnConfigApiUri;
 
     public function __construct(Client $client, $vpnConfigApiUri)
     {
-        $this->client = $client;
+        parent::__construct($client);
         $this->vpnConfigApiUri = $vpnConfigApiUri;
     }
 
@@ -28,13 +23,6 @@ class VpnConfigApiClient
             $requestUri = sprintf('%s/config?userId=%s', $this->vpnConfigApiUri, $userId);
         }
 
-        try {
-            return $this->client->get($requestUri)->json();
-        } catch (BadResponseException $e) {
-            $responseBody = $e->getResponse()->json();
-            throw new RuntimeException(
-                $responseBody['error']
-            );
-        }
+        return $this->exec('get', $requestUri);
     }
 }

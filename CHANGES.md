@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3.2 (...)
+- better error display when there is a failure in backend
+
 ## 3.3.1 (2016-02-20)
 - show the IP ranges that are available for static addresses on the
   edit page
