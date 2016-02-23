@@ -11,12 +11,12 @@ MellonAuthentication:
     attribute: MELLON_NAME_ID
     #attribute: MELLON_eduPersonTargetedID
 
-VpnServerApi:
-    serviceUri: 'http://localhost/vpn-server-api/api.php'
+VpnConfigApi:
+    serviceUri: 'http://localhost:8008/api.php'
     serviceUser: admin
     servicePass: s3cr3t
 
-VpnConfigApi:
-    serviceUri: 'http://localhost/vpn-config-api/api.php'
+VpnServerApi:
+    serviceUri: 'http://localhost:8009/api.php'
     serviceUser: admin
     servicePass: s3cr3t
