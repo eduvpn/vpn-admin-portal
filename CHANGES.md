@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3.3 (2016-02-24)
+- add `templateCache` to config example
+
 ## 3.3.2 (2016-02-23)
 - better error display when there is a failure in backend
 - update dependencies
