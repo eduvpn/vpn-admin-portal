@@ -4,6 +4,8 @@ serverMode: production
 authMethod: FormAuthentication
 #authMethod: MellonAuthentication
 
+#templateCache: /var/lib/vpn-admin-portal/tpl
+
 FormAuthentication:
     foo: $2y$10$sWzE0MjAP13srnNI/Pg8SuBM6LVmq8/hnznJwkQRF00Obe321PqGq
 
