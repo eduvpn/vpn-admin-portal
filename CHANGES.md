@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.0.0 (...)
+## 3.4.0 (2016-02-24)
 - switch to Bearer authentication towards backends to improve
   performance (**BREAKING CONFIG**)
 
