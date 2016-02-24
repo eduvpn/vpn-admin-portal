@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.0 (...)
+- switch to Bearer authentication towards backends to improve
+  performance (**BREAKING CONFIG**)
+
 ## 3.3.3 (2016-02-24)
 - add `templateCache` to config example
 

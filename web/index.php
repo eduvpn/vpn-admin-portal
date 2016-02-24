@@ -91,34 +91,31 @@ try {
             throw new RuntimeException('unsupported authentication mechanism');
     }
 
-    // VPN Config API Configuration
-    $serviceUri = $reader->v('VpnConfigApi', 'serviceUri');
-    $serviceAuth = $reader->v('VpnConfigApi', 'serviceUser');
-    $servicePass = $reader->v('VpnConfigApi', 'servicePass');
-    $client = new Client(
-        array(
-            'defaults' => array(
-                'auth' => array($serviceAuth, $servicePass),
-            ),
-        )
+    // vpn-config-api
+    $vpnConfigApiClient = new VpnConfigApiClient(
+        new Client([
+            'defaults' => [
+                'headers' => [
+                    'Authorization' => sprintf('Bearer %s', $reader->v('ConfigApi', 'Secret')),
+                ],
+            ],
+        ]),
+        $reader->v('ConfigApi', 'Uri')
     );
-    $vpnConfigApiClient = new VpnConfigApiClient($client, $serviceUri);
 
-    // VPN Server API Configuration
-    $serviceUri = $reader->v('VpnServerApi', 'serviceUri');
-    $serviceAuth = $reader->v('VpnServerApi', 'serviceUser');
-    $servicePass = $reader->v('VpnServerApi', 'servicePass');
-    $client = new Client(
-        array(
-            'defaults' => array(
-                'auth' => array($serviceAuth, $servicePass),
-            ),
-        )
+    // vpn-server-api
+    $vpnServerApiClient = new VpnServerApiClient(
+        new Client([
+            'defaults' => [
+                'headers' => [
+                    'Authorization' => sprintf('Bearer %s', $reader->v('ServerApi', 'Secret')),
+                ],
+            ],
+        ]),
+        $reader->v('ServerApi', 'Uri')
     );
-    $vpnServerApiClient = new VpnServerApiClient($client, $serviceUri);
 
     $service = new Service();
-
     $service->get(
         '/',
         function (Request $request) {
