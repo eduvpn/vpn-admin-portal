@@ -18,16 +18,34 @@
     </p>
     <form method="post" action="edit">
         <fieldset>
-            <input type="checkbox" name="disable" id="disable">
+            {% if staticConfig.disable %}
+                <input type="checkbox" name="disable" id="disable" checked="checked"> 
+            {% else %}
+                <input type="checkbox" name="disable" id="disable"> 
+            {% endif %}
             <label for="disable">Disable</label>
         </fieldset>
 
         <fieldset>
             <label for="pool">Pool</label>
             <select id="pool" name="pool">
-                <option value="default">Default</option>
-                <option value="v6">IPv6-only</option>
-                <option value="https">HTTPS-only</option>
+                {% if staticConfig.pool == 'default' %}
+                    <option value="default" selected="selected">Default</option>
+                {% else %}
+                    <option value="default">Default</option>
+                {% endif %}
+
+                {% if staticConfig.pool == 'v6' %}
+                    <option value="v6" selected="selected">IPv6-only</option>
+                {% else %}
+                    <option value="v6">IPv6-only</option>
+                {% endif %}
+
+                {% if staticConfig.pool == 'https' %}
+                    <option value="https" selected="selected">HTTPS-only</option>
+                {% else %}
+                    <option value="https">HTTPS-only</option>
+                {% endif %}
             </select>
         </fieldset>
         <fieldset>
