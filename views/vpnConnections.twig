@@ -63,9 +63,9 @@
                                     </dl>
                                 </td>
                                 <td class="text-right">
-                                    <form class="inline" method="post" action="disableCommonName">
+                                    <form class="inline" method="get" action="edit">
                                         <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                        <button class="warning" title="Disable a configuration and disconnect the client." type="submit">Disable</button>
+                                        <button type="submit">Edit</button>
                                     </form>
                                     <form class="inline" method="post" action="killClient">
                                         <input type="hidden" name="id" value="{{ server.id|e }}">
@@ -101,9 +101,9 @@
                                             </ul>
                                 </td>
                                 <td class="text-right">
-                                    <form class="inline" method="post" action="disableCommonName">
+                                    <form class="inline" method="get" action="edit">
                                         <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                        <button class="warning" title="Disable a configuration and disconnect the client." type="submit">Disable</button>
+                                        <button type="submit">Edit</button>
                                     </form>
                                 </td>
                             </tr>
