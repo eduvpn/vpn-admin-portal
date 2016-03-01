@@ -147,12 +147,17 @@ label {
     display: block;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], select {
     margin: 0 0 0.5em 0;
     padding: 0.5em 0.7em;
     border: 1px solid #ddd;
     border-radius: 0.2em;
     display: block;
+}
+
+input[type="checkbox"] + label {
+    display: inline;
+    font-weight: normal;
 }
 
 button {

@@ -14,27 +14,23 @@
 
     <h2>Edit</h2>
     <p>
-Assign an IP address to configuration <em>{{ configName|e }}</em> of user 
-<em>{{ userId|e }}</em>. Empty the box to remove the static assignment.
+        Modifying configuration <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>.
     </p>
-    <dl><dt>IP range</dt><dd>{{ staticConfig.ipRange|e }}</dd></dl>
-    <dl><dt>IP dynamic range</dt><dd>{{ staticConfig.poolRange|e }}</dd></dl>
-    <p class="plain">
-        You can only choose an IP inside the IP range, but not in the dynamic
-        range!
-    </p>
-
-    <p>
-An IPv6 address will be automatically chosen based on the IPv4 address.
-    </p>
-
-    </p>
-    
     <form method="post" action="edit">
         <fieldset>
-            <legend>Edit Configuration</legend>
-            <label for="v4">Static IPv4</label>
-            <input type="text" id="v4" name="v4" value="{{ staticConfig.ip.v4|e }}">
+            <input type="checkbox" name="disable" id="disable">
+            <label for="disable">Disable</label>
+        </fieldset>
+
+        <fieldset>
+            <label for="pool">Pool</label>
+            <select id="pool" name="pool">
+                <option value="default">Default</option>
+                <option value="v6">IPv6-only</option>
+                <option value="https">HTTPS-only</option>
+            </select>
+        </fieldset>
+        <fieldset>
             <input type="hidden" name="for_user" value="{{ for_user|e }}">
             <input type="hidden" name="common_name" value="{{ userId|e }}_{{ configName|e}}">
             <button type="submit">Save</button>

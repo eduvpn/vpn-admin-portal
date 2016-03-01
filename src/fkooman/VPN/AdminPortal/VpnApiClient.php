@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\VPN\AdminPortal;
 
 use RuntimeException;
@@ -36,9 +37,14 @@ abstract class VpnApiClient
             return $this->client->$requestMethod($requestUri, $options)->json();
         } catch (BadResponseException $e) {
             $responseBody = $e->getResponse()->json();
-            throw new RuntimeException(
-                $responseBody['error']
-            );
+
+            if (array_key_exists('error_description', $responseBody)) {
+                $errorMessage = sprintf('[%d] %s (%s)', $e->getResponse()->getStatusCode(), $responseBody['error'], $responseBody['error_description']);
+            } else {
+                $errorMessage = sprintf('[%d] %s', $e->getResponse()->getStatusCode(), $responseBody['error']);
+            }
+
+            throw new RuntimeException($errorMessage);
         }
     }
 }

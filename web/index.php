@@ -96,11 +96,11 @@ try {
         new Client([
             'defaults' => [
                 'headers' => [
-                    'Authorization' => sprintf('Bearer %s', $reader->v('ConfigApi', 'Secret')),
+                    'Authorization' => sprintf('Bearer %s', $reader->v('remoteApi', 'vpn-config-api', 'token')),
                 ],
             ],
         ]),
-        $reader->v('ConfigApi', 'Uri')
+        $reader->v('remoteApi', 'vpn-config-api', 'uri')
     );
 
     // vpn-server-api
@@ -108,11 +108,11 @@ try {
         new Client([
             'defaults' => [
                 'headers' => [
-                    'Authorization' => sprintf('Bearer %s', $reader->v('ServerApi', 'Secret')),
+                    'Authorization' => sprintf('Bearer %s', $reader->v('remoteApi', 'vpn-server-api', 'token')),
                 ],
             ],
         ]),
-        $reader->v('ServerApi', 'Uri')
+        $reader->v('remoteApi', 'vpn-server-api', 'uri')
     );
 
     $service = new Service();
@@ -149,7 +149,7 @@ try {
                     'userId' => explode('_', $commonName, 2)[0],
                     'for_user' => $forUser,
                     'configName' => explode('_', $commonName, 2)[1],
-                    'staticConfig' => $vpnServerApiClient->getStaticAddress($commonName),
+                    'staticConfig' => $vpnServerApiClient->getConfig($commonName),
                 )
             );
         }
@@ -160,12 +160,15 @@ try {
             // XXX validate input
             $commonName = $request->getPostParameter('common_name');
             $forUser = $request->getPostParameter('for_user');
+            $disable = (bool) $request->getPostParameter('disable');
+            $pool = $request->getPostParameter('pool');
 
-            $v4 = $request->getPostParameter('v4');
-            $v4 = empty($v4) ? null : $v4;
-            $v6 = $request->getPostParameter('v6');
-            $v6 = empty($v6) ? null : $v6;
-            $vpnServerApiClient->setStaticAddresses($commonName, $v4, $v6);
+            $config = [
+                'disable' => $disable,
+                'pool' => $pool,
+            ];
+
+            $vpnServerApiClient->setConfig($commonName, $config);
 
             if ($forUser) {
                 $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $forUser);
@@ -182,11 +185,11 @@ try {
         function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
             // XXX: validate input
             $userId = $request->getUrl()->getQueryParameter('userId');
+
             $certList = $vpnConfigApiClient->getCertList($userId);
-            $vpnDisabledCommonNames = $vpnServerApiClient->getCcdDisable();
-            $vpnStaticCommonNames = $vpnServerApiClient->getStaticAddresses($userId);
+            $vpnStaticConfig = $vpnServerApiClient->getAllConfig($userId);
+
             $activeVpnConfigurations = array();
-            $staticVpnConfigurations = array();
             $revokedVpnConfigurations = array();
             $disabledVpnConfigurations = array();
             $expiredVpnConfigurations = array();
@@ -198,11 +201,21 @@ try {
                     $revokedVpnConfigurations[] = $c;
                 } elseif ('V' === $c['state']) {
                     $commonName = $c['user_id'].'_'.$c['name'];
-                    if (in_array($commonName, $vpnDisabledCommonNames['disabled'])) {
+                    // merge info with info from vpn-server-api
+                    // XXX: put cn in key of object instead of member
+                    $disabled = false;
+                    $pool = 'default';
+
+                    foreach ($vpnStaticConfig['items'] as $cN => $item) {
+                        if ($commonName === $cN) {
+                            $disabled = $item['disable'];
+                            $pool = $item['pool'];
+                        }
+                    }
+
+                    $c['pool'] = $pool;
+                    if ($disabled) {
                         $disabledVpnConfigurations[] = $c;
-                    } elseif (array_key_exists($commonName, $vpnStaticCommonNames['ip'])) {
-                        $c['v4'] = $vpnStaticCommonNames['ip'][$commonName]['v4'];
-                        $staticVpnConfigurations[] = $c;
                     } else {
                         $activeVpnConfigurations[] = $c;
                     }
@@ -213,7 +226,6 @@ try {
                 'vpnConfigurations',
                 array(
                     'activeVpnConfigurations' => $activeVpnConfigurations,
-                    'staticVpnConfigurations' => $staticVpnConfigurations,
                     'disabledVpnConfigurations' => $disabledVpnConfigurations,
                     'revokedVpnConfigurations' => $revokedVpnConfigurations,
                     'expiredVpnConfigurations' => $expiredVpnConfigurations,

@@ -13,12 +13,12 @@ MellonAuthentication:
     attribute: MELLON_NAME_ID
     #attribute: MELLON_eduPersonTargetedID
 
-# vpn-config-api
-ConfigApi:
-    Uri: 'http://localhost:8008/api.php'
-    Secret: 11223344556677889900
-
-# vpn-server-api
-ServerApi:
-    Uri: 'http://localhost:8009/api.php'
-    Secret: 11223344556677889900
+# API credentials for access to remote services
+remoteApi:
+    # required to fetch the CRL
+    vpn-config-api:
+        uri: 'http://localhost:8008/api.php'
+        token: fedcba
+    vpn-server-api:
+        uri: 'http://localhost:8009/api.php'
+        token: uuvvww

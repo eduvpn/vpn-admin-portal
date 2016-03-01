@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\VPN\AdminPortal;
 
 use GuzzleHttp\Client;
+use fkooman\Json\Json;
 
 class VpnServerApiClient extends VpnApiClient
 {
@@ -31,21 +33,7 @@ class VpnServerApiClient extends VpnApiClient
 
     public function getStatus()
     {
-        $requestUri = sprintf('%s/status', $this->vpnServerApiUri);
-
-        return $this->exec('get', $requestUri);
-    }
-
-    public function getLoadStats()
-    {
-        $requestUri = sprintf('%s/load-stats', $this->vpnServerApiUri);
-
-        return $this->exec('get', $requestUri);
-    }
-
-    public function getVersion()
-    {
-        $requestUri = sprintf('%s/version', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/openvpn/status', $this->vpnServerApiUri);
 
         return $this->exec('get', $requestUri);
     }
@@ -57,83 +45,47 @@ class VpnServerApiClient extends VpnApiClient
      */
     public function getLog($showDate)
     {
-        $requestUri = sprintf('%s/log/history?showDate=%s', $this->vpnServerApiUri, $showDate);
+        $requestUri = sprintf('%s/log/%s', $this->vpnServerApiUri, $showDate);
 
         return $this->exec('get', $requestUri);
     }
 
-    public function postCcdDisable($commonName)
+    public function getAllConfig($userId = null)
     {
-        $requestUri = sprintf('%s/ccd/disable', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/config/', $this->vpnServerApiUri);
+        if (!is_null($userId)) {
+            $requestUri = sprintf('%s/config/?user_id=%s', $this->vpnServerApiUri, $userId);
+        }
+
+        return $this->exec('get', $requestUri);
+    }
+
+    public function getConfig($commonName)
+    {
+        $requestUri = sprintf('%s/config/%s', $this->vpnServerApiUri, $commonName);
+
+        return $this->exec('get', $requestUri);
+    }
+
+    public function setConfig($commonName, array $config)
+    {
+        $requestUri = sprintf('%s/config/%s', $this->vpnServerApiUri, $commonName);
 
         return $this->exec(
-            'post',
+            'put',
             $requestUri,
             array(
-                'body' => array(
-                    'common_name' => $commonName,
-                ),
-            )
-        );
-    }
-
-    public function deleteCcdDisable($commonName)
-    {
-        $requestUri = sprintf('%s/ccd/disable?common_name=%s', $this->vpnServerApiUri, $commonName);
-
-        return $this->exec('delete', $requestUri);
-    }
-
-    public function getCcdDisable($userId = null)
-    {
-        $requestUri = sprintf('%s/ccd/disable', $this->vpnServerApiUri);
-        if (!is_null($userId)) {
-            $requestUri = sprintf('%s/ccd/disable?user_id=%s', $this->vpnServerApiUri, $userId);
-        }
-
-        return $this->exec('get', $requestUri);
-    }
-
-    public function getStaticAddresses($userId = null)
-    {
-        $requestUri = sprintf('%s/static/ip', $this->vpnServerApiUri);
-        if (!is_null($userId)) {
-            $requestUri = sprintf('%s/static/ip?user_id=%s', $this->vpnServerApiUri, $userId);
-        }
-
-        return $this->exec('get', $requestUri);
-    }
-
-    public function getStaticAddress($commonName)
-    {
-        $requestUri = sprintf('%s/static/ip?common_name=%s', $this->vpnServerApiUri, $commonName);
-
-        return $this->exec('get', $requestUri);
-    }
-
-    public function setStaticAddresses($commonName, $v4, $v6)
-    {
-        $requestUri = sprintf('%s/static/ip', $this->vpnServerApiUri);
-
-        $p = array(
-            'common_name' => $commonName,
-        );
-        if (!is_null($v4) && !empty($v4)) {
-            $p['v4'] = $v4;
-        }
-
-        return $this->exec(
-            'post',
-            $requestUri,
-            array(
-                'body' => $p,
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+                'body' => Json::encode($config),
             )
         );
     }
 
     public function postKill($commonName)
     {
-        $requestUri = sprintf('%s/kill', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/openvpn/kill', $this->vpnServerApiUri);
 
         return $this->exec(
             'post',
@@ -144,12 +96,5 @@ class VpnServerApiClient extends VpnApiClient
                 ),
             )
         );
-    }
-
-    public function postCrlFetch()
-    {
-        $requestUri = sprintf('%s/crl/fetch', $this->vpnServerApiUri);
-
-        return $this->exec('post', $requestUri);
     }
 }

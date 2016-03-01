@@ -18,9 +18,9 @@ class VpnConfigApiClient extends VpnApiClient
     public function getCertList($userId = null)
     {
         if (is_null($userId)) {
-            $requestUri = sprintf('%s/config', $this->vpnConfigApiUri);
+            $requestUri = sprintf('%s/certificate/', $this->vpnConfigApiUri);
         } else {
-            $requestUri = sprintf('%s/config?userId=%s', $this->vpnConfigApiUri, $userId);
+            $requestUri = sprintf('%s/certificate/%s', $this->vpnConfigApiUri, $userId);
         }
 
         return $this->exec('get', $requestUri);
