@@ -170,8 +170,7 @@ try {
             ];
 
             $vpnServerApiClient->setConfig($commonName, $config);
-
-            // XXX: if it is disabled now , also kill the connection if needed
+            $vpnServerApiClient->postKill($commonName);
 
             if ($forUser) {
                 $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $forUser);

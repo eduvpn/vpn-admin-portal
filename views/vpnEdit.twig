@@ -39,11 +39,11 @@
             </select>
         </fieldset>
         <fieldset>
+            <p>Clicking "Apply" will disconnect the client if it is currently connected to enforce the new configuration.</p>
+
             <input type="hidden" name="for_user" value="{{ for_user|e }}">
             <input type="hidden" name="common_name" value="{{ userId|e }}_{{ configName|e}}">
-            <button type="submit" name="save" value="save">Save</button>
-<!--            <button type="submit" class="warning" name="save" value="save_disconnect">Save &amp; Disconnect</button> -->
-
+            <button type="submit" value="save">Apply</button>
         </fieldset>
     </form>
 
