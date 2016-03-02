@@ -14,11 +14,11 @@
 
     <h2>Edit</h2>
     <p>
-        Modifying configuration <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>.
+        Modifying <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>.
     </p>
     <form method="post" action="edit">
         <fieldset>
-            {% if staticConfig.disable %}
+            {% if config.disable %}
                 <input type="checkbox" name="disable" id="disable" checked="checked"> 
             {% else %}
                 <input type="checkbox" name="disable" id="disable"> 
@@ -29,29 +29,21 @@
         <fieldset>
             <label for="pool">Pool</label>
             <select id="pool" name="pool">
-                {% if staticConfig.pool == 'default' %}
-                    <option value="default" selected="selected">Default</option>
-                {% else %}
-                    <option value="default">Default</option>
-                {% endif %}
-
-                {% if staticConfig.pool == 'v6' %}
-                    <option value="v6" selected="selected">IPv6-only</option>
-                {% else %}
-                    <option value="v6">IPv6-only</option>
-                {% endif %}
-
-                {% if staticConfig.pool == 'https' %}
-                    <option value="https" selected="selected">HTTPS-only</option>
-                {% else %}
-                    <option value="https">HTTPS-only</option>
-                {% endif %}
+                {% for key, pool in info.ip.v4.pools %}
+                    {% if key == config.pool %}
+                        <option value="{{ key|e }}" selected="selected">{{ pool.name|e }} ({{ pool.range|e }})</option>
+                    {% else %}
+                        <option value="{{ key|e }}">{{ pool.name|e }} ({{ pool.range|e }})</option>
+                    {% endif %}
+                {% endfor %}
             </select>
         </fieldset>
         <fieldset>
             <input type="hidden" name="for_user" value="{{ for_user|e }}">
             <input type="hidden" name="common_name" value="{{ userId|e }}_{{ configName|e}}">
-            <button type="submit">Save</button>
+            <button type="submit" name="save" value="save">Save</button>
+            <button type="submit" class="warning" name="save" value="save_disconnect">Save &amp; Disconnect</button>
+
         </fieldset>
     </form>
 

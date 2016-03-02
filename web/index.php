@@ -149,7 +149,8 @@ try {
                     'userId' => explode('_', $commonName, 2)[0],
                     'for_user' => $forUser,
                     'configName' => explode('_', $commonName, 2)[1],
-                    'staticConfig' => $vpnServerApiClient->getConfig($commonName),
+                    'config' => $vpnServerApiClient->getConfig($commonName),
+                    'info' => $vpnServerApiClient->getInfo(),
                 )
             );
         }
