@@ -19,11 +19,11 @@
     <h3>Available Pools</h3>
     <table>
         <thead>
-            <tr><th>Name</th><th>IP Range</th></tr>
+            <tr><th>Name</th><th>IPv4 Range</th><th>IPv6 Range</th></tr>
         </thead>
         <tbody>
             {% for key, pool in info.ip.v4.pools %}
-            <tr><td>{{ pool.name|e }}</td><td>{{ pool.range|e }}</td></tr>
+            <tr><td>{{ pool.name|e }}</td><td>{{ pool.range|e }}</td><td>{{ info.ip.v6.prefix|e }}{{ pool.range|convert4to6|e }}</td></tr>
             {% endfor %}
         </tbody>
     </table>

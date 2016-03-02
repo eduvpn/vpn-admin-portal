@@ -62,4 +62,18 @@ class TwigFilters
             }
         );
     }
+
+    public static function convert4to6()
+    {
+        return new Twig_SimpleFilter(
+            'convert4to6',
+            function ($cidr) {
+                list($ipBase, $cidrPrefix) = explode('/', $cidr);
+                $v6p = 128 - (32 - $cidrPrefix);
+                $v4e = str_split(bin2hex(inet_pton($ipBase)), 4);
+
+                return sprintf('::ffff:%s:%s/%d', $v4e[0], $v4e[1], $v6p);
+            }
+        );
+    }
 }

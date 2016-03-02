@@ -56,6 +56,7 @@ try {
     );
     $templateManager->addFilter(TwigFilters::sizeToHuman());
     $templateManager->addFilter(TwigFilters::cleanIp());
+    $templateManager->addFilter(TwigFilters::convert4to6());
 
     // Authentication
     $authMethod = $reader->v('authMethod', false, 'FormAuthentication');
