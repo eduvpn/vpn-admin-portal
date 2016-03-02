@@ -191,6 +191,7 @@ try {
 
             $certList = $vpnConfigApiClient->getCertList($userId);
             $vpnStaticConfig = $vpnServerApiClient->getAllConfig($userId);
+            $serverInfo = $vpnServerApiClient->getInfo();
 
             $activeVpnConfigurations = array();
             $revokedVpnConfigurations = array();
@@ -216,7 +217,7 @@ try {
                         }
                     }
 
-                    $c['pool'] = $pool;
+                    $c['pool'] = $serverInfo['ip']['v4']['pools'][$pool]['name'];
                     if ($disabled) {
                         $disabledVpnConfigurations[] = $c;
                     } else {
