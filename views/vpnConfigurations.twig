@@ -59,7 +59,7 @@ This page lists VPN configurations.
                 {% if userId %}
                     <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% else %}
-                    <td><a href="edit?common_name={{ config.name|e }}">{{ config.name|e }}</a></td>
+                    <td><a href="edit?common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% endif %}
                 <td>{{ config.pool|e }}</td>
                 <td>{{ config.exp|e|date('Y-m-d H:i:s') }}</td>
@@ -96,7 +96,7 @@ This page lists VPN configurations.
                 {% if userId %}
                     <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% else %}
-                    <td><a href="edit?common_name={{ config.name|e }}">{{ config.name|e }}</a></td>
+                    <td><a href="edit?common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% endif %}
                 <td>{{ config.pool|e }}</td>
                 <td>{{config.exp|e|date('Y-m-d H:i:s') }}</td>
