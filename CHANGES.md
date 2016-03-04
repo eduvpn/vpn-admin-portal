@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.0 (2016-03-04)
+- update to support new vpn-server-api and vpn-ca-api
+- update UI to allow selecting "pool" for a particular CN
+- move disable a CN to the "Edit" page
+- disconnect a CN when applying changed config
+
 ## 3.4.0 (2016-02-24)
 - switch to Bearer authentication towards backends to improve
   performance (**BREAKING CONFIG**)
