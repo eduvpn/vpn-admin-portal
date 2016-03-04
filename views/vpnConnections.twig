@@ -47,7 +47,7 @@
                                 <td>
                                     <dl>
                                         <dt>Name</dt>
-                                        <dd><a href="edit?common_name={{ client.common_name|split('_', 2)|slice(1,2)|first|e }}">{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</a></dd>
+                                        <dd><a href="edit?common_name={{ client.common_name|e }}">{{ client.common_name|e }}</a></dd>
                                         <dt>IP address</dt>
                                         <dd>
                                             <ul class="ipList">
@@ -87,7 +87,7 @@
                         {% for client in server.status %}
                             <tr>
                                 <td><a href="configurations?userId={{ client.common_name|split('_', 2)|first|e }}">{{ client.common_name|split('_', 2)|first|e }}</a></td>
-                                <td><a href="edit?common_name={{ client.common_name|split('_', 2)|slice(1,2)|first|e }}">{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</a></td>
+                                <td><a href="edit?common_name={{ client.common_name|e }}">{{ client.common_name|e }}</a></td>
                                 <td>
                                             <ul class="ipList">
                                                 {% for ip in client.virtual_address|sort %}

@@ -57,7 +57,7 @@ This page lists VPN configurations.
                     <td><a href="configurations?userId={{ config.user_id|e }}">{{ config.user_id|e }}</a></td>
                 {% endif %}
                 {% if userId %}
-                    <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.name|e }}">{{ config.name|e }}</a></td>
+                    <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% else %}
                     <td><a href="edit?common_name={{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% endif %}
@@ -82,9 +82,9 @@ This page lists VPN configurations.
         <table>
             <thead>
                 {% if userId %}
-                    <tr><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
+                    <tr><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th></tr> 
                 {% else %}
-                    <tr><th>User ID</th><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
+                    <tr><th>User ID</th><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th></tr> 
                 {% endif %}
             </thead>
             <tbody>
@@ -93,18 +93,13 @@ This page lists VPN configurations.
                 {% if not userId %}
                     <td><a href="configurations?userId={{ config.user_id|e }}">{{ config.user_id|e }}</a></td>
                 {% endif %}
-                <td>{{ config.name|e }}</td>
+                {% if userId %}
+                    <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
+                {% else %}
+                    <td><a href="edit?common_name={{ config.name|e }}">{{ config.name|e }}</a></td>
+                {% endif %}
                 <td>{{ config.pool|e }}</td>
                 <td>{{config.exp|e|date('Y-m-d H:i:s') }}</td>
-                <td class="text-right">
-                    <form class="inline" method="get" action="edit">
-                        <input type="hidden" name="common_name" value="{{ config.user_id|e }}_{{config.name|e }}">
-                        {% if userId %}
-                            <input type="hidden" name="for_user" value="{{ userId|e }}">
-                        {% endif %}
-                        <button class="plain" type="submit">Edit</button>
-                    </form>
-                </td>
             </tr>
             {% endfor %}
             </tbody>
