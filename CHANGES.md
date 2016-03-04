@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.x.x (...)
+- remove Edit button, the name is now clickable
+
 ## 4.0.0 (2016-03-04)
 - update to support new vpn-server-api and vpn-ca-api
 - update UI to allow selecting "pool" for a particular CN

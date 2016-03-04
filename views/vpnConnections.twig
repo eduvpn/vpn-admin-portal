@@ -47,7 +47,7 @@
                                 <td>
                                     <dl>
                                         <dt>Name</dt>
-                                        <dd>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</dd>
+                                        <dd><a href="edit?common_name={{ client.common_name|split('_', 2)|slice(1,2)|first|e }}">{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</a></dd>
                                         <dt>IP address</dt>
                                         <dd>
                                             <ul class="ipList">
@@ -63,10 +63,6 @@
                                     </dl>
                                 </td>
                                 <td class="text-right">
-                                    <form class="inline" method="get" action="edit">
-                                        <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                        <button class="plain" type="submit">Edit</button>
-                                    </form>
                                     <form class="inline" method="post" action="killClient">
                                         <input type="hidden" name="id" value="{{ server.id|e }}">
                                         <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
@@ -85,26 +81,19 @@
                                 <th>User ID</th>
                                 <th>Name</th>
                                 <th>IP address</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for client in server.status %}
                             <tr>
                                 <td><a href="configurations?userId={{ client.common_name|split('_', 2)|first|e }}">{{ client.common_name|split('_', 2)|first|e }}</a></td>
-                                <td>{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
+                                <td><a href="edit?common_name={{ client.common_name|split('_', 2)|slice(1,2)|first|e }}">{{ client.common_name|split('_', 2)|slice(1,2)|first|e }}</a></td>
                                 <td>
                                             <ul class="ipList">
                                                 {% for ip in client.virtual_address|sort %}
                                                 <li>{{ ip|e }}</li>
                                                 {% endfor %}
                                             </ul>
-                                </td>
-                                <td class="text-right">
-                                    <form class="inline" method="get" action="edit">
-                                        <input type="hidden" name="common_name" value="{{ client.common_name|e }}">
-                                        <button class="plain" type="submit">Edit</button>
-                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}
