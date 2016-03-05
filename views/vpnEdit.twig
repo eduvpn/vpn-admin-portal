@@ -8,31 +8,21 @@
     <ul class="mainMenu">
       <li><a href="connections">Connections</a></li>
       <li class="active"><a href="configurations">Configurations</a></li>
+      <li><a href="info">Info</a></li>
       <li><a href="log">Log</a></li>
       <li><a href="documentation">Documentation</a></li>
     </ul>
 
     <h2>Edit</h2>
     <p>
-        Modifying <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>.
+        Modifying <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>. See the <a href="info">Info</a> page for more information on the pools.
     </p>
-    <h3>Available Pools</h3>
-    <table>
-        <thead>
-            <tr><th>Name</th><th>IPv4 Range</th><th>IPv6 Range</th></tr>
-        </thead>
-        <tbody>
-            {% for key, pool in info.ip.v4.pools %}
-            <tr><td>{{ pool.name|e }}</td><td>{{ pool.range|e }}</td><td>{{ info.ip.v6.prefix|e }}{{ pool.range|convert4to6|e }}</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h3>Modify Configuration</h3>
+ 
     <form method="post" action="edit">
         <fieldset>
             <label for="pool">Pool</label>
             <select id="pool" name="pool">
-                {% for key, pool in info.ip.v4.pools %}
+                {% for key, pool in info.pools %}
                     {% if key == config.pool %}
                         <option value="{{ key|e }}" selected="selected">{{ pool.name|e }}</option>
                     {% else %}

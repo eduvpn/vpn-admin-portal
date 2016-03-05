@@ -100,7 +100,7 @@ class VpnServerApiClient extends VpnApiClient
 
     public function getInfo()
     {
-        $requestUri = sprintf('%s/info', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/info/net', $this->vpnServerApiUri);
 
         return $this->exec('get', $requestUri);
     }

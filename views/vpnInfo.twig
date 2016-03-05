@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    {% include 'header.twig' %}
+
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li><a href="configurations">Configurations</a></li>
+      <li class="active"><a href="info">Info</a></li>
+      <li><a href="log">Log</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
+
+    <h2>Info</h2>
+    <p>
+        This page lists the IP address configuration and allowed destinations. If a field is empty, it means all networks, both IPv4 and IPv6 and all ports and protocols are allowed.
+    </p>
+    <p>
+        ICMP and DNS (UDP/53, TCP/53) are always allowed for both IPv4 and IPv6.
+    </p>
+    <table>
+        <thead>
+            <tr><th>Name</th><th>IPv4</th><th>IPv6</th><th>Destination</th></tr>
+        </thead>
+        <tbody>
+            {% for key, pool in info.pools %}
+                <tr>
+                    <td>{{ pool.name|e }}</td>
+                    <td>{{ pool.range|e }}</td>
+                    <td>{{ pool.range6|e }}</td>
+                    <td>
+                        <dl>
+                        {% if pool.firewall is defined %}
+                            {% if pool.firewall.dst_net is defined %}
+                                <dt>Network</dt>
+                                <dd>
+                                    <ul class="ipList">
+                                    {% for n in pool.firewall.dst_net %}
+                                        <li>{{ n|e }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </dd>
+                            {% endif %}
+                        {% endif %}
+                            
+                        {% if pool.firewall is defined %}
+                            {% if pool.firewall.dst_port is defined %}
+                                <dt>Port</dt>
+                                <dd>
+                                    <ul class="ipList">
+                                    {% for n in pool.firewall.dst_port %}
+                                        <li>{{ n|e }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </dd>
+                            {% endif %}
+                        {% endif %}
+                        </dl>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'footer.twig' %}
+</body>
+</html>

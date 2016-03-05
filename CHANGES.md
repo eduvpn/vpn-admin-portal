@@ -2,6 +2,7 @@
 
 ## 4.x.x (...)
 - remove Edit button, the name is now clickable
+- add Info page
 
 ## 4.0.0 (2016-03-04)
 - update to support new vpn-server-api and vpn-ca-api

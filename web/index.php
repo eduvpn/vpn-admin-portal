@@ -56,7 +56,6 @@ try {
     );
     $templateManager->addFilter(TwigFilters::sizeToHuman());
     $templateManager->addFilter(TwigFilters::cleanIp());
-    $templateManager->addFilter(TwigFilters::convert4to6());
 
     // Authentication
     $authMethod = $reader->v('authMethod', false, 'FormAuthentication');
@@ -138,6 +137,18 @@ try {
     );
 
     $service->get(
+        '/info',
+        function (Request $request) use ($templateManager, $vpnServerApiClient) {
+            return $templateManager->render(
+                'vpnInfo',
+                array(
+                    'info' => $vpnServerApiClient->getInfo(),
+                )
+            );
+        }
+    );
+
+    $service->get(
         '/edit',
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
             // XXX validate input
@@ -156,6 +167,7 @@ try {
             );
         }
     );
+
     $service->post(
         '/edit',
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
@@ -217,7 +229,7 @@ try {
                         }
                     }
 
-                    $c['pool'] = $serverInfo['ip']['v4']['pools'][$pool]['name'];
+                    $c['pool'] = $serverInfo['pools'][$pool]['name'];
                     if ($disabled) {
                         $disabledVpnConfigurations[] = $c;
                     } else {
