@@ -20,12 +20,12 @@
     </p>
     <table>
         <thead>
-            <tr><th>Name</th><th>IPv4</th><th>IPv6</th><th>Destination</th></tr>
+            <tr><th>Pool</th><th>IPv4</th><th>IPv6</th><th>Destination</th></tr>
         </thead>
         <tbody>
             {% for key, pool in info.pools %}
                 <tr>
-                    <td>{{ pool.name|e }}</td>
+                    <td><span title="{{ key|e }}">{{ pool.name|e }}</span></td>
                     <td>{{ pool.range|e }}</td>
                     <td>{{ pool.range6|e }}</td>
                     <td>
