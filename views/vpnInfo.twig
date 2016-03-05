@@ -20,14 +20,13 @@
     </p>
     <table>
         <thead>
-            <tr><th>Pool</th><th>IPv4</th><th>IPv6</th><th>Destination</th></tr>
+            <tr><th>Pool</th><th>IP</th><th>Destination</th></tr>
         </thead>
         <tbody>
             {% for key, pool in info.pools %}
                 <tr>
                     <td><span title="{{ key|e }}">{{ pool.name|e }}</span></td>
-                    <td>{{ pool.range|e }}</td>
-                    <td>{{ pool.range6|e }}</td>
+                    <td><ul class="ipList"><li>{{ pool.range|e }}</li><li>{{ pool.range6|e }}</li></ul></td>
                     <td>
                         <dl>
                         {% if pool.firewall is defined %}
