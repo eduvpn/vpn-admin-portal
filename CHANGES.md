@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.x.x (...)
+## 4.1.0 (2016-03-07)
 - remove Edit button, the name is now clickable
 - add Info page
 
