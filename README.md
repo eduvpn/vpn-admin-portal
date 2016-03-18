@@ -18,8 +18,14 @@ See the [documentation](https://github.com/eduvpn/documentation) repository.
     $ composer install
     $ cp config/config.yaml.example config/config.yaml
 
-Set the `serverMode` to `development`.
-    
+Set the `serverMode` to `development` in `config/config.yaml`.
+
+Add a user, in this case `foo` with password `bar`:
+
+    $ php bin/add-user foo bar
+
+Start the server:
+
     $ php -S localhost:8083 -t web/
 
 # License
