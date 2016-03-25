@@ -18,7 +18,7 @@
         "ext-spl": "*",
         "fkooman/config": "^1.0.0",
         "fkooman/http": "^1.0.0",
-        "fkooman/json": "^1.0.0",
+        "fkooman/json": "^2.0.0",
         "fkooman/rest": "^1.0.0",
         "fkooman/rest-plugin-authentication": "^2.0.0",
         "fkooman/rest-plugin-authentication-form": "^3.0.1",

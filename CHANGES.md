@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.2 (2016-03-25)
+- update `fkooman/json`
+
 ## 4.1.1 (2016-03-18)
 - remove the default user from the configuration file
 - add an `add-user` script to easily add users
