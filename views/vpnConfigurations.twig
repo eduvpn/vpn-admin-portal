@@ -46,9 +46,9 @@ This page lists VPN configurations.
         <table>
             <thead>
                 {% if userId %}
-                    <tr><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th></tr> 
+                    <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th></tr> 
                 {% else %}
-                    <tr><th>User ID</th><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th></tr> 
+                    <tr><th>User ID</th><th>Name</th><th>Expires ({{ date()|date('T') }})</th></tr> 
                 {% endif %}
             </thead>
             <tbody>
@@ -62,7 +62,6 @@ This page lists VPN configurations.
                 {% else %}
                     <td><a href="edit?common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% endif %}
-                <td>{{ config.pool|e }}</td>
                 <td>{{ config.exp|e|date('Y-m-d H:i:s') }}</td>
             </tr>
             {% endfor %}
@@ -83,9 +82,9 @@ This page lists VPN configurations.
         <table>
             <thead>
                 {% if userId %}
-                    <tr><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th></tr> 
+                    <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th></tr> 
                 {% else %}
-                    <tr><th>User ID</th><th>Name</th><th>Pool</th><th>Expires ({{ date()|date('T') }})</th></tr> 
+                    <tr><th>User ID</th><th>Name</th><th>Expires ({{ date()|date('T') }})</th></tr> 
                 {% endif %}
             </thead>
             <tbody>
@@ -99,7 +98,6 @@ This page lists VPN configurations.
                 {% else %}
                     <td><a href="edit?common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                 {% endif %}
-                <td>{{ config.pool|e }}</td>
                 <td>{{config.exp|e|date('Y-m-d H:i:s') }}</td>
             </tr>
             {% endfor %}

@@ -15,51 +15,21 @@
 
     <h2>Info</h2>
     <p>
-        This page lists the IP address configuration and allowed destinations. 
-        ICMP and DNS (UDP/53, TCP/53) are always allowed for both IPv4 and IPv6.
+        This page shows the VPN server configuration.
     </p>
-    <table>
-        <thead>
-            <tr><th>Pool</th><th>IP</th><th>Destination</th></tr>
-        </thead>
-        <tbody>
-            {% for key, pool in info.pools %}
-                <tr>
-                    <td><span title="{{ key|e }}">{{ pool.name|e }}</span></td>
-                    <td><ul class="ipList"><li>{{ pool.range|e }}</li><li>{{ pool.range6|e }}</li></ul></td>
-                    <td>
-                        <dl>
-                        {% if pool.firewall is defined %}
-                            {% if pool.firewall.dst_net is defined %}
-                                <dt>Network</dt>
-                                <dd>
-                                    <ul class="ipList">
-                                    {% for n in pool.firewall.dst_net %}
-                                        <li>{{ n|e }}</li>
-                                    {% endfor %}
-                                    </ul>
-                                </dd>
-                            {% endif %}
-                        {% endif %}
-                            
-                        {% if pool.firewall is defined %}
-                            {% if pool.firewall.dst_port is defined %}
-                                <dt>Port</dt>
-                                <dd>
-                                    <ul class="ipList">
-                                    {% for n in pool.firewall.dst_port %}
-                                        <li>{{ n|e }}</li>
-                                    {% endfor %}
-                                    </ul>
-                                </dd>
-                            {% endif %}
-                        {% endif %}
-                        </dl>
-                    </td>
-                </tr>
+
+    <dl>
+        <dt>IPv4</dt><dd>{{ info.range|e }}</dd>
+        <dt>IPv6</dt><dd>{{ info.range6|e }}</dd>
+        <dt>DNS</dt>
+        <dd>
+            <ul>
+            {% for d in info.dns %}
+                <li>{{ d|e }}</li>
             {% endfor %}
-        </tbody>
-    </table>
+            </ul>
+        </dd>
+    </dl>
 
     {% include 'footer.twig' %}
 </body>

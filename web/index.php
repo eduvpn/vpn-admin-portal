@@ -175,11 +175,9 @@ try {
             $commonName = $request->getPostParameter('common_name');
             $forUser = $request->getPostParameter('for_user');
             $disable = (bool) $request->getPostParameter('disable');
-            $pool = $request->getPostParameter('pool');
 
             $config = [
                 'disable' => $disable,
-                'pool' => $pool,
             ];
 
             $vpnServerApiClient->setConfig($commonName, $config);
@@ -203,7 +201,6 @@ try {
 
             $certList = $vpnConfigApiClient->getCertList($userId);
             $vpnStaticConfig = $vpnServerApiClient->getAllConfig($userId);
-            $serverInfo = $vpnServerApiClient->getInfo();
 
             $activeVpnConfigurations = array();
             $revokedVpnConfigurations = array();
@@ -220,16 +217,13 @@ try {
                     // merge info with info from vpn-server-api
                     // XXX: put cn in key of object instead of member
                     $disabled = false;
-                    $pool = 'default';
 
                     foreach ($vpnStaticConfig['items'] as $cN => $item) {
                         if ($commonName === $cN) {
                             $disabled = $item['disable'];
-                            $pool = $item['pool'];
                         }
                     }
 
-                    $c['pool'] = $serverInfo['pools'][$pool]['name'];
                     if ($disabled) {
                         $disabledVpnConfigurations[] = $c;
                     } else {

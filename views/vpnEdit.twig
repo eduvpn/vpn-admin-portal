@@ -15,22 +15,10 @@
 
     <h2>Edit</h2>
     <p>
-        Modifying <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>. See the <a href="info">Info</a> page for more information on the pools.
+        Modifying <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>.
     </p>
  
     <form method="post" action="edit">
-        <fieldset>
-            <label for="pool">Pool</label>
-            <select id="pool" name="pool">
-                {% for key, pool in info.pools %}
-                    {% if key == config.pool %}
-                        <option value="{{ key|e }}" selected="selected">{{ pool.name|e }}</option>
-                    {% else %}
-                        <option value="{{ key|e }}">{{ pool.name|e }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </fieldset>
         <fieldset>
             {% if config.disable %}
                 <input type="checkbox" name="disable" id="disable" checked="checked"> 
