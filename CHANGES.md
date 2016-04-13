@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.0 (2016-04-13)
+- remove all VPN pool configuration for now
+- show DNS and full IPv4/IPv6 ranges in info page
+
 ## 4.1.2 (2016-03-25)
 - update `fkooman/json`
 
