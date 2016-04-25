@@ -52,9 +52,9 @@ class VpnServerApiClient extends VpnApiClient
 
     public function getAllConfig($userId = null)
     {
-        $requestUri = sprintf('%s/config/common_names/', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/config/common_names', $this->vpnServerApiUri);
         if (!is_null($userId)) {
-            $requestUri = sprintf('%s/config/common_names/?user_id=%s', $this->vpnServerApiUri, $userId);
+            $requestUri = sprintf('%s/config/common_names?user_id=%s', $this->vpnServerApiUri, $userId);
         }
 
         return $this->exec('get', $requestUri);

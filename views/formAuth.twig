@@ -23,12 +23,12 @@
 
             {% if _auth_form_invalid_credentials %}
                 <label for="userName">Username</label>
-                <input type="text"     id="userName" name="userName" placeholder="Username" value="{{ _auth_form_invalid_user_name|e }}" required>
+                <input type="text"     id="userName" name="userName" autocapitalize="off" placeholder="Username" value="{{ _auth_form_invalid_user_name|e }}" required>
                 <label for="userPass">Password</label>
                 <input type="password" id="userPass"name="userPass" placeholder="Password" autofocus required>
             {% else %}
                 <label for="userName">Username</label>
-                <input type="text"     id="userName" name="userName" placeholder="Username" autofocus required>
+                <input type="text"     id="userName" name="userName" autocapitalize="off" placeholder="Username" autofocus required>
                 <label for="userPass">Password</label>
                 <input type="password" id="userPass" name="userPass" placeholder="Password" required>
             {% endif %} 
