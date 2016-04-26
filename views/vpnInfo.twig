@@ -20,7 +20,9 @@
 
     <dl>
         <dt>IPv4</dt><dd>{{ info.range|e }}</dd>
+
         <dt>IPv6</dt><dd>{{ info.range6|e }}</dd>
+
         <dt>DNS</dt>
         <dd>
             <ul>
@@ -28,6 +30,11 @@
                 <li>{{ d|e }}</li>
             {% endfor %}
             </ul>
+        </dd>
+
+        <dt>Two-factor Authentication</dt>
+        <dd>
+            {% if info.tfa %}Enabled{% else %}Disabled{% endif%}
         </dd>
     </dl>
 
