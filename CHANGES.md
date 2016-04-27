@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.0 (2016-04-27)
+- update to new API
+- show 2FA status
+- fix iOS capitalization of username
+
 ## 5.0.0 (2016-04-13)
 - remove all VPN pool configuration for now
 - show DNS and full IPv4/IPv6 ranges in info page
