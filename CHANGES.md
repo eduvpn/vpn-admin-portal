@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.1.1 (2016-05-04)
+- add some additional security headers
+
 ## 5.1.0 (2016-04-27)
 - update to new API
 - show 2FA status
