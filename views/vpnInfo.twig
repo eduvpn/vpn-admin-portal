@@ -23,6 +23,19 @@
 
         <dt>IPv6</dt><dd>{{ info.range6|e }}</dd>
 
+        <dt>Route</dt>
+        {% if info.routes is empty %}
+            <dd>*</dd>
+        {% else %}
+        <dd>
+            <ul>
+                {% for route in info.routes %}
+                    <li>{{ route|e }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        {% endif %}
+
         <dt>DNS</dt>
         <dd>
             <ul>
