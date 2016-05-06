@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.1.2 (2016-05-06)
+- also display route allowed through the VPN in info tab
+
 ## 5.1.1 (2016-05-04)
 - add some additional security headers
 
