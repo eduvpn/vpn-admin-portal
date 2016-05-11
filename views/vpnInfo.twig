@@ -45,6 +45,11 @@
             </ul>
         </dd>
 
+        <dt>Client-to-client</dt>
+        <dd>
+            {% if info.c2c %}yes{% else %}no{% endif %}
+        </dd>
+
         <dt>2FA</dt>
         <dd>
             {% if info.tfa %}Enabled{% else %}Disabled{% endif%}

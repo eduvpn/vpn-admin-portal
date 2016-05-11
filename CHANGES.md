@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.1.3 (...)
+- show info about client-to-client config
+
 ## 5.1.2 (2016-05-06)
 - also display route allowed through the VPN in info tab
 
