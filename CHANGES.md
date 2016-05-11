@@ -1,6 +1,6 @@
 # Changelog
 
-## 5.1.3 (...)
+## 5.1.3 (2016-05-11)
 - show info about client-to-client config
 
 ## 5.1.2 (2016-05-06)
