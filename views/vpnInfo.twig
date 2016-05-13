@@ -38,10 +38,21 @@
         </tr>
 
         <tr>
+            <th>Hostname</th>
+            <td>{{ pool.hostName|e }}</td>
+        </tr>
+        
+        <tr>
+            <th>Default Gateway</th>
+            <td>{% if pool.defaultGateway %}yes{% else %}no{% endif %}</td>
+        </tr>
+
+        {% if not pool.defaultGateway %}
+        <tr>
             <th>Route(s)</th>
             <td>
                 {% if pool.routes is empty %}
-                    <em>default</em>
+                    <em>N/A</em>
                 {% else %}
                     <ul>
                         {% for route in pool.routes %}
@@ -51,11 +62,13 @@
                 {% endif %}
             </td>
         </tr>
-
+        {% endif %}
+        
+        {% if pool.defaultGateway %}
         <tr>
             <th>DNS</th>
             <td>
-                {% if pool.routes is not empty %}
+                {% if pool.dns is empty %}
                     <em>N/A</em>
                 {% else %}
                     <ul>
@@ -66,6 +79,7 @@
                 {% endif %}
             </td>
         </tr>
+        {% endif %}
 
         <tr>
             <th>Client to Client Connectivity</th>
