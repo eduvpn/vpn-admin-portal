@@ -66,7 +66,7 @@
                                     </ul>
                                 </dd>
                                 <dt>Traffic</dt>
-                                <dd>{{ (connection.bytes_in+client.bytes_out)|sizeToHuman|e }}</dd>
+                                <dd>{{ (connection.bytes_in+connection.bytes_out)|sizeToHuman|e }}</dd>
                                 <dt>Connected ({{ date()|date("T") }})</dt>
                                 <dd>{{ connection.connected_since|e|date("Y-m-d H:i:s") }}</dd>
                             </dl>
