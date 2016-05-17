@@ -73,7 +73,7 @@
                         </td>
                         <td class="text-right">
                             <form class="inline" method="post" action="killClient">
-                                <input type="hidden" name="id" value="{{ pool.name|e }}">
+                                <input type="hidden" name="id" value="{{ pool.id|e }}">
                                 <input type="hidden" name="common_name" value="{{ connection.common_name|e }}">
                                 <button class="warning" title="Disconnect a client, but allow it to reconnect." type="submit">Disconnect</button>
                             </form>
