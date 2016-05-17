@@ -126,9 +126,17 @@ try {
     $service->get(
         '/connections',
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
+            // get the fancy pool name
+            $serverInfo = $vpnServerApiClient->getInfo();
+            $idName = [];
+            foreach ($serverInfo['data'] as $server) {
+                $idName[$server['id']] = $server['name'];
+            }
+
             return $templateManager->render(
                 'vpnConnections',
                 array(
+                    'info' => $idName,
                     'connectedClients' => $vpnServerApiClient->getStatus(),
                     'advanced' => (bool) $request->getUrl()->getQueryParameter('advanced'),
                 )
@@ -218,7 +226,7 @@ try {
                     // XXX: put cn in key of object instead of member
                     $disabled = false;
 
-                    foreach ($vpnStaticConfig['items'] as $cN => $item) {
+                    foreach ($vpnStaticConfig['data'] as $cN => $item) {
                         if ($commonName === $cN) {
                             $disabled = $item['disable'];
                         }

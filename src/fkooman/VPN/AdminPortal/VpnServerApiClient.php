@@ -33,7 +33,7 @@ class VpnServerApiClient extends VpnApiClient
 
     public function getStatus()
     {
-        $requestUri = sprintf('%s/openvpn/status', $this->vpnServerApiUri);
+        $requestUri = sprintf('%s/openvpn/connections', $this->vpnServerApiUri);
 
         return $this->exec('get', $requestUri);
     }

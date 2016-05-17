@@ -21,8 +21,8 @@
         <p>Switch to <a href="?advanced=1">Advanced</a> view.</p>
     {% endif %}
 
-    {% for pool in connectedClients.items %}
-        <h3 id="{{ pool.name|e }}">{{ pool.name|e }}</h3>
+    {% for pool in connectedClients.data %}
+        <h3 id="{{ pool.id|e }}">{{ info[pool.id]|e }}</h3>
         {% if pool.connections is empty %}
             <p class="plain">No clients connected to this server &#x1f61e;</p>
         {% else %}
