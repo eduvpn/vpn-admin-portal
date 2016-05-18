@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.0.0 (2016-05-18)
+- update to new vpn-server-api API
+- new Info page
+
 ## 5.1.3 (2016-05-11)
 - show info about client-to-client config
 
