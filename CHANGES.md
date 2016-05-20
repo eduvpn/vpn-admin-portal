@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.2 (...)
+- cleanup configurations display a bit
+
 ## 6.0.1 (2016-05-20)
 - show NAT status for pool
 

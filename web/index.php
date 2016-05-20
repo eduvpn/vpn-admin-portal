@@ -210,43 +210,24 @@ try {
             $certList = $vpnConfigApiClient->getCertList($userId);
             $vpnStaticConfig = $vpnServerApiClient->getAllConfig($userId);
 
-            $activeVpnConfigurations = array();
-            $revokedVpnConfigurations = array();
-            $disabledVpnConfigurations = array();
-            $expiredVpnConfigurations = array();
-
+            $configs = [];
             foreach ($certList['items'] as $c) {
-                if ('E' === $c['state']) {
-                    $expiredVpnConfigurations[] = $c;
-                } elseif ('R' === $c['state']) {
-                    $revokedVpnConfigurations[] = $c;
-                } elseif ('V' === $c['state']) {
-                    $commonName = $c['user_id'].'_'.$c['name'];
-                    // merge info with info from vpn-server-api
-                    // XXX: put cn in key of object instead of member
-                    $disabled = false;
-
-                    foreach ($vpnStaticConfig['data'] as $cN => $item) {
-                        if ($commonName === $cN) {
-                            $disabled = $item['disable'];
+                $commonName = $c['user_id'].'_'.$c['name'];
+                // only if state is valid it makes sense to show disable
+                if ('V' === $c['state']) {
+                    if (array_key_exists($commonName, $vpnStaticConfig['data'])) {
+                        if ($vpnStaticConfig['data'][$commonName]['disable']) {
+                            $c['state'] = 'D';
                         }
                     }
-
-                    if ($disabled) {
-                        $disabledVpnConfigurations[] = $c;
-                    } else {
-                        $activeVpnConfigurations[] = $c;
-                    }
                 }
+                $configs[] = $c;
             }
 
             return $templateManager->render(
                 'vpnConfigurations',
                 array(
-                    'activeVpnConfigurations' => $activeVpnConfigurations,
-                    'disabledVpnConfigurations' => $disabledVpnConfigurations,
-                    'revokedVpnConfigurations' => $revokedVpnConfigurations,
-                    'expiredVpnConfigurations' => $expiredVpnConfigurations,
+                    'configs' => $configs,
                     'userId' => $userId,
                 )
             );

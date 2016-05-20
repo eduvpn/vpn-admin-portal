@@ -242,6 +242,10 @@ table li {
 /*    list-style: none;*/
 }
 
+tr.grayed td a, tr.grayed td {
+    color: #aaa;
+}
+
 /** FOOTER & SIGN OUT **/
 hr { 
     border: 0; 
