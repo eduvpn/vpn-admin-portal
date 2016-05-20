@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.1 (2016-05-20)
+- show NAT status for pool
+
 ## 6.0.0 (2016-05-18)
 - update to new vpn-server-api API
 - new Info page

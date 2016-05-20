@@ -42,12 +42,17 @@
             <td>{% if pool.defaultGateway %}yes{% else %}no{% endif %}</td>
         </tr>
 
+        <tr>
+            <th>NAT</th>
+            <td>{% if pool.useNat %}yes{% else %}no{% endif %}</td>
+        </tr>
+
         {% if not pool.defaultGateway %}
         <tr>
             <th>Route(s)</th>
             <td>
                 {% if pool.routes is empty %}
-                    <em>N/A</em>
+                    <em>None</em>
                 {% else %}
                     <ul>
                         {% for route in pool.routes %}
@@ -64,7 +69,7 @@
             <th>DNS</th>
             <td>
                 {% if pool.dns is empty %}
-                    <em>N/A</em>
+                    <em>None</em>
                 {% else %}
                     <ul>
                     {% for d in pool.dns %}
