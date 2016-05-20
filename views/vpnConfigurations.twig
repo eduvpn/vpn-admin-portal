@@ -45,7 +45,11 @@
                     {% if userId %}
                         <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
                     {% else %}
+                        {% if 'E' == config.state or 'R' == config.state %}
+                        <td>{{ config.name|e }}</td>
+                        {% else %}
                         <td><a href="edit?common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
+                        {% endif %}
                     {% endif %}
                     <td>{{ config.exp|e|date('Y-m-d H:i:s') }}</td>
                     <td>
