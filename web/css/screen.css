@@ -242,10 +242,6 @@ table li {
 /*    list-style: none;*/
 }
 
-tr.grayed td a, tr.grayed td {
-    color: #aaa;
-}
-
 span.label {
     font-size: 85%;
     font-weight: bold;
