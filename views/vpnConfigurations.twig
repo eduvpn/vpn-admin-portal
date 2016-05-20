@@ -43,7 +43,11 @@
                         <td><a href="configurations?userId={{ config.user_id|e }}">{{ config.user_id|e }}</a></td>
                     {% endif %}
                     {% if userId %}
-                        <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
+                        {% if 'E' == config.state or 'R' == config.state %}
+                            <td>{{ config.name|e }}</td>
+                        {% else %}
+                            <td><a href="edit?for_user={{ userId|e }}&common_name={{ config.user_id|e }}_{{ config.name|e }}">{{ config.name|e }}</a></td>
+                        {% endif %}
                     {% else %}
                         {% if 'E' == config.state or 'R' == config.state %}
                         <td>{{ config.name|e }}</td>

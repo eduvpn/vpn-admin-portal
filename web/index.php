@@ -210,7 +210,11 @@ try {
             $certList = $vpnConfigApiClient->getCertList($userId);
             $vpnStaticConfig = $vpnServerApiClient->getAllConfig($userId);
 
-            $configs = [];
+            $validConfigs = [];
+            $revokedConfigs = [];
+            $expiredConfigs = [];
+            $disabledConfigs = [];
+
             foreach ($certList['items'] as $c) {
                 $commonName = $c['user_id'].'_'.$c['name'];
                 // only if state is valid it makes sense to show disable
@@ -221,8 +225,24 @@ try {
                         }
                     }
                 }
-                $configs[] = $c;
+
+                switch ($c['state']) {
+                    case 'V':
+                        $validConfigs[] = $c;
+                        break;
+                    case 'R':
+                        $revokedConfigs[] = $c;
+                        break;
+                    case 'E':
+                        $expiredConfigs[] = $c;
+                        break;
+                    default:
+                        // must be disabled
+                        $disabledConfigs[] = $c;
+                }
             }
+
+            $configs = array_merge($validConfigs, $disabledConfigs, $revokedConfigs, $expiredConfigs);
 
             return $templateManager->render(
                 'vpnConfigurations',
