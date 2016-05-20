@@ -26,9 +26,9 @@
         <table class="horizontal">
             <thead>
                 {% if userId %}
-                    <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th>State</th></tr> 
+                    <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
                 {% else %}
-                    <tr><th>User ID</th><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th>State</th></tr> 
+                    <tr><th>User ID</th><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
                 {% endif %}
             </thead>
             <tbody>
@@ -54,13 +54,13 @@
                     <td>{{ config.exp|e|date('Y-m-d H:i:s') }}</td>
                     <td>
                         {% if 'D' == config.state %}
-                            <span title="disabled">&#x26d4;</span>
+                            <span class="label label-warning">Disabled</span>
                         {% elseif 'V' == config.state %}
-                            <span title="valid">&#x2714;</span>
+                            <span class="label label-success">Active</span>
                         {% elseif 'R' == config.state %}
-                            <span title="revoked">&#x2715;</span>
+                            <span class="label">User Revoked</span>
                         {% elseif 'E' == config.state %}
-                            <span title="expired">&#x23f2;</span>
+                            <span class="label label-disabled">Expired</span>
                         {% endif %}
 
                     </td>
