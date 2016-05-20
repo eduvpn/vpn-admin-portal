@@ -24,7 +24,7 @@
     {% for pool in connectedClients.data %}
         <h3 id="{{ pool.id|e }}">{{ info[pool.id]|e }}</h3>
         {% if pool.connections is empty %}
-            <p class="plain">No clients connected to this server &#x1f61e;</p>
+            <p class="plain">No clients connected</p>
         {% else %}
 
             {% if advanced %}
