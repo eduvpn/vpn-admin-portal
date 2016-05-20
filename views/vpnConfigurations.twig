@@ -54,7 +54,7 @@
                     <td>{{ config.exp|e|date('Y-m-d H:i:s') }}</td>
                     <td>
                         {% if 'D' == config.state %}
-                            <span class="label label-warning">Disabled</span>
+                            <span class="label label-warning">Admin Disabled</span>
                         {% elseif 'V' == config.state %}
                             <span class="label label-success">Active</span>
                         {% elseif 'R' == config.state %}
