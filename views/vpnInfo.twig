@@ -37,6 +37,13 @@
             <td>{{ pool.hostName|e }}</td>
         </tr>
         
+        {% if pool.listen != "::" %}
+            <tr>
+                <th>Listening On</th>
+                <td>{{ pool.listen|e }}</td>
+            </tr>
+        {% endif %}
+
         <tr>
             <th>Default Gateway</th>
             <td>{% if pool.defaultGateway %}yes{% else %}no{% endif %}</td>

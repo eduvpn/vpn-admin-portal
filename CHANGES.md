@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.3 (2016-05-23)
+- also display `listen` in VPN info when it is not the default
+
 ## 6.0.2 (2016-05-23)
 - change display of configurations
 
