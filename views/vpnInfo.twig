@@ -18,7 +18,7 @@
         This page shows the VPN server configuration.
     </p>
 
-    {% for pool in info.data %}
+    {% for pool in serverPools %}
     <h3>{{ pool.name|e }}</h3>
 
     <table class="vertical">

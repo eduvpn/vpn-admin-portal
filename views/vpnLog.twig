@@ -15,10 +15,6 @@
 
     <h2>Log</h2>
 
-    {% if not log.ok %}
-        <p class="danger">{{ log.error|e }}</p>
-    {% else %} 
-
         <p>This page shows the history of client connections. <strong>Only</strong> 
             closed connections are shown. Ongoing connections 
             can be found in the <a href="connections">Connections</a> tab. The 
@@ -35,7 +31,7 @@
             </fieldset>
         </form>
 
-        {% if log.history is empty %}
+        {% if log is empty %}
             <p class="plain">No log available &#x1f61e; Try another day.</p>
         {% else %}
             <table class="horizontal">
@@ -43,7 +39,7 @@
                     <tr><th>User ID</th><th>Name</th><th>Connected ({{ date()|date("T") }})</th><th>Disconnected ({{ date()|date("T") }})</th><th>IP address</th><th>Traffic</th></tr>
                 </thead>
                 <tbody>
-                {% for entry in log.history %}
+                {% for entry in log %}
                     <tr>
                         <td><a href="configurations?userId={{ entry.common_name|split('_', 2)|first|e }}">{{ entry.common_name|split('_', 2)|first|e }}</a></td>
                         <td>{{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
@@ -60,8 +56,8 @@
                 {% endfor %}
                 </tbody>
             </table>
-        {% endif %}
     {% endif %}
+
 
     {% include 'footer.twig' %}
 </body>

@@ -127,17 +127,17 @@ try {
         '/connections',
         function (Request $request) use ($templateManager, $vpnServerApiClient) {
             // get the fancy pool name
-            $serverInfo = $vpnServerApiClient->getServerInfo();
-            $idName = [];
-            foreach ($serverInfo['data'] as $server) {
-                $idName[$server['id']] = $server['name'];
+            $serverPools = $vpnServerApiClient->getServerPools();
+            $idNameMapping = [];
+            foreach ($serverPools as $pool) {
+                $idNameMapping[$pool['id']] = $pool['name'];
             }
 
             return $templateManager->render(
                 'vpnConnections',
                 array(
-                    'info' => $idName,
-                    'connectedClients' => $vpnServerApiClient->getStatus(),
+                    'idNameMapping' => $idNameMapping,
+                    'connections' => $vpnServerApiClient->getConnections(),
                     'advanced' => (bool) $request->getUrl()->getQueryParameter('advanced'),
                 )
             );
@@ -150,7 +150,7 @@ try {
             return $templateManager->render(
                 'vpnInfo',
                 array(
-                    'info' => $vpnServerApiClient->getServerInfo(),
+                    'serverPools' => $vpnServerApiClient->getServerPools(),
                 )
             );
         }
@@ -164,7 +164,7 @@ try {
             $forUser = $request->getUrl()->getQueryParameter('for_user');
 
             $disabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
-            if (in_array($commonName, $disabledCommonNames['data']['common_names'])) {
+            if (in_array($commonName, $disabledCommonNames)) {
                 $isDisabled = true;
             } else {
                 $isDisabled = false;
@@ -177,7 +177,7 @@ try {
                     'for_user' => $forUser,
                     'configName' => explode('_', $commonName, 2)[1],
                     'isDisabled' => $isDisabled,
-                    'info' => $vpnServerApiClient->getServerInfo(),
+                    'serverPools' => $vpnServerApiClient->getServerPools(),
                 )
             );
         }
@@ -227,7 +227,7 @@ try {
                 $commonName = $c['user_id'].'_'.$c['name'];
                 // only if state is valid it makes sense to show disable
                 if ('V' === $c['state']) {
-                    if (in_array($commonName, $disabledCommonNames['data']['common_names'])) {
+                    if (in_array($commonName, $disabledCommonNames)) {
                         $c['state'] = 'D';
                     }
                 }
@@ -277,7 +277,7 @@ try {
             $commonName = $request->getPostParameter('common_name');
             $forUser = $request->getPostParameter('for_user');
 
-            $vpnServerApiClient->postCcdDisable($commonName);
+            $vpnServerApiClient->disableCommonName($commonName);
             $vpnServerApiClient->killCommonName($commonName);
 
             if ($forUser) {
@@ -297,7 +297,7 @@ try {
             $commonName = $request->getPostParameter('common_name');
             $userId = $request->getPostParameter('userId');
 
-            $vpnServerApiClient->deleteCcdDisable($commonName);
+            $vpnServerApiClient->enableCommonName($commonName);
 
             if ($userId) {
                 $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $userId);

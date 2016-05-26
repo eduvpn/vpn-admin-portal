@@ -30,11 +30,11 @@ class VpnServerApiClient extends VpnApiClient
         $this->vpnServerApiUri = $vpnServerApiUri;
     }
 
-    public function getStatus()
+    public function getConnections()
     {
         $requestUri = sprintf('%s/openvpn/connections', $this->vpnServerApiUri);
 
-        return $this->exec('GET', $requestUri);
+        return $this->exec('GET', $requestUri)['data']['connections'];
     }
 
     /**
@@ -46,28 +46,28 @@ class VpnServerApiClient extends VpnApiClient
     {
         $requestUri = sprintf('%s/log/%s', $this->vpnServerApiUri, $showDate);
 
-        return $this->exec('GET', $requestUri);
+        return $this->exec('GET', $requestUri)['data']['log'];
     }
 
     public function getDisabledCommonNames()
     {
         $requestUri = sprintf('%s/common_names/disabled', $this->vpnServerApiUri);
 
-        return $this->exec('GET', $requestUri);
+        return $this->exec('GET', $requestUri)['data']['common_names'];
     }
 
     public function disableCommonName($commonName)
     {
         $requestUri = sprintf('%s/common_names/disabled/%s', $this->vpnServerApiUri, $commonName);
 
-        return $this->exec('POST', $requestUri);
+        return $this->exec('POST', $requestUri)['data']['ok'];
     }
 
     public function enableCommonName($commonName)
     {
         $requestUri = sprintf('%s/common_names/disabled/%s', $this->vpnServerApiUri, $commonName);
 
-        return $this->exec('DELETE', $requestUri);
+        return $this->exec('DELETE', $requestUri)['data']['ok'];
     }
 
     public function killCommonName($commonName)
@@ -82,13 +82,13 @@ class VpnServerApiClient extends VpnApiClient
                     'common_name' => $commonName,
                 ),
             )
-        );
+        )['data']['ok'];
     }
 
-    public function getServerInfo()
+    public function getServerPools()
     {
         $requestUri = sprintf('%s/info/server', $this->vpnServerApiUri);
 
-        return $this->exec('GET', $requestUri);
+        return $this->exec('GET', $requestUri)['data']['pools'];
     }
 }
