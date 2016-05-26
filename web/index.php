@@ -278,7 +278,7 @@ try {
             $forUser = $request->getPostParameter('for_user');
 
             $vpnServerApiClient->postCcdDisable($commonName);
-            $vpnServerApiClient->postKill($commonName);
+            $vpnServerApiClient->killCommonName($commonName);
 
             if ($forUser) {
                 $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $forUser);
@@ -313,7 +313,7 @@ try {
         '/killClient',
         function (Request $request) use ($vpnServerApiClient) {
             $commonName = $request->getPostParameter('common_name');
-            $vpnServerApiClient->postKill($commonName);
+            $vpnServerApiClient->killCommonName($commonName);
 
             return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
         }
