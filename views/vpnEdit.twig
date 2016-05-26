@@ -15,12 +15,12 @@
 
     <h2>Edit</h2>
     <p>
-        Modifying <em>{{ configName|e}}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>.
+        Modifying <em>{{ configName|e }}</em> of user <a href="configurations?userId={{ userId|e }}">{{ userId|e }}</a>.
     </p>
  
     <form method="post" action="edit">
         <fieldset>
-            {% if config.disable %}
+            {% if isDisabled %}
                 <input type="checkbox" name="disable" id="disable" checked="checked"> 
             {% else %}
                 <input type="checkbox" name="disable" id="disable"> 

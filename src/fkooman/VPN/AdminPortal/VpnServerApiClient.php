@@ -18,7 +18,6 @@
 namespace fkooman\VPN\AdminPortal;
 
 use GuzzleHttp\Client;
-use fkooman\Json\Json;
 
 class VpnServerApiClient extends VpnApiClient
 {
@@ -35,7 +34,7 @@ class VpnServerApiClient extends VpnApiClient
     {
         $requestUri = sprintf('%s/openvpn/connections', $this->vpnServerApiUri);
 
-        return $this->exec('get', $requestUri);
+        return $this->exec('GET', $requestUri);
     }
 
     /**
@@ -47,48 +46,36 @@ class VpnServerApiClient extends VpnApiClient
     {
         $requestUri = sprintf('%s/log/%s', $this->vpnServerApiUri, $showDate);
 
-        return $this->exec('get', $requestUri);
+        return $this->exec('GET', $requestUri);
     }
 
-    public function getAllConfig($userId = null)
+    public function getDisabledCommonNames()
     {
-        $requestUri = sprintf('%s/config/common_names', $this->vpnServerApiUri);
-        if (!is_null($userId)) {
-            $requestUri = sprintf('%s/config/common_names?user_id=%s', $this->vpnServerApiUri, $userId);
-        }
+        $requestUri = sprintf('%s/common_names/disabled', $this->vpnServerApiUri);
 
-        return $this->exec('get', $requestUri);
+        return $this->exec('GET', $requestUri);
     }
 
-    public function getConfig($commonName)
+    public function disableCommonName($commonName)
     {
-        $requestUri = sprintf('%s/config/common_names/%s', $this->vpnServerApiUri, $commonName);
+        $requestUri = sprintf('%s/common_names/disabled/%s', $this->vpnServerApiUri, $commonName);
 
-        return $this->exec('get', $requestUri);
+        return $this->exec('POST', $requestUri);
     }
 
-    public function setConfig($commonName, array $config)
+    public function enableCommonName($commonName)
     {
-        $requestUri = sprintf('%s/config/common_names/%s', $this->vpnServerApiUri, $commonName);
+        $requestUri = sprintf('%s/common_names/disabled/%s', $this->vpnServerApiUri, $commonName);
 
-        return $this->exec(
-            'put',
-            $requestUri,
-            array(
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'body' => Json::encode($config),
-            )
-        );
+        return $this->exec('DELETE', $requestUri);
     }
 
-    public function postKill($commonName)
+    public function killCommonName($commonName)
     {
         $requestUri = sprintf('%s/openvpn/kill', $this->vpnServerApiUri);
 
         return $this->exec(
-            'post',
+            'POST',
             $requestUri,
             array(
                 'body' => array(
@@ -98,10 +85,10 @@ class VpnServerApiClient extends VpnApiClient
         );
     }
 
-    public function getInfo()
+    public function getServerInfo()
     {
         $requestUri = sprintf('%s/info/server', $this->vpnServerApiUri);
 
-        return $this->exec('get', $requestUri);
+        return $this->exec('GET', $requestUri);
     }
 }
