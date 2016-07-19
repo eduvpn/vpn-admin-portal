@@ -14,7 +14,7 @@
     </ul>
 
     <h2>Users</h2>
-    {% if userIdList is empty %}
+    {% if userList is empty %}
         <p class="simple">There are no users with VPN configurations.</p>
     {% else %}
         <table class="horizontal">
@@ -22,11 +22,11 @@
                 <tr><th>User ID</th><th></th></tr>
             </thead>
             <tbody>
-                {% for user in userIdList %}
+                {% for user in userList %}
                     <tr>
-                        <td><a href="users/{{ user.user_id|e }}">{{ user.user_id|e }}</a></td>
+                        <td><a href="users/{{ user.userId|e }}">{{ user.userId|e }}</a></td>
                         <td class="text-right">
-                            {% if user.disabled %}
+                            {% if user.isDisabled %}
                                 <span class="label label-error">Disabled</span>
                             {% else %}
                                 <span class="label label-success">Active</span>

@@ -166,17 +166,22 @@ try {
             foreach ($certList['items'] as $certEntry) {
                 $userId = $certEntry['user_id'];
                 if (!in_array($userId, $userIdList)) {
-                    $userIdList[] = [
-                        'user_id' => $userId,
-                        'disabled' => in_array($userId, $disabledUsers),
-                    ];
+                    $userIdList[] = $userId;
                 }
+            }
+
+            $userList = [];
+            foreach ($userIdList as $userId) {
+                $userList[] = [
+                    'userId' => $userId,
+                    'isDisabled' => in_array($userId, $disabledUsers),
+                ];
             }
 
             return $templateManager->render(
                 'vpnUserList',
                 array(
-                    'userIdList' => $userIdList,
+                    'userList' => $userList,
                 )
             );
         }
