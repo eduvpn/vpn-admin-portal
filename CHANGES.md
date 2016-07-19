@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.0 (...)
+- redo user configuration management
+- simplify a lot
+
 ## 6.1.2 (2016-07-19)
 - use labels on info page
 - add ACL group identifiers if ACL is enabled
