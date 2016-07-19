@@ -52,6 +52,8 @@ try {
     $templateManager->setDefault(
         array(
             'rootFolder' => $request->getUrl()->getRoot(),
+            'rootUrl' => $request->getUrl()->getRootUrl(),
+            'requestUrl' => $request->getUrl()->toString(),
         )
     );
     $templateManager->addFilter(TwigFilters::sizeToHuman());
