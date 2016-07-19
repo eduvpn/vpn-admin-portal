@@ -46,12 +46,12 @@
 
         <tr>
             <th>Default Gateway</th>
-            <td>{% if pool.defaultGateway %}yes{% else %}no{% endif %}</td>
+            <td>{% if pool.defaultGateway %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
 
         <tr>
             <th>NAT</th>
-            <td>{% if pool.useNat %}yes{% else %}no{% endif %}</td>
+            <td>{% if pool.useNat %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
 
         {% if not pool.defaultGateway %}
@@ -71,7 +71,7 @@
         </tr>
         {% endif %}
         
-        {% if pool.defaultGateway %}
+        {% if pool.defaultGateway and pool.dns is not empty %}
         <tr>
             <th>DNS</th>
             <td>
@@ -89,23 +89,23 @@
         {% endif %}
 
         <tr>
-            <th>Client-to-client Connectivity</th>
-            <td>{% if pool.clientToClient %}yes{% else %}no{% endif %}</td>
+            <th>Client-to-client</th>
+            <td>{% if pool.clientToClient %}<span class="label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
 
         <tr>
             <th>Two-factor Authentication</th>
-            <td>{% if pool.twoFactor %}yes{% else %}no{% endif%}</td>
+            <td>{% if pool.twoFactor %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
 
         <tr>
             <th>Access Control</th>
-            <td>{% if pool.enableAcl %}yes{% else %}no{% endif%}</td>
+            <td>{% if pool.enableAcl %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
 
         <tr>
             <th>Detailed Logging</th>
-            <td>{% if pool.enableLog %}yes{% else %}no{% endif%}</td>
+            <td>{% if pool.enableLog %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
     </table>
     {% endfor %}
