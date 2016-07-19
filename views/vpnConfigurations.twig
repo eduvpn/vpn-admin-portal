@@ -15,11 +15,11 @@
 
     <h2>Configurations</h2>
     <p>
-            {% if userId %}
-                This page lists VPN configurations for <em>{{ userId|e }}</em>. See <a href="configurations">all</a>.
-            {% else %}
-                This page lists all VPN configurations.
-            {% endif %}
+        {% if userId %}
+            This page lists VPN configurations for <em>{{ userId|e }}</em>. See <a href="configurations">all</a>.
+        {% else %}
+            This page lists all VPN configurations.
+        {% endif %}
     </p>
 
     {% if configs is not empty %}
@@ -57,11 +57,10 @@
                         {% elseif 'V' == config.state %}
                             <span class="label label-success">Active</span>
                         {% elseif 'R' == config.state %}
-                            <span class="label">User Revoked</span>
+                            <span class="label">Revoked</span>
                         {% elseif 'E' == config.state %}
                             <span class="label label-disabled">Expired</span>
                         {% endif %}
-
                     </td>
                 </tr>
             {% endfor %}
