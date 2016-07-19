@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.1.1 (2016-07-19)
+- update labels
+
 ## 6.1.0 (2016-05-26)
 - update to work with new API
 
