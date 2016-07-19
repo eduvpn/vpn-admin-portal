@@ -227,7 +227,7 @@ try {
             // XXX is casting to bool appropriate for checkbox?
             $disable = (bool) $request->getPostParameter('disable');
             // XXX is casting to bool appropriate for checkbox?
-            $otpSecret = (bool) $request->getPostParameter('otp_secret');
+            $deleteOtpSecret = (bool) $request->getPostParameter('otp_secret');
 
             if ($disable) {
                 $vpnServerApiClient->disableUser($userId);
@@ -235,15 +235,15 @@ try {
                 $vpnServerApiClient->enableUser($userId);
             }
 
-            // XXX we also have to kill all active clients for this userId!
+            // XXX we also have to kill all active clients for this userId if
+            // we disable the user!
+            // XXX multi instance?!
 
-            if ($otpSecret) {
-                // do nothing, admin cannot change this
-            } else {
+            if ($deleteOtpSecret) {
                 $vpnServerApiClient->deleteOtpSecret($userId);
             }
 
-            $returnUrl = sprintf('%susers/%s', $request->getUrl()->getRootUrl(), $userId);
+            $returnUrl = sprintf('%susers', $request->getUrl()->getRootUrl(), $userId);
 
             return new RedirectResponse($returnUrl);
         }

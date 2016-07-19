@@ -14,6 +14,7 @@
     </ul>
 
     <h2>Users / {{ userId|e }}</h2>
+
     <h3>User Configuration</h3>
     <form method="post">
         <fieldset>
@@ -24,14 +25,14 @@
             {% endif %}
             <label for="disable">Disable User</label>
         </fieldset>
+
+        {% if hasOtpSecret %}
         <fieldset>
-            {% if hasOtpSecret %}
-                <input type="checkbox" name="otp_secret" id="otp_secret" checked="checked"> 
-            {% else %}
-                <input type="checkbox" name="otp_secret" id="otp_secret" disabled="disabled"> 
-            {% endif %}
-            <label for="otp_secret">OTP Secret</label>
+            <input type="checkbox" name="otp_secret" id="otp_secret" checked="checked">             
+            <label for="otp_secret">Remove OTP Secret</label>
         </fieldset>
+        {% endif %}
+
         <fieldset>
             <button type="submit" value="save">Apply</button>
         </fieldset>
