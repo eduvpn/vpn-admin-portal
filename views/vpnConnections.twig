@@ -7,92 +7,41 @@
 
     <ul class="mainMenu">
       <li class="active"><a href="connections">Connections</a></li>
-      <li><a href="configurations">Configurations</a></li>
+      <li><a href="users">Users</a></li>
       <li><a href="info">Info</a></li>
       <li><a href="log">Log</a></li>
       <li><a href="documentation">Documentation</a></li>
     </ul>
 
     <h2>Connections</h2>
-       
-    {% if advanced %}
-        <p>Switch to <a href="?advanced=0">Simple</a> view.</p>
-    {% else %}
-        <p>Switch to <a href="?advanced=1">Advanced</a> view.</p>
-    {% endif %}
 
     {% for pool in connections %}
         <h3 id="{{ pool.id|e }}">{{ idNameMapping[pool.id]|e }}</h3>
         {% if pool.connections is empty %}
-            <p class="plain">Currently no clients connected!</p>
+            <p class="plain">No clients connected.</p>
         {% else %}
-
-            {% if advanced %}
-                <table class="horizontal">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Info</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-            {% else %}
-                <table class="horizontal">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>IP address</th>
-                    </tr>
-                </thead>
-                <tbody>
-            {% endif %}
-
-            {% for connection in pool.connections %}
-                {% if advanced %}
-                    <tr>
-                        <td><a href="configurations?userId={{ connection.common_name|split('_', 2)|first|e }}">{{ connection.common_name|split('_', 2)|first|e }}</a></td>
-                        <td>
-                            <dl>
-                                <dt>Name</dt>
-                                <dd><a href="edit?common_name={{ connection.common_name|e }}">{{ connection.common_name|split('_', 2)|slice(1,2)|first|e }}</a></dd>
-                                <dt>IP address</dt>
-                                <dd>
-                                    <ul class="ipList">
-                                        {% for ip in connection.virtual_address|sort %}
-                                        <li>{{ ip|e }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </dd>
-                                <dt>Traffic</dt>
-                                <dd>{{ (connection.bytes_in+connection.bytes_out)|sizeToHuman|e }}</dd>
-                                <dt>Connected ({{ date()|date("T") }})</dt>
-                                <dd>{{ connection.connected_since|e|date("Y-m-d H:i:s") }}</dd>
-                            </dl>
-                        </td>
-                        <td class="text-right">
-                            <form class="inline" method="post" action="killClient">
-                                <input type="hidden" name="id" value="{{ pool.id|e }}">
-                                <input type="hidden" name="common_name" value="{{ connection.common_name|e }}">
-                                <button class="warning" title="Disconnect a client, but allow it to reconnect." type="submit">Disconnect</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td><a href="configurations?userId={{ connection.common_name|split('_', 2)|first|e }}">{{ connection.common_name|split('_', 2)|first|e }}</a></td>
-                        <td><a href="edit?common_name={{ connection.common_name|e }}">{{ connection.common_name|split('_', 2)|slice(1,2)|first|e }}</a></td>
-                        <td>
-                            <ul class="ipList">
-                                {% for ip in connection.virtual_address|sort %}
-                                <li>{{ ip|e }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
+            <table class="horizontal">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>IP address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for connection in pool.connections %}
+                <tr>
+                    <td><a href="XXX">{{ connection.common_name|split('_', 2)|first|e }}</a></td>
+                    <td><a href="YYY">{{ connection.common_name|split('_', 2)|slice(1,2)|first|e }}</a></td>
+                    <td>
+                        <ul class="ipList">
+                            {% for ip in connection.virtual_address|sort %}
+                            <li>{{ ip|e }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
             </table>
         {% endif %}

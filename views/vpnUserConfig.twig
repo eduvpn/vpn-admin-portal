@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    {% include 'header.twig' %}
+
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li class="active"><a href="users">Users</a></li>
+      <li><a href="info">Info</a></li>
+      <li><a href="log">Log</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
+
+    <h2>Users / {{ userId|e }} / {{ configName|e }}</h2>
+ 
+    <form method="post">
+        <fieldset>
+            {% if isDisabled %}
+                <input type="checkbox" name="disable" id="disable" checked="checked"> 
+            {% else %}
+                <input type="checkbox" name="disable" id="disable"> 
+            {% endif %}
+            <label for="disable">Disable Configuration</label>
+        </fieldset>
+        <fieldset>
+            <button type="submit" value="save">Apply</button>
+        </fieldset>
+    </form>
+
+    {% include 'footer.twig' %}
+</body>
+</html>

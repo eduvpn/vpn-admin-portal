@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    {% include 'header.twig' %}
+
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li class="active"><a href="users">Users</a></li>
+      <li><a href="info">Info</a></li>
+      <li><a href="log">Log</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
+
+    <h2>Users</h2>
+    {% if userIdList is empty %}
+        <p class="simple">There are no users with VPN configurations.</p>
+    {% else %}
+        <table class="horizontal">
+            <thead>
+                <tr><th>User ID</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for user in userIdList %}
+                    <tr>
+                        <td><a href="users/{{ user.user_id|e }}">{{ user.user_id|e }}</a></td>
+                        <td class="text-right">
+                            {% if user.disabled %}
+                                <span class="label label-error">Disabled</span>
+                            {% else %}
+                                <span class="label label-success">Active</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% include 'footer.twig' %}
+</body>
+</html>

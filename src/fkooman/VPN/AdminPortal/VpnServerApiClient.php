@@ -49,6 +49,48 @@ class VpnServerApiClient extends VpnApiClient
         return $this->exec('GET', $requestUri)['data']['log'];
     }
 
+    public function getDisabledUsers()
+    {
+        $requestUri = sprintf('%s/users/disabled', $this->vpnServerApiUri);
+
+        return $this->exec('GET', $requestUri)['data']['users'];
+    }
+
+    public function getIsDisabledUser($userId)
+    {
+        $requestUri = sprintf('%s/users/disabled/%s', $this->vpnServerApiUri, $userId);
+
+        return $this->exec('GET', $requestUri)['data']['disabled'];
+    }
+
+    public function enableUser($userId)
+    {
+        $requestUri = sprintf('%s/users/disabled/%s', $this->vpnServerApiUri, $userId);
+
+        return $this->exec('DELETE', $requestUri)['data']['ok'];
+    }
+
+    public function disableUser($userId)
+    {
+        $requestUri = sprintf('%s/users/disabled/%s', $this->vpnServerApiUri, $userId);
+
+        return $this->exec('POST', $requestUri)['data']['ok'];
+    }
+
+    public function deleteOtpSecret($userId)
+    {
+        $requestUri = sprintf('%s/users/otp_secrets/%s', $this->vpnServerApiUri, $userId);
+
+        return $this->exec('DELETE', $requestUri)['data']['ok'];
+    }
+
+    public function getHasOtpSecret($userId)
+    {
+        $requestUri = sprintf('%s/users/otp_secrets/%s', $this->vpnServerApiUri, $userId);
+
+        return $this->exec('GET', $requestUri)['data']['otp_secret'];
+    }
+
     public function getDisabledCommonNames()
     {
         $requestUri = sprintf('%s/common_names/disabled', $this->vpnServerApiUri);

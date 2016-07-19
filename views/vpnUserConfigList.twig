@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    {% include 'header.twig' %}
+
+    <ul class="mainMenu">
+      <li><a href="connections">Connections</a></li>
+      <li class="active"><a href="users">Users</a></li>
+      <li><a href="info">Info</a></li>
+      <li><a href="log">Log</a></li>
+      <li><a href="documentation">Documentation</a></li>
+    </ul>
+
+    <h2>Users / {{ userId|e }}</h2>
+    <h3>User Configuration</h3>
+    <form method="post">
+        <fieldset>
+            {% if isDisabled %}
+                <input type="checkbox" name="disable" id="disable" checked="checked"> 
+            {% else %}
+                <input type="checkbox" name="disable" id="disable"> 
+            {% endif %}
+            <label for="disable">Disable User</label>
+        </fieldset>
+        <fieldset>
+            {% if hasOtpSecret %}
+                <input type="checkbox" name="otp_secret" id="otp_secret" checked="checked"> 
+            {% else %}
+                <input type="checkbox" name="otp_secret" id="otp_secret" disabled="disabled"> 
+            {% endif %}
+            <label for="otp_secret">OTP Secret</label>
+        </fieldset>
+        <fieldset>
+            <button type="submit" value="save">Apply</button>
+        </fieldset>
+    </form>
+
+    <h3>VPN Configurations</h3>
+    <table class="horizontal">
+        <thead>
+            <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
+        </thead>
+        <tbody>
+        {% for userConfig in userConfigList %}
+            <tr>
+                {% if 'D' == userConfig.state or 'V' == userConfig.state %}
+                    <td><a href="{{ userId|e }}/{{ userConfig.name|e }}">{{ userConfig.name|e }}</a></td>
+                {% else %}
+                    <td>{{ userConfig.name|e }}</td>
+                {% endif %}    
+                <td>{{ userConfig.exp|e|date('Y-m-d H:i:s') }}</td>
+                <td class="text-right">
+                    {% if 'D' == userConfig.state %}
+                        <span class="label label-warning">Disabled</span>
+                    {% elseif 'V' == userConfig.state %}
+                        <span class="label label-success">Active</span>
+                    {% elseif 'R' == userConfig.state %}
+                        <span class="label">Revoked</span>
+                    {% elseif 'E' == userConfig.state %}
+                        <span class="label label-disabled">Expired</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'footer.twig' %}
+</body>
+</html>

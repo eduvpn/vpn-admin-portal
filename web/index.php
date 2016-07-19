@@ -157,38 +157,121 @@ try {
     );
 
     $service->get(
-        '/edit',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            // XXX validate input
-            $commonName = $request->getUrl()->getQueryParameter('common_name');
-            $forUser = $request->getUrl()->getQueryParameter('for_user');
+        '/users',
+        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
+            $certList = $vpnConfigApiClient->getCertList();
+            $disabledUsers = $vpnServerApiClient->getDisabledUsers();
 
-            $disabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
-            if (in_array($commonName, $disabledCommonNames)) {
-                $isDisabled = true;
-            } else {
-                $isDisabled = false;
+            $userIdList = [];
+            foreach ($certList['items'] as $certEntry) {
+                $userId = $certEntry['user_id'];
+                if (!in_array($userId, $userIdList)) {
+                    $userIdList[] = [
+                        'user_id' => $userId,
+                        'disabled' => in_array($userId, $disabledUsers),
+                    ];
+                }
             }
 
             return $templateManager->render(
-                'vpnEdit',
+                'vpnUserList',
                 array(
-                    'userId' => explode('_', $commonName, 2)[0],
-                    'for_user' => $forUser,
-                    'configName' => explode('_', $commonName, 2)[1],
-                    'isDisabled' => $isDisabled,
-                    'serverPools' => $vpnServerApiClient->getServerPools(),
+                    'userIdList' => $userIdList,
+                )
+            );
+        }
+    );
+
+    $service->get(
+        '/users/:userId',
+        function (Request $request, $userId) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
+            // XXX validate userId
+            $userCertList = $vpnConfigApiClient->getCertList($userId);
+            $disabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
+
+            $userConfigList = [];
+            foreach ($userCertList['items'] as $userCert) {
+                $commonName = sprintf('%s_%s', $userCert['user_id'], $userCert['name']);
+                // only if state is valid it makes sense to show disable
+                if ('V' === $userCert['state']) {
+                    if (in_array($commonName, $disabledCommonNames)) {
+                        $userCert['state'] = 'D';
+                    }
+                }
+
+                $userConfigList[] = $userCert;
+            }
+
+            return $templateManager->render(
+                'vpnUserConfigList',
+                array(
+                    'userId' => $userId,
+                    'userConfigList' => $userConfigList,
+                    'hasOtpSecret' => $vpnServerApiClient->getHasOtpSecret($userId),
+                    'isDisabled' => $vpnServerApiClient->getIsDisabledUser($userId),
                 )
             );
         }
     );
 
     $service->post(
-        '/edit',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            // XXX validate input
-            $commonName = $request->getPostParameter('common_name');
-            $forUser = $request->getPostParameter('for_user');
+        '/users/:userId',
+        function (Request $request, $userId) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
+            // XXX validate userId
+
+            // XXX is casting to bool appropriate for checkbox?
+            $disable = (bool) $request->getPostParameter('disable');
+            // XXX is casting to bool appropriate for checkbox?
+            $otpSecret = (bool) $request->getPostParameter('otp_secret');
+
+            if ($disable) {
+                $vpnServerApiClient->disableUser($userId);
+            } else {
+                $vpnServerApiClient->enableUser($userId);
+            }
+
+            // XXX we also have to kill all active clients for this userId!
+
+            if ($otpSecret) {
+                // do nothing, admin cannot change this
+            } else {
+                $vpnServerApiClient->deleteOtpSecret($userId);
+            }
+
+            $returnUrl = sprintf('%susers/%s', $request->getUrl()->getRootUrl(), $userId);
+
+            return new RedirectResponse($returnUrl);
+        }
+    );
+
+    $service->get(
+        '/users/:userId/:configName',
+        function (Request $request, $userId, $configName) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
+            // XXX validate userId
+            // XXX validate configName
+
+            $disabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
+            $commonName = sprintf('%s_%s', $userId, $configName);
+
+            return $templateManager->render(
+                'vpnUserConfig',
+                array(
+                    'userId' => $userId,
+                    'configName' => $configName,
+                    'isDisabled' => in_array($commonName, $disabledCommonNames),
+                )
+            );
+        }
+    );
+
+    $service->post(
+        '/users/:userId/:configName',
+        function (Request $request, $userId, $configName) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
+            // XXX validate userId
+            // XXX validate configName
+            $commonName = sprintf('%s_%s', $userId, $configName);
+
+            // XXX is casting to bool appropriate for checkbox?
             $disable = (bool) $request->getPostParameter('disable');
 
             if ($disable) {
@@ -199,64 +282,9 @@ try {
 
             $vpnServerApiClient->killCommonName($commonName);
 
-            if ($forUser) {
-                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $forUser);
-            } else {
-                $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
-            }
+            $returnUrl = sprintf('%susers/%s', $request->getUrl()->getRootUrl(), $userId);
 
             return new RedirectResponse($returnUrl);
-        }
-    );
-
-    $service->get(
-        '/configurations',
-        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
-            // XXX: validate input
-            $userId = $request->getUrl()->getQueryParameter('userId');
-
-            $certList = $vpnConfigApiClient->getCertList($userId);
-            $disabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
-
-            $validConfigs = [];
-            $revokedConfigs = [];
-            $expiredConfigs = [];
-            $disabledConfigs = [];
-
-            foreach ($certList['items'] as $c) {
-                $commonName = $c['user_id'].'_'.$c['name'];
-                // only if state is valid it makes sense to show disable
-                if ('V' === $c['state']) {
-                    if (in_array($commonName, $disabledCommonNames)) {
-                        $c['state'] = 'D';
-                    }
-                }
-
-                switch ($c['state']) {
-                    case 'V':
-                        $validConfigs[] = $c;
-                        break;
-                    case 'R':
-                        $revokedConfigs[] = $c;
-                        break;
-                    case 'E':
-                        $expiredConfigs[] = $c;
-                        break;
-                    default:
-                        // must be disabled
-                        $disabledConfigs[] = $c;
-                }
-            }
-
-            $configs = array_merge($validConfigs, $disabledConfigs, $revokedConfigs, $expiredConfigs);
-
-            return $templateManager->render(
-                'vpnConfigurations',
-                array(
-                    'configs' => $configs,
-                    'userId' => $userId,
-                )
-            );
         }
     );
 
@@ -267,55 +295,6 @@ try {
                 'vpnDocumentation',
                 array()
             );
-        }
-    );
-
-    $service->post(
-        '/disableCommonName',
-        function (Request $request) use ($vpnServerApiClient) {
-            // XXX: validate input
-            $commonName = $request->getPostParameter('common_name');
-            $forUser = $request->getPostParameter('for_user');
-
-            $vpnServerApiClient->disableCommonName($commonName);
-            $vpnServerApiClient->killCommonName($commonName);
-
-            if ($forUser) {
-                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $forUser);
-            } else {
-                $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
-            }
-
-            return new RedirectResponse($returnUrl, 302);
-        }
-    );
-
-    $service->post(
-        '/enableCommonName',
-        function (Request $request) use ($vpnServerApiClient) {
-            // XXX: validate input
-            $commonName = $request->getPostParameter('common_name');
-            $userId = $request->getPostParameter('userId');
-
-            $vpnServerApiClient->enableCommonName($commonName);
-
-            if ($userId) {
-                $returnUrl = sprintf('%sconfigurations?userId=%s', $request->getUrl()->getRootUrl(), $userId);
-            } else {
-                $returnUrl = sprintf('%sconfigurations', $request->getUrl()->getRootUrl());
-            }
-
-            return new RedirectResponse($returnUrl, 302);
-        }
-    );
-
-    $service->post(
-        '/killClient',
-        function (Request $request) use ($vpnServerApiClient) {
-            $commonName = $request->getPostParameter('common_name');
-            $vpnServerApiClient->killCommonName($commonName);
-
-            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
         }
     );
 
