@@ -90,7 +90,7 @@
 
         <tr>
             <th>Client-to-client</th>
-            <td>{% if pool.clientToClient %}<span class="label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
+            <td>{% if pool.clientToClient %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
 
         <tr>
@@ -102,6 +102,19 @@
             <th>Access Control</th>
             <td>{% if pool.enableAcl %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
         </tr>
+
+        {% if pool.enableAcl %}
+        <tr>
+            <th>Access Control Groups</th>
+            <td>
+                <ul>
+                {% for group in pool.aclGroupList %}
+                    <li>{{ group|e }}</td>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endif %}
 
         <tr>
             <th>Detailed Logging</th>
