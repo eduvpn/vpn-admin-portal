@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8dafb6658646a2b8b530a40bb9c24c70",
-    "content-hash": "36904ef8d17eda04539fb7faf905c059",
+    "hash": "b93cdf71e3e9836747bb8e5073ac71ea",
+    "content-hash": "034fa3faded5f6a33376ba4fb12f7a03",
     "packages": [
         {
             "name": "fkooman/config",
@@ -89,48 +89,6 @@
             ],
             "description": "Simple PHP library for dealing with HTTP requests and responses.",
             "time": "2016-06-07 09:32:22"
-        },
-        {
-            "name": "fkooman/json",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fkooman/php-lib-json.git",
-                "reference": "af0016d4a1d660f945ad4a10772cbdacb698a3ac"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-json/zipball/af0016d4a1d660f945ad4a10772cbdacb698a3ac",
-                "reference": "af0016d4a1d660f945ad4a10772cbdacb698a3ac",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-spl": "*",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "ext-iconv": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\Json\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP library to encode and decode JSON",
-            "time": "2016-03-25 13:54:00"
         },
         {
             "name": "fkooman/rest",
@@ -795,7 +753,8 @@
     "prefer-lowest": false,
     "platform": {
         "ext-date": "*",
-        "ext-spl": "*"
+        "ext-spl": "*",
+        "php": ">5.4"
     },
     "platform-dev": []
 }
