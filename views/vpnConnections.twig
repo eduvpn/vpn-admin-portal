@@ -25,14 +25,18 @@
                 <tr>
                     <th>User ID</th>
                     <th>Name</th>
-                    <th>IP addresses</th>
+                    <th>IP</th>
                 </tr>
             </thead>
             <tbody>
                 {% for connection in pool.connections %}
                 <tr>
-                    <td><a href="{{ rootFolder|e }}users/{{ connection.common_name|split('_', 2)|first|e }}">{{ connection.common_name|split('_', 2)|first|e }}</a></td>
-                    <td><a href="{{ rootFolder|e }}users/{{ connection.common_name|split('_', 2)|first|e }}/{{ connection.common_name|split('_', 2)|slice(1,2)|first|e }}">{{ connection.common_name|split('_', 2)|slice(1,2)|first|e }}</a></td>
+                    <td>
+                        <a href="{{ rootFolder|e }}users/{{ connection.user_id|e }}">{{ connection.user_id|e }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ rootFolder|e }}users/{{ connection.user_id|e }}/{{ connection.name|e }}">{{ connection.name|e }}</a>
+                    </td>
                     <td>
                         <ul class="ipList">
                             {% for ip in connection.virtual_address|sort %}
