@@ -116,7 +116,8 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/users/:userId',
             function (Request $request, $userId) {
-                // XXX validate userId
+                InputValidation::userId($userId);
+
                 $userCertList = $this->vpnCaApiClient->getCertList($userId);
                 $disabledCommonNames = $this->vpnServerApiClient->getDisabledCommonNames();
 
@@ -148,16 +149,15 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->post(
             '/users/:userId',
             function (Request $request, $userId) {
-                // XXX validate userId
-
-                // XXX is casting to bool appropriate for checkbox?
-                $disable = (bool) $request->getPostParameter('disable');
-                // XXX is casting to bool appropriate for checkbox?
-                $deleteOtpSecret = (bool) $request->getPostParameter('otp_secret');
+                InputValidation::userId($userId);
+                $disable = $request->getPostParameter('disable');
+                InputValidation::checkboxValue($disable);
+                $deleteOtpSecret = $request->getPostParameter('otp_secret');
+                InputValidation::checkboxValue($deleteOtpSecret);
 
                 if ($disable) {
                     $this->vpnServerApiClient->disableUser($userId);
-                    // kill all active connections
+                    // kill all active connections for this user
                     $connections = $this->vpnServerApiClient->getConnections();
                     foreach ($connections as $pool) {
                         foreach ($pool['connections'] as $connection) {
@@ -183,8 +183,8 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/users/:userId/:configName',
             function (Request $request, $userId, $configName) {
-                // XXX validate userId
-                // XXX validate configName
+                InputValidation::userId($userId);
+                InputValidation::configName($configName);
 
                 $disabledCommonNames = $this->vpnServerApiClient->getDisabledCommonNames();
                 $commonName = sprintf('%s_%s', $userId, $configName);
@@ -203,13 +203,12 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->post(
             '/users/:userId/:configName',
             function (Request $request, $userId, $configName) {
-                // XXX validate userId
-                // XXX validate configName
+                InputValidation::userId($userId);
+                InputValidation::configName($configName);
+                $disable = $request->getPostParameter('disable');
+                InputValidation::checkboxValue($disable);
+
                 $commonName = sprintf('%s_%s', $userId, $configName);
-
-                // XXX is casting to bool appropriate for checkbox?
-                $disable = (bool) $request->getPostParameter('disable');
-
                 if ($disable) {
                     $this->vpnServerApiClient->disableCommonName($commonName);
                 } else {
