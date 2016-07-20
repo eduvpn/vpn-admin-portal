@@ -157,13 +157,18 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 if ($disable) {
                     $this->vpnServerApiClient->disableUser($userId);
+                    // kill all active connections
+                    $connections = $this->vpnServerApiClient->getConnections();
+                    foreach ($connections as $pool) {
+                        foreach ($pool['connections'] as $connection) {
+                            if ($connection['user_id'] === $userId) {
+                                $this->vpnServerApiClient->killCommonName($connection['common_name']);
+                            }
+                        }
+                    }
                 } else {
                     $this->vpnServerApiClient->enableUser($userId);
                 }
-
-                // XXX we also have to kill all active clients for this userId if
-                // we disable the user!
-                // XXX multi instance?!
 
                 if ($deleteOtpSecret) {
                     $this->vpnServerApiClient->deleteOtpSecret($userId);
