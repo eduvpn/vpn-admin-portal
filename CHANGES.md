@@ -1,8 +1,13 @@
 # Changelog
 
-## 6.2.0 (...)
-- redo user configuration management
-- simplify a lot
+## 6.2.0 (2016-07-20)
+- redo user/configuration management
+- a lot of refactoring
+- removing lots of obsolete code
+- allow disabling users
+- allow removing OTP secrets
+- add better input validation
+- simplify UI
 
 ## 6.1.2 (2016-07-19)
 - use labels on info page
