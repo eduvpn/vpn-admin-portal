@@ -24,11 +24,10 @@ use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\Http\Session;
-use fkooman\Http\RedirectResponse;
 use GuzzleHttp\Client;
-use fkooman\VPN\AdminPortal\VpnConfigApiClient;
+use fkooman\VPN\AdminPortal\VpnCaApiClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
-use fkooman\VPN\AdminPortal\TwigFilters;
+use fkooman\VPN\AdminPortal\AdminPortalModule;
 use fkooman\Http\Exception\InternalServerErrorException;
 use fkooman\Config\Reader;
 use fkooman\Config\YamlFile;
@@ -56,8 +55,6 @@ try {
             'requestUrl' => $request->getUrl()->toString(),
         )
     );
-    $templateManager->addFilter(TwigFilters::sizeToHuman());
-    $templateManager->addFilter(TwigFilters::cleanIp());
 
     // Authentication
     $authMethod = $reader->v('authMethod', false, 'FormAuthentication');
@@ -94,7 +91,7 @@ try {
     }
 
     // vpn-ca-api
-    $vpnConfigApiClient = new VpnConfigApiClient(
+    $vpnCaApiClient = new VpnCaApiClient(
         new Client([
             'defaults' => [
                 'headers' => [
@@ -117,216 +114,14 @@ try {
         $reader->v('remoteApi', 'vpn-server-api', 'uri')
     );
 
+    $adminPortalModule = new AdminPortalModule(
+        $templateManager,
+        $vpnServerApiClient,
+        $vpnCaApiClient
+    );
+
     $service = new Service();
-    $service->get(
-        '/',
-        function (Request $request) {
-            return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
-        }
-    );
-
-    $service->get(
-        '/connections',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            // get the fancy pool name
-            $serverPools = $vpnServerApiClient->getServerPools();
-            $idNameMapping = [];
-            foreach ($serverPools as $pool) {
-                $idNameMapping[$pool['id']] = $pool['name'];
-            }
-
-            return $templateManager->render(
-                'vpnConnections',
-                array(
-                    'idNameMapping' => $idNameMapping,
-                    'connections' => $vpnServerApiClient->getConnections(),
-                    'advanced' => (bool) $request->getUrl()->getQueryParameter('advanced'),
-                )
-            );
-        }
-    );
-
-    $service->get(
-        '/info',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            return $templateManager->render(
-                'vpnInfo',
-                array(
-                    'serverPools' => $vpnServerApiClient->getServerPools(),
-                )
-            );
-        }
-    );
-
-    $service->get(
-        '/users',
-        function (Request $request) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
-            $certList = $vpnConfigApiClient->getCertList();
-            $disabledUsers = $vpnServerApiClient->getDisabledUsers();
-
-            $userIdList = [];
-            foreach ($certList['items'] as $certEntry) {
-                $userId = $certEntry['user_id'];
-                if (!in_array($userId, $userIdList)) {
-                    $userIdList[] = $userId;
-                }
-            }
-
-            $userList = [];
-            foreach ($userIdList as $userId) {
-                $userList[] = [
-                    'userId' => $userId,
-                    'isDisabled' => in_array($userId, $disabledUsers),
-                ];
-            }
-
-            return $templateManager->render(
-                'vpnUserList',
-                array(
-                    'userList' => $userList,
-                )
-            );
-        }
-    );
-
-    $service->get(
-        '/users/:userId',
-        function (Request $request, $userId) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
-            // XXX validate userId
-            $userCertList = $vpnConfigApiClient->getCertList($userId);
-            $disabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
-
-            $userConfigList = [];
-            foreach ($userCertList['items'] as $userCert) {
-                $commonName = sprintf('%s_%s', $userCert['user_id'], $userCert['name']);
-                // only if state is valid it makes sense to show disable
-                if ('V' === $userCert['state']) {
-                    if (in_array($commonName, $disabledCommonNames)) {
-                        $userCert['state'] = 'D';
-                    }
-                }
-
-                $userConfigList[] = $userCert;
-            }
-
-            return $templateManager->render(
-                'vpnUserConfigList',
-                array(
-                    'userId' => $userId,
-                    'userConfigList' => $userConfigList,
-                    'hasOtpSecret' => $vpnServerApiClient->getHasOtpSecret($userId),
-                    'isDisabled' => $vpnServerApiClient->getIsDisabledUser($userId),
-                )
-            );
-        }
-    );
-
-    $service->post(
-        '/users/:userId',
-        function (Request $request, $userId) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
-            // XXX validate userId
-
-            // XXX is casting to bool appropriate for checkbox?
-            $disable = (bool) $request->getPostParameter('disable');
-            // XXX is casting to bool appropriate for checkbox?
-            $deleteOtpSecret = (bool) $request->getPostParameter('otp_secret');
-
-            if ($disable) {
-                $vpnServerApiClient->disableUser($userId);
-            } else {
-                $vpnServerApiClient->enableUser($userId);
-            }
-
-            // XXX we also have to kill all active clients for this userId if
-            // we disable the user!
-            // XXX multi instance?!
-
-            if ($deleteOtpSecret) {
-                $vpnServerApiClient->deleteOtpSecret($userId);
-            }
-
-            $returnUrl = sprintf('%susers', $request->getUrl()->getRootUrl(), $userId);
-
-            return new RedirectResponse($returnUrl);
-        }
-    );
-
-    $service->get(
-        '/users/:userId/:configName',
-        function (Request $request, $userId, $configName) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
-            // XXX validate userId
-            // XXX validate configName
-
-            $disabledCommonNames = $vpnServerApiClient->getDisabledCommonNames();
-            $commonName = sprintf('%s_%s', $userId, $configName);
-
-            return $templateManager->render(
-                'vpnUserConfig',
-                array(
-                    'userId' => $userId,
-                    'configName' => $configName,
-                    'isDisabled' => in_array($commonName, $disabledCommonNames),
-                )
-            );
-        }
-    );
-
-    $service->post(
-        '/users/:userId/:configName',
-        function (Request $request, $userId, $configName) use ($templateManager, $vpnServerApiClient, $vpnConfigApiClient) {
-            // XXX validate userId
-            // XXX validate configName
-            $commonName = sprintf('%s_%s', $userId, $configName);
-
-            // XXX is casting to bool appropriate for checkbox?
-            $disable = (bool) $request->getPostParameter('disable');
-
-            if ($disable) {
-                $vpnServerApiClient->disableCommonName($commonName);
-            } else {
-                $vpnServerApiClient->enableCommonName($commonName);
-            }
-
-            $vpnServerApiClient->killCommonName($commonName);
-
-            $returnUrl = sprintf('%susers/%s', $request->getUrl()->getRootUrl(), $userId);
-
-            return new RedirectResponse($returnUrl);
-        }
-    );
-
-    $service->get(
-        '/documentation',
-        function (Request $request) use ($templateManager) {
-            return $templateManager->render(
-                'vpnDocumentation',
-                array()
-            );
-        }
-    );
-
-    $service->get(
-        '/log',
-        function (Request $request) use ($templateManager, $vpnServerApiClient) {
-            $showDate = $request->getUrl()->getQueryParameter('showDate');
-            if (is_null($showDate)) {
-                $showDate = date('Y-m-d');
-            }
-
-            // XXX validate date, backend will take care of it as well, so not
-            // the most important here...
-
-            return $templateManager->render(
-                'vpnLog',
-                array(
-                    'minDate' => date('Y-m-d', strtotime('today -31 days')),
-                    'maxDate' => date('Y-m-d', strtotime('today')),
-                    'showDate' => $showDate,
-                    'log' => $vpnServerApiClient->getLog($showDate),
-                )
-            );
-        }
-    );
+    $service->addModule($adminPortalModule);
 
     $authenticationPlugin = new AuthenticationPlugin();
     $authenticationPlugin->register($auth, 'user');

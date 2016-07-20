@@ -51,7 +51,7 @@
                                 <li>{{ entry.v6 }}</li>
                             </ul>
                         </td>
-                        <td>{{ (entry.bytes_received+entry.bytes_sent)|sizeToHuman|e }}</td>
+                        <td>{{ (entry.bytes_received+entry.bytes_sent) }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
