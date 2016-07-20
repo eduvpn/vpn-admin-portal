@@ -28,7 +28,7 @@
 
         {% if hasOtpSecret %}
         <fieldset>
-            <input type="checkbox" name="otp_secret" id="otp_secret" checked="checked">             
+            <input type="checkbox" name="otp_secret" id="otp_secret">             
             <label for="otp_secret">Remove OTP Secret</label>
         </fieldset>
         {% endif %}
@@ -38,7 +38,7 @@
         </fieldset>
     </form>
 
-    <h3>VPN</h3>
+    <h3>Configurations</h3>
     <table class="horizontal">
         <thead>
             <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
