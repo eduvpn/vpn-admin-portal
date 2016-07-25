@@ -110,6 +110,10 @@ tr {
     height: 3.5em;
 }
 
+td, th {
+    padding: 0 0.5em;
+}
+
 thead th {
     text-align: left;
     border-bottom: 2px solid #ddd;
