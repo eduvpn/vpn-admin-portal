@@ -13,8 +13,10 @@
       <li><a href="{{ rootFolder|e}}documentation">Documentation</a></li>
     </ul>
 
-    <h2>Users / {{ userId|e }} / {{ configName|e }}</h2>
- 
+    <p>
+        Managing configuration <em>{{ configName|e }}</em> of user <a href="{{ rootFolder|e }}users/{{ userId|e }}">{{ userId|e }}</a>.
+    </p>
+
     <form method="post">
         <fieldset>
             <label>
