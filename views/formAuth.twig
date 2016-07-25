@@ -5,22 +5,22 @@
 <body>
     {% include 'header.twig' %}
 
-    <h2>Sign In</h2>
+    <ul class="menu">
+        <li class="active"><a href="">Sign In</a>
+    </ul>
 
     <p>
         Please sign in with your username and password.
     </p>
 
     {% if _auth_form_invalid_credentials %}
-        <p class="danger">
+        <p class="error">
             The credentials you provided are not correct. Please try again!
         </p>
     {% endif %}
 
-    <form class="auth" method="post" action="{{ rootFolder|e }}_auth/form/verify">
+    <form method="post" action="{{ rootFolder|e }}_auth/form/verify">
         <fieldset>
-            <legend>Sign In</legend>
-
             {% if _auth_form_invalid_credentials %}
                 <label for="userName">Username</label>
                 <input type="text"     id="userName" name="userName" autocapitalize="off" placeholder="Username" value="{{ _auth_form_invalid_user_name|e }}" required>
@@ -32,7 +32,9 @@
                 <label for="userPass">Password</label>
                 <input type="password" id="userPass" name="userPass" placeholder="Password" required>
             {% endif %} 
-            <button class="info" type="submit">Sign in</button>
+        </fieldset>
+        <fieldset>
+            <button type="submit">Sign In</button>
 
         </fieldset>
     </form>

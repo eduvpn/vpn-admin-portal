@@ -5,7 +5,7 @@
 <body>
     {% include 'header.twig' %}
 
-    <ul class="mainMenu">
+    <ul class="menu">
       <li class="active"><a href="{{ rootFolder|e}}connections">Connections</a></li>
       <li><a href="{{ rootFolder|e}}users">Users</a></li>
       <li><a href="{{ rootFolder|e}}info">Info</a></li>
@@ -13,14 +13,12 @@
       <li><a href="{{ rootFolder|e}}documentation">Documentation</a></li>
     </ul>
 
-    <h2>Connections</h2>
-
     {% for pool in connections %}
         <h3 id="{{ pool.id|e }}">{{ idNameMapping[pool.id]|e }}</h3>
         {% if pool.connections is empty %}
-            <p class="plain">No clients connected.</p>
+            <p class="block">No clients connected.</p>
         {% else %}
-            <table class="horizontal">
+            <table>
             <thead>
                 <tr>
                     <th>User ID</th>
@@ -38,7 +36,7 @@
                         <a href="{{ rootFolder|e }}users/{{ connection.user_id|e }}/{{ connection.name|e }}">{{ connection.name|e }}</a>
                     </td>
                     <td>
-                        <ul class="ipList">
+                        <ul>
                             {% for ip in connection.virtual_address|sort %}
                             <li>{{ ip|e }}</li>
                             {% endfor %}

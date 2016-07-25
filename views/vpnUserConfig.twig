@@ -5,7 +5,7 @@
 <body>
     {% include 'header.twig' %}
 
-    <ul class="mainMenu">
+    <ul class="menu">
       <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
       <li class="active"><a href="{{ rootFolder|e}}users">Users</a></li>
       <li><a href="{{ rootFolder|e}}info">Info</a></li>
@@ -17,12 +17,13 @@
  
     <form method="post">
         <fieldset>
+            <label>
             {% if isDisabled %}
                 <input type="checkbox" name="disable" id="disable" checked="checked"> 
             {% else %}
                 <input type="checkbox" name="disable" id="disable"> 
             {% endif %}
-            <label for="disable">Disable</label>
+            Disable</label>
         </fieldset>
         <fieldset>
             <button type="submit" value="save">Apply</button>

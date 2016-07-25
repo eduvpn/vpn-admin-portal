@@ -5,7 +5,7 @@
 <body>
     {% include 'header.twig' %}
 
-    <ul class="mainMenu">
+    <ul class="menu">
       <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
       <li class="active"><a href="{{ rootFolder|e}}users">Users</a></li>
       <li><a href="{{ rootFolder|e}}info">Info</a></li>
@@ -18,12 +18,13 @@
     <h3>User</h3>
     <form method="post">
         <fieldset>
+            <label>
             {% if isDisabled %}
                 <input type="checkbox" name="disable" id="disable" checked="checked"> 
             {% else %}
                 <input type="checkbox" name="disable" id="disable"> 
             {% endif %}
-            <label for="disable">Disable</label>
+            Disable</label>
         </fieldset>
 
         {% if hasOtpSecret %}
@@ -39,7 +40,7 @@
     </form>
 
     <h3>Configurations</h3>
-    <table class="horizontal">
+    <table>
         <thead>
             <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
         </thead>
@@ -54,13 +55,13 @@
                 <td>{{ userConfig.exp|e|date('Y-m-d H:i:s') }}</td>
                 <td class="text-right">
                     {% if 'D' == userConfig.state %}
-                        <span class="label label-warning">Disabled</span>
+                        <span class="warning">Disabled</span>
                     {% elseif 'V' == userConfig.state %}
-                        <span class="label label-success">Active</span>
+                        <span class="success">Active</span>
                     {% elseif 'R' == userConfig.state %}
-                        <span class="label">Revoked</span>
+                        <span class="error">Revoked</span>
                     {% elseif 'E' == userConfig.state %}
-                        <span class="label label-disabled">Expired</span>
+                        <span>Expired</span>
                     {% endif %}
                 </td>
             </tr>

@@ -5,7 +5,7 @@
 <body>
     {% include 'header.twig' %}
 
-    <ul class="mainMenu">
+    <ul class="menu">
       <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
       <li class="active"><a href="{{ rootFolder|e}}users">Users</a></li>
       <li><a href="{{ rootFolder|e}}info">Info</a></li>
@@ -15,9 +15,9 @@
 
     <h2>Users</h2>
     {% if userList is empty %}
-        <p class="plain">There are no users with VPN configurations.</p>
+        <p class="block">There are no users with VPN configurations.</p>
     {% else %}
-        <table class="horizontal">
+        <table>
             <thead>
                 <tr><th>User ID</th><th></th></tr>
             </thead>
@@ -27,9 +27,9 @@
                         <td><a href="users/{{ user.userId|e }}">{{ user.userId|e }}</a></td>
                         <td class="text-right">
                             {% if user.isDisabled %}
-                                <span class="label label-error">Disabled</span>
+                                <span class="error">Disabled</span>
                             {% else %}
-                                <span class="label label-success">Active</span>
+                                <span class="success">Active</span>
                             {% endif %}
                         </td>
                     </tr>

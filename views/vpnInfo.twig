@@ -5,7 +5,7 @@
 <body>
     {% include 'header.twig' %}
 
-    <ul class="mainMenu">
+    <ul class="menu">
       <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
       <li><a href="{{ rootFolder|e}}users">Users</a></li>
       <li class="active"><a href="{{ rootFolder|e}}info">Info</a></li>
@@ -13,12 +13,10 @@
       <li><a href="{{ rootFolder|e}}documentation">Documentation</a></li>
     </ul>
 
-    <h2>Info</h2>
-
     {% for pool in serverPools %}
     <h3>{{ pool.name|e }}</h3>
 
-    <table class="vertical">
+    <table>
         <tr>
             <th>IPv4</th>
             <td>{{ pool.range|e }}</td>
@@ -43,12 +41,12 @@
 
         <tr>
             <th>Default Gateway</th>
-            <td>{% if pool.defaultGateway %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
+            <td>{% if pool.defaultGateway %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
         </tr>
 
         <tr>
             <th>NAT</th>
-            <td>{% if pool.useNat %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
+            <td>{% if pool.useNat %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
         </tr>
 
         {% if not pool.defaultGateway %}
@@ -87,17 +85,17 @@
 
         <tr>
             <th>Client-to-client</th>
-            <td>{% if pool.clientToClient %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
+            <td>{% if pool.clientToClient %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
         </tr>
 
         <tr>
             <th>Two-factor Authentication</th>
-            <td>{% if pool.twoFactor %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
+            <td>{% if pool.twoFactor %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
         </tr>
 
         <tr>
             <th>Access Control</th>
-            <td>{% if pool.enableAcl %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
+            <td>{% if pool.enableAcl %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
         </tr>
 
         {% if pool.enableAcl %}
@@ -115,7 +113,7 @@
 
         <tr>
             <th>Detailed Logging</th>
-            <td>{% if pool.enableLog %}<span class="label label-success">Yes</span>{% else %}<span class="label">No</span>{% endif %}</td>
+            <td>{% if pool.enableLog %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
         </tr>
     </table>
     {% endfor %}
