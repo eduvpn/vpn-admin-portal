@@ -38,8 +38,11 @@
                 <tbody>
                 {% for entry in log %}
                     <tr>
-                        <td><a href="configurations?userId={{ entry.common_name|split('_', 2)|first|e }}">{{ entry.common_name|split('_', 2)|first|e }}</a></td>
-                        <td>{{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}</td>
+                        <td><a href="users/{{ entry.common_name|split('_', 2)|first|e }}">{{ entry.common_name|split('_', 2)|first|e }}</a></td>
+                        <td>
+                            <a href="users/{{ entry.common_name|split('_', 2)|first|e }}/{{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}">                         {{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}
+                            </a>
+                        </td>
                         <td>{{ entry.time_unix|e|date("Y-m-d H:i:s") }}</td>
                         <td>{{ entry.disconnect_time_unix|e|date("Y-m-d H:i:s") }}</td>
                         <td>
@@ -54,7 +57,6 @@
                 </tbody>
             </table>
     {% endif %}
-
 
     {% include 'footer.twig' %}
 </body>
