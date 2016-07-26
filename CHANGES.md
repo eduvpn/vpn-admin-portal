@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.3.2 (2016-07-26)
+- update CSS
+- fix remote OTP checkbox display
+
 ## 6.3.1 (2016-07-26)
 - increase header size in info and connections page
 
