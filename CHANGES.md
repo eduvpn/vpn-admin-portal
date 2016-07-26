@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.3.0 (2016-07-26)
+- redo most of the style, simplify a lot
+
 ## 6.2.0 (2016-07-20)
 - redo user/configuration management
 - a lot of refactoring
