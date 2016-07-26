@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.3.1 (2016-07-26)
+- increase header size in info and connections page
+
 ## 6.3.0 (2016-07-26)
 - redo most of the style, simplify a lot
 
