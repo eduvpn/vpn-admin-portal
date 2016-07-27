@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.3.3 (2016-07-27)
+- update normalize.css
+- sync css with vpn-user-portal
+- rename IP to IP address in connections tab
+
 ## 6.3.2 (2016-07-26)
 - update CSS
 - fix remote OTP checkbox display
