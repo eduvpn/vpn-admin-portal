@@ -38,7 +38,7 @@
                     <td>
                         <ul class="simple">
                             {% for ip in connection.virtual_address|sort %}
-                            <li>{{ ip|e }}</li>
+                            <li><code>{{ ip|e }}</code></li>
                             {% endfor %}
                         </ul>
                     </td>
