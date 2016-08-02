@@ -224,16 +224,6 @@ class AdminPortalModule implements ServiceModuleInterface
         );
 
         $service->get(
-            '/documentation',
-            function (Request $request) {
-                return $this->templateManager->render(
-                    'vpnDocumentation',
-                    array()
-                );
-            }
-        );
-
-        $service->get(
             '/log',
             function (Request $request) {
                 $showDate = $request->getUrl()->getQueryParameter('showDate');
