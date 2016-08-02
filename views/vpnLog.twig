@@ -47,8 +47,8 @@
                         <td>{{ entry.disconnect_time_unix|e|date("Y-m-d H:i:s") }}</td>
                         <td>
                             <ul class="simple">
-                                <li>{{ entry.v4|e }}</li>
-                                <li>{{ entry.v6 }}</li>
+                                <li><code>{{ entry.v4|e }}</code></li>
+                                <li><code>{{ entry.v6 }}</code></li>
                             </ul>
                         </td>
                         <td>{{ (entry.bytes_received+entry.bytes_sent) }}</td>
