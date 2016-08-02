@@ -33,7 +33,7 @@
         {% else %}
             <table>
                 <thead>
-                    <tr><th>User ID</th><th>Name</th><th>Connected ({{ date()|date("T") }})</th><th>Disconnected ({{ date()|date("T") }})</th><th>IP address</th><th>Traffic</th></tr>
+                    <tr><th>User ID</th><th>Name</th><th>Connected ({{ date()|date("T") }})</th><th>Disconnected ({{ date()|date("T") }})</th><th>IP address</th><th>Traffic (bytes)</th></tr>
                 </thead>
                 <tbody>
                 {% for entry in log %}
