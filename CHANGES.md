@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.3.4 (2016-08-02)
+- remove documentation, was empty anyway
+- update style a bit
+- mention bytes as unit in log tab
+
 ## 6.3.3 (2016-07-27)
 - update normalize.css
 - sync css with vpn-user-portal
