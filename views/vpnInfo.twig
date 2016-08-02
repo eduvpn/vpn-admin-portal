@@ -14,108 +14,118 @@
     </ul>
 
     {% for pool in serverPools %}
-    <h2>{{ pool.name|e }}</h2>
+        <h2>{{ pool.name|e }}</h2>
 
-    <table>
-        <tr>
-            <th>IPv4</th>
-            <td>{{ pool.range|e }}</td>
-        </tr>
+        <dl>
+            <dt>IPv4</dt>            
+            <dd><code>{{ pool.range|e }}</code></dd>
 
-        <tr>
-            <th>IPv6</th>
-            <td>{{ pool.range6|e }}</td>
-        </tr>
+            <dt>IPv6</dt>            
+            <dd>{{ pool.range6|e }}</dd>
 
-        <tr>
-            <th>Hostname</th>
-            <td>{{ pool.hostName|e }}</td>
-        </tr>
-        
-        {% if pool.listen != "::" %}
-            <tr>
-                <th>Listening On</th>
-                <td>{{ pool.listen|e }}</td>
-            </tr>
-        {% endif %}
+            <dt>Hostname</dt>        
+            <dd>{{ pool.hostName|e }}</dd>
 
-        <tr>
-            <th>Default Gateway</th>
-            <td>{% if pool.defaultGateway %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
-        </tr>
+            {% if pool.listen != "::" %}
+                <dt>Listening On</dt>
+                <dd>{{ pool.listen|e }}</dd>
+            {% endif %}
 
-        <tr>
-            <th>NAT</th>
-            <td>{% if pool.useNat %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
-        </tr>
-
-        {% if not pool.defaultGateway %}
-        <tr>
-            <th>Route(s)</th>
-            <td>
-                {% if pool.routes is empty %}
-                    <em>None</em>
+            <dt>Default Gateway</dt>
+            <dd>
+                {% if pool.defaultGateway %}
+                    <span class="success">Yes</span>
                 {% else %}
-                    <ul>
-                        {% for route in pool.routes %}
-                            <li>{{ route|e }}</li>
+                    <span class="error">No</span>
+                {% endif %}
+            </dd>
+
+            <dt>NAT</dt>
+            <dd>
+                {% if pool.useNat %}
+                    <span class="success">Yes</span>
+                {% else %}
+                <span class="error">No</span>
+                {% endif %}
+            </dd>
+
+            {% if not pool.defaultGateway %}
+                <dt>Route(s)</dt>
+                <dd>
+                    {% if pool.routes is empty %}
+                        <em>None</em>
+                    {% else %}
+                        <ul class="simple">
+                            {% for route in pool.routes %}
+                                <li>{{ route|e }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </dd>
+            {% endif %}
+
+            {% if pool.defaultGateway and pool.dns is not empty %}
+                <dt>DNS</dt>
+                <dd>
+                    {% if pool.dns is empty %}
+                        <em>None</em>
+                    {% else %}
+                        <ul class="simple">
+                        {% for d in pool.dns %}
+                            <li>{{ d|e }}</li>
                         {% endfor %}
-                    </ul>
-                {% endif %}
-            </td>
-        </tr>
-        {% endif %}
-        
-        {% if pool.defaultGateway and pool.dns is not empty %}
-        <tr>
-            <th>DNS</th>
-            <td>
-                {% if pool.dns is empty %}
-                    <em>None</em>
+                        </ul>
+                    {% endif %}
+                </dd>
+            {% endif %}
+
+            <dt>Client-to-client</dt>
+            <dd>
+                {% if pool.clientToClient %}
+                    <span class="success">Yes</span>
                 {% else %}
-                    <ul>
-                    {% for d in pool.dns %}
-                        <li>{{ d|e }}</li>
-                    {% endfor %}
-                    </ul>
+                    <span class="error">No</span>
                 {% endif %}
-            </td>
-        </tr>
-        {% endif %}
+            </dd>
 
-        <tr>
-            <th>Client-to-client</th>
-            <td>{% if pool.clientToClient %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
-        </tr>
+            <dt>Two-factor Authentication</dt>
+            <dd>
+                {% if pool.twoFactor %}
+                    <span class="success">Yes</span>
+                {% else %}
+                    <span class="error">No</span>
+                {% endif %}
+            </dd>
 
-        <tr>
-            <th>Two-factor Authentication</th>
-            <td>{% if pool.twoFactor %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
-        </tr>
+            <dt>Access Control</dt>
+            <dd>
+                {% if pool.enableAcl %}
+                    <span class="success">Yes</span>
+                {% else %}
+                    <span class="error">No</span>
+                {% endif %}
+            </dd>
 
-        <tr>
-            <th>Access Control</th>
-            <td>{% if pool.enableAcl %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
-        </tr>
-
-        {% if pool.enableAcl %}
-        <tr>
-            <th>Access Control Groups</th>
-            <td>
-                <ul>
+            {% if pool.enableAcl %}
+            <dt>Access Control Groups</dt>
+            <dd>
+                <ul class="simple">
                 {% for group in pool.aclGroupList %}
                     <li>{{ group|e }}</li>
                 {% endfor %}
                 </ul>
-            </td>
-        </tr>
-        {% endif %}
+            </dd>
+            {% endif %}
 
-        <tr>
-            <th>Detailed Logging</th>
-            <td>{% if pool.enableLog %}<span class="success">Yes</span>{% else %}<span class="error">No</span>{% endif %}</td>
-        </tr>
-    </table>
+            <dt>Detailed Logging</dt>
+            <dd>
+                {% if pool.enableLog %}
+                    <span class="success">Yes</span>
+                {% else %}
+                    <span class="error">No</span>
+                {% endif %}
+            </dd>
+        </dl>
     {% endfor %}
 
     {% include 'footer.twig' %}

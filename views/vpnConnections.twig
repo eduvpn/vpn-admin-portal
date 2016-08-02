@@ -36,7 +36,7 @@
                         <a href="{{ rootFolder|e }}users/{{ connection.user_id|e }}/{{ connection.name|e }}">{{ connection.name|e }}</a>
                     </td>
                     <td>
-                        <ul>
+                        <ul class="simple">
                             {% for ip in connection.virtual_address|sort %}
                             <li>{{ ip|e }}</li>
                             {% endfor %}
