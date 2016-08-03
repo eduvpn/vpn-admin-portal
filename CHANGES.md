@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.3.5 (2016-08-03)
+- expose more pool configuration on Info page
+
 ## 6.3.4 (2016-08-02)
 - remove documentation, was empty anyway
 - update style a bit
