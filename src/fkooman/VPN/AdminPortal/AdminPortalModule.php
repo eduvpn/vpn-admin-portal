@@ -236,6 +236,18 @@ class AdminPortalModule implements ServiceModuleInterface
             }
         );
 
+        $service->get(
+            '/stats',
+            function (Request $request) {
+                return $this->templateManager->render(
+                    'vpnStats',
+                    [
+                        'stats' => $this->vpnServerApiClient->getStats(),
+                    ]
+                );
+            }
+        );
+
         $service->post(
             '/log',
             function (Request $request) {

@@ -37,16 +37,18 @@ class VpnServerApiClient extends VpnApiClient
         return $this->exec('GET', $requestUri)['data']['connections'];
     }
 
-    /**
-     * Get the log for a particular date.
-     *
-     * @param string $showDate date in format YYYY-MM-DD
-     */
     public function getLog($dateTime, $ipAddress)
     {
         $requestUri = sprintf('%s/log?date_time=%s&ip_address=%s', $this->vpnServerApiUri, urlencode($dateTime), $ipAddress);
 
         return $this->exec('GET', $requestUri)['data']['log'];
+    }
+
+    public function getStats()
+    {
+        $requestUri = sprintf('%s/stats', $this->vpnServerApiUri);
+
+        return $this->exec('GET', $requestUri)['data']['stats'];
     }
 
     public function getDisabledUsers()
