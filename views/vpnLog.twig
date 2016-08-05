@@ -12,49 +12,43 @@
       <li class="active"><a href="{{ rootFolder|e}}log">Log</a></li>
     </ul>
 
-        <p>This page shows the history of client connections. <strong>Only</strong> 
-            closed connections are shown. Ongoing connections 
-            can be found in the <a href="connections">Connections</a> tab. The 
-            entries are sorted by disconnect time, most recently disconnected first.
-            You can view the log of a date between {{ minDate|e }} and {{ maxDate|e }}.
-        </p>
+    <h2>Search</h2>
+    <form method="post">
+        <fieldset>
+            <label for="dateTime">Date / Time</label>
+            <input id="dateTime" name="date_time" type="text" size="40" value="{{ date_time|e }}" placeholder="2016-08-05T09:44:18+02:00" required>
+            <label for="ipAddress">IP Address</label>
+            <input id="ipAddress" name="ip_address" type="text" size="40" value="{{ ip_address|e }}" placeholder="fdc6:6794:d2bf:1::1000" required>
+        </fieldset>
+        <fieldset>
+            <button type="submit">Search</button>
+        </fieldset>
+    </form>
 
-        <form method="get">
-            <fieldset>
-                <label for="showDate">Date</label>
-                <input id="showDate" name="showDate" type="text" value="{{ showDate|e }}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
-                <button type="submit">View</button>
-            </fieldset>
-        </form>
-
-        {% if log is empty %}
-            <p class="block">No log available for this date.</p>
+    {% if results is defined %}
+        <h2>Results</h2>
+        {% if results is empty %}
+            <p class="block">
+                No results matching your criteria.
+            </p>
         {% else %}
             <table>
                 <thead>
-                    <tr><th>User ID</th><th>Name</th><th>Connected ({{ date()|date("T") }})</th><th>Disconnected ({{ date()|date("T") }})</th><th>IP address</th><th>Traffic (bytes)</th></tr>
+                    <tr><th>User ID</th><th>Name</th><th>IP address</th><th>Connected ({{ date()|date('T') }})</th><th>Disconnected ({{ date()|date('T') }})</th></tr>
                 </thead>
                 <tbody>
-                {% for entry in log %}
+                {% for item in results %}
                     <tr>
-                        <td><a href="users/{{ entry.common_name|split('_', 2)|first|e }}">{{ entry.common_name|split('_', 2)|first|e }}</a></td>
-                        <td>
-                            <a href="users/{{ entry.common_name|split('_', 2)|first|e }}/{{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}">                         {{ entry.common_name|split('_', 2)|slice(1,2)|first|e }}
-                            </a>
-                        </td>
-                        <td>{{ entry.time_unix|e|date("Y-m-d H:i:s") }}</td>
-                        <td>{{ entry.disconnect_time_unix|e|date("Y-m-d H:i:s") }}</td>
-                        <td>
-                            <ul class="simple">
-                                <li><code>{{ entry.v4|e }}</code></li>
-                                <li><code>{{ entry.v6 }}</code></li>
-                            </ul>
-                        </td>
-                        <td>{{ (entry.bytes_received+entry.bytes_sent) }}</td>
+                        <td><a href="{{ rootFolder|e }}users/{{ item.user_id|e }}">{{ item.user_id|e }}</a></td>
+                        <td><a href="{{ rootFolder|e }}users/{{ item.user_id|e }}/{{ item.config_name|e }}">{{ item.config_name|e }}</a></td>
+                        <td><ul class="simple"><li>{{ item.v4|e }}</li><li>{{ item.v6|e }}</li></ul></td>
+                        <td>{{ item.connect_time|e|date('Y-m-d H:i:s') }}</td>
+                        <td>{{ item.disconnect_time|e|date('Y-m-d H:i:s') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+        {% endif %}
     {% endif %}
 
     {% include 'footer.twig' %}

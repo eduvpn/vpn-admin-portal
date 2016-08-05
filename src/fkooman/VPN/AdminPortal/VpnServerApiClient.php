@@ -42,9 +42,9 @@ class VpnServerApiClient extends VpnApiClient
      *
      * @param string $showDate date in format YYYY-MM-DD
      */
-    public function getLog($showDate)
+    public function getLog($dateTime, $ipAddress)
     {
-        $requestUri = sprintf('%s/log/%s', $this->vpnServerApiUri, $showDate);
+        $requestUri = sprintf('%s/log?date_time=%s&ip_address=%s', $this->vpnServerApiUri, urlencode($dateTime), $ipAddress);
 
         return $this->exec('GET', $requestUri)['data']['log'];
     }

@@ -226,22 +226,29 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/log',
             function (Request $request) {
-                $showDate = $request->getUrl()->getQueryParameter('showDate');
-                if (is_null($showDate)) {
-                    $showDate = date('Y-m-d');
-                }
+                return $this->templateManager->render(
+                    'vpnLog',
+                    [
+                        'date_time' => null,
+                        'ip_address' => null,
+                    ]
+                );
+            }
+        );
 
-                // XXX validate date, backend will take care of it as well, so not
-                // the most important here...
+        $service->post(
+            '/log',
+            function (Request $request) {
+                $dateTime = $request->getPostParameter('date_time');
+                $ipAddress = $request->getPostParameter('ip_address');
 
                 return $this->templateManager->render(
                     'vpnLog',
-                    array(
-                        'minDate' => date('Y-m-d', strtotime('today -31 days')),
-                        'maxDate' => date('Y-m-d', strtotime('today')),
-                        'showDate' => $showDate,
-                        'log' => $this->vpnServerApiClient->getLog($showDate),
-                    )
+                    [
+                        'date_time' => $dateTime,
+                        'ip_address' => $ipAddress,
+                        'results' => $this->vpnServerApiClient->getLog($dateTime, $ipAddress),
+                    ]
                 );
             }
         );

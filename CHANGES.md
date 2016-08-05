@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.4.0 (...)
+- work with new log API
+- update log UI to allow searching for who used an IP address at a certain
+  time
+
 ## 6.3.5 (2016-08-03)
 - expose more pool configuration on Info page
 
