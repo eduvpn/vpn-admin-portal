@@ -43,7 +43,13 @@
                         <td><a href="{{ rootFolder|e }}users/{{ item.user_id|e }}/{{ item.config_name|e }}">{{ item.config_name|e }}</a></td>
                         <td><ul class="simple"><li>{{ item.v4|e }}</li><li>{{ item.v6|e }}</li></ul></td>
                         <td>{{ item.connect_time|e|date('Y-m-d H:i:s') }}</td>
-                        <td>{{ item.disconnect_time|e|date('Y-m-d H:i:s') }}</td>
+                        <td>
+                            {% if item.disconnect_time %}
+                                {{ item.disconnect_time|e|date('Y-m-d H:i:s') }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
