@@ -29,6 +29,9 @@
         </tbody>
     </table>
 
+    <p>
+        Data from <em>{{ stats.generated_at|e|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})</em>.
+    </p>
     {% include 'footer.twig' %}
 </body>
 </html>
