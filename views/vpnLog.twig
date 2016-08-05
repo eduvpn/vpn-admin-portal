@@ -15,7 +15,7 @@
     <h2>Search</h2>
     <form method="post">
         <fieldset>
-            <label for="dateTime">Date / Time</label>
+            <label for="dateTime">Date / Time ({{ date()|date('T') }})</label>
             <input id="dateTime" name="date_time" type="text" size="40" value="{{ date_time|e }}" placeholder="2016-08-05T09:44:18+02:00" required>
             <label for="ipAddress">IP Address</label>
             <input id="ipAddress" name="ip_address" type="text" size="40" value="{{ ip_address|e }}" placeholder="fdc6:6794:d2bf:1::1000" required>
