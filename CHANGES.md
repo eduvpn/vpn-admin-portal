@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.4.1 (2016-08-08)
+- convert amount of traffic to human readable units instead of bytes
+
 ## 9.4.0 (2016-08-05)
 - work with new log API
 - update log UI to allow searching for who used an IP address at a certain

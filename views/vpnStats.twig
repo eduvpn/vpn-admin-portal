@@ -15,7 +15,7 @@
 
     <table>
         <thead>
-            <tr><th>Date</th><th># Users</th><th># Connections</th><th>Traffic (bytes)</th></tr>
+            <tr><th>Date</th><th># Users</th><th># Connections</th><th>Traffic</th></tr>
         </thead>
         <tbody>
         {% for item in stats.days %}
@@ -23,7 +23,7 @@
                 <td>{{ item.date|e }}</td>
                 <td>{{ item.unique_user_count|e }}</td>
                 <td>{{ item.number_of_connections|e }}</td>
-                <td>{{ item.traffic|e }}</td>
+                <td>{{ item.traffic|e|sizeToHuman }}</td>
             </tr>
         {% endfor %}
         </tbody>

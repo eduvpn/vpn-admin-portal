@@ -28,6 +28,7 @@ use GuzzleHttp\Client;
 use fkooman\VPN\AdminPortal\VpnCaApiClient;
 use fkooman\VPN\AdminPortal\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\AdminPortalModule;
+use fkooman\VPN\AdminPortal\TwigFilters;
 use fkooman\Http\Exception\InternalServerErrorException;
 use fkooman\Config\Reader;
 use fkooman\Config\YamlFile;
@@ -48,6 +49,8 @@ try {
         ),
         $reader->v('templateCache', false, null)
     );
+    $templateManager->addFilter(TwigFilters::sizeToHuman());
+
     $templateManager->setDefault(
         array(
             'rootFolder' => $request->getUrl()->getRoot(),
