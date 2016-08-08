@@ -13,6 +13,21 @@
       <li><a href="{{ rootFolder|e}}log">Log</a></li>
     </ul>
 
+    <p>
+        These statistics cover the time span between {{ stats.first_entry|e|date('Y-m-d') }} and {{ stats.last_entry|e|date('Y-m-d') }}.
+    </p>
+
+    <p>
+        The total amount of traffic passed through the VPN server during this 
+        time was <strong>{{ stats.total_traffic|e|sizeToHuman }}</strong>.
+    </p>
+
+    <p>
+        The maximum number of concurrent connections was 
+        <strong>{{ stats.max_concurrent_connections|e }}</strong>, which occurred on 
+        {{ stats.max_concurrent_connections_time|e|date('Y-m-d H:i:s') }} ({{ date()|date('T') }}).
+    </p>
+
     <table>
         <thead>
             <tr><th>Date</th><th># Users</th><th># Connections</th><th>Traffic</th></tr>

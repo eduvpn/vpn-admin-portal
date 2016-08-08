@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.4.2 (2016-08-08)
+- show some more nice stuff in the stats page
+
 ## 9.4.1 (2016-08-08)
 - convert amount of traffic to human readable units instead of bytes
 
