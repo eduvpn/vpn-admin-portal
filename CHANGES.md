@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.4.3 (2016-08-09)
+- restructure overall stats, add number of unique users
+- do not show ipv6 forwarding on info page
+
 ## 9.4.2 (2016-08-08)
 - show some more nice stuff in the stats page
 
