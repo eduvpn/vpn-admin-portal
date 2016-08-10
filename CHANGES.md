@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.5.0 (...)
+- support multi instance
+
 ## 9.4.3 (2016-08-09)
 - restructure overall stats, add number of unique users
 - do not show ipv6 forwarding on info page

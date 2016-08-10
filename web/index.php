@@ -34,23 +34,33 @@ use fkooman\Config\Reader;
 use fkooman\Config\YamlFile;
 
 try {
+    $request = new Request($_SERVER);
+    $requestHost = $request->getUrl()->getHost();
+
     $reader = new Reader(
-        new YamlFile(dirname(__DIR__).'/config/config.yaml')
+        new YamlFile(
+            [
+                sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $requestHost),
+                sprintf('%s/config/config.yaml', dirname(__DIR__)),
+            ]
+        )
     );
 
     $serverMode = $reader->v('serverMode', false, 'production');
 
-    $request = new Request($_SERVER);
-
+    $templateCache = $reader->v('templateCache', false, null);
+    if (!is_null($templateCache)) {
+        $templateCache = sprintf('%s/%s', $templateCache, $requestHost);
+    }
     $templateManager = new TwigTemplateManager(
         array(
             dirname(__DIR__).'/views',
             dirname(__DIR__).'/config/views',
+            dirname(__DIR__).sprintf('/config/%s/views', $requestHost),
         ),
-        $reader->v('templateCache', false, null)
+        $templateCache
     );
     $templateManager->addFilter(TwigFilters::sizeToHuman());
-
     $templateManager->setDefault(
         array(
             'rootFolder' => $request->getUrl()->getRoot(),
