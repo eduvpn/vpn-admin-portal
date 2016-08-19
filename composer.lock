@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a34a80014ebeea91b1018285837081a6",
-    "content-hash": "d4bda2d03e287c852e4dd42f64812040",
+    "hash": "bdff91abcd50f464dbb70e6418975aec",
+    "content-hash": "30305fdf1c7e9fa7acb4ad4977494f3c",
     "packages": [
         {
             "name": "fkooman/config",
@@ -48,16 +48,16 @@
         },
         {
             "name": "fkooman/http",
-            "version": "1.7.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-http.git",
-                "reference": "d132f317aea49d9900719ee46fe26c4e1ff78116"
+                "reference": "94956a480459b7f6b880d61f21ef03e683deb995"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-http/zipball/d132f317aea49d9900719ee46fe26c4e1ff78116",
-                "reference": "d132f317aea49d9900719ee46fe26c4e1ff78116",
+                "url": "https://api.github.com/repos/fkooman/php-lib-http/zipball/94956a480459b7f6b880d61f21ef03e683deb995",
+                "reference": "94956a480459b7f6b880d61f21ef03e683deb995",
                 "shasum": ""
             },
             "require": {
@@ -65,7 +65,7 @@
                 "ext-mbstring": "*",
                 "ext-session": "*",
                 "ext-spl": "*",
-                "php": ">=5.3.0"
+                "php": ">=5.4"
             },
             "suggest": {
                 "fkooman/rest": "Simple PHP library for writing REST services."
@@ -88,27 +88,28 @@
                 }
             ],
             "description": "Simple PHP library for dealing with HTTP requests and responses.",
-            "time": "2016-06-07 09:32:22"
+            "time": "2016-08-19 07:36:02"
         },
         {
             "name": "fkooman/rest",
-            "version": "1.1.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest.git",
-                "reference": "6c2b5ba40609a63b71f0846a1c88ee6531916ecd"
+                "reference": "27bfd12e267b2ce866c2855c8a094db9682906af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/6c2b5ba40609a63b71f0846a1c88ee6531916ecd",
-                "reference": "6c2b5ba40609a63b71f0846a1c88ee6531916ecd",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/27bfd12e267b2ce866c2855c8a094db9682906af",
+                "reference": "27bfd12e267b2ce866c2855c8a094db9682906af",
                 "shasum": ""
             },
             "require": {
+                "ext-mbstring": "*",
                 "ext-pcre": "*",
                 "ext-spl": "*",
-                "fkooman/http": "^1.1.0",
-                "php": ">=5.3.0"
+                "fkooman/http": "^2.0",
+                "php": ">=5.4"
             },
             "suggest": {
                 "fkooman/rest-plugin-authentication": "Authentication plugin"
@@ -131,26 +132,26 @@
                 }
             ],
             "description": "Simple PHP library for writing REST services.",
-            "time": "2016-01-25 14:07:35"
+            "time": "2016-08-19 09:07:12"
         },
         {
             "name": "fkooman/rest-plugin-authentication",
-            "version": "2.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-authentication.git",
-                "reference": "75fa6432b738a348fd576f352e18c616e423b5f5"
+                "reference": "5d14bc240322444aa1a99b61db1ff69b946e230d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication/zipball/75fa6432b738a348fd576f352e18c616e423b5f5",
-                "reference": "75fa6432b738a348fd576f352e18c616e423b5f5",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication/zipball/5d14bc240322444aa1a99b61db1ff69b946e230d",
+                "reference": "5d14bc240322444aa1a99b61db1ff69b946e230d",
                 "shasum": ""
             },
             "require": {
                 "ext-spl": "*",
-                "fkooman/rest": "^1.0.0",
-                "php": ">=5.3.0"
+                "fkooman/rest": "^2.0.0",
+                "php": ">=5.4"
             },
             "suggest": {
                 "fkooman/rest-plugin-authentication-basic": "Basic Authentication plugin",
@@ -178,28 +179,28 @@
                 }
             ],
             "description": "Authentication plugin for fkooman/rest",
-            "time": "2016-01-21 19:55:11"
+            "time": "2016-08-19 09:08:52"
         },
         {
             "name": "fkooman/rest-plugin-authentication-form",
-            "version": "3.0.4",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-authentication-form.git",
-                "reference": "be285cf0577d0597104aaaab697f833a15ea99ec"
+                "reference": "3b986dafebc3637f56fb53569c73c12cf5a0c1b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication-form/zipball/be285cf0577d0597104aaaab697f833a15ea99ec",
-                "reference": "be285cf0577d0597104aaaab697f833a15ea99ec",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication-form/zipball/3b986dafebc3637f56fb53569c73c12cf5a0c1b1",
+                "reference": "3b986dafebc3637f56fb53569c73c12cf5a0c1b1",
                 "shasum": ""
             },
             "require": {
                 "ext-filter": "*",
                 "ext-spl": "*",
-                "fkooman/http": "^1.3.0",
-                "fkooman/rest": "^1.0.1",
-                "fkooman/rest-plugin-authentication": "^2.0.0",
+                "fkooman/http": "^2.0",
+                "fkooman/rest": "^2.0",
+                "fkooman/rest-plugin-authentication": "^3.0.0",
                 "fkooman/tpl": "^2.0.0",
                 "ircmaxell/password-compat": "~1.0",
                 "php": ">=5.4"
@@ -225,26 +226,26 @@
                 }
             ],
             "description": "HTML Form Authentication plugin for fkooman/rest-plugin-authentication",
-            "time": "2016-04-12 09:27:26"
+            "time": "2016-08-19 09:13:59"
         },
         {
             "name": "fkooman/rest-plugin-authentication-mellon",
-            "version": "2.0.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-authentication-mellon.git",
-                "reference": "1ed02d771a9c7b85f5b3685d46c909856f3810d3"
+                "reference": "9244fa53d8b012ce3c7795fa2ea4a5e510f0d668"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication-mellon/zipball/1ed02d771a9c7b85f5b3685d46c909856f3810d3",
-                "reference": "1ed02d771a9c7b85f5b3685d46c909856f3810d3",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication-mellon/zipball/9244fa53d8b012ce3c7795fa2ea4a5e510f0d668",
+                "reference": "9244fa53d8b012ce3c7795fa2ea4a5e510f0d668",
                 "shasum": ""
             },
             "require": {
-                "fkooman/rest": "^1.0.0",
-                "fkooman/rest-plugin-authentication": "^2.0.0",
-                "php": ">=5.3.0"
+                "fkooman/rest": "^2.0",
+                "fkooman/rest-plugin-authentication": "^3.0",
+                "php": ">=5.4"
             },
             "type": "library",
             "autoload": {
@@ -264,7 +265,7 @@
                 }
             ],
             "description": "Mellon (SAML) Authentication plugin for fkooman/rest",
-            "time": "2015-11-19 12:36:36"
+            "time": "2016-08-19 09:16:28"
         },
         {
             "name": "fkooman/tpl",
