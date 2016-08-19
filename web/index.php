@@ -35,28 +35,36 @@ use fkooman\Config\YamlFile;
 
 try {
     $request = new Request($_SERVER);
-    $requestHost = $request->getUrl()->getHost();
+
+    $hostPort = sprintf(
+        '%s:%d',
+        $request->getUrl()->getHost(),
+        $request->getUrl()->getPort()
+    );
 
     $reader = new Reader(
         new YamlFile(
             [
-                sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $requestHost),
+                sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $hostPort),
                 sprintf('%s/config/config.yaml', dirname(__DIR__)),
             ]
         )
     );
 
     $serverMode = $reader->v('serverMode', false, 'production');
+    $dataDir = $reader->v('dataDir');
 
-    $templateCache = $reader->v('templateCache', false, null);
-    if (!is_null($templateCache)) {
-        $templateCache = sprintf('%s/%s', $templateCache, $requestHost);
+    $templateCache = null;
+    if ('production' === $serverMode) {
+        // enable template cache when running in production mode
+        $templateCache = sprintf('%s/%s/tpl', $dataDir, $hostPort);
     }
+
     $templateManager = new TwigTemplateManager(
         array(
             dirname(__DIR__).'/views',
             dirname(__DIR__).'/config/views',
-            dirname(__DIR__).sprintf('/config/%s/views', $requestHost),
+            dirname(__DIR__).sprintf('/config/%s/views', $hostPort),
         ),
         $templateCache
     );
@@ -141,9 +149,9 @@ try {
     $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     $response = $service->run($request);
 
-    # CSP: https://developer.mozilla.org/en-US/docs/Security/CSP
+    // CSP: https://developer.mozilla.org/en-US/docs/Security/CSP
     $response->setHeader('Content-Security-Policy', "default-src 'self'");
-    # X-Frame-Options: https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options
+    // X-Frame-Options: https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options
     $response->setHeader('X-Frame-Options', 'DENY');
     $response->setHeader('X-Content-Type-Options', 'nosniff');
     $response->setHeader('X-Xss-Protection', '1; mode=block');
