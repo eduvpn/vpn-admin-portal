@@ -23,10 +23,10 @@
         <dt>Total Traffic</dt>
         <dd>{{ stats.total_traffic|e|sizeToHuman }}</dd>
 
-        <dt># Unique Users</dt>
+        <dt>Total Unique Users</dt>
         <dd>{{ stats.unique_users|e }}</dd>
 
-        <dt># Concurrent Connections</dt>
+        <dt># Concurrent Connections (Maximum)</dt>
         <dd>{{ stats.max_concurrent_connections|e }}</dd>
     </dl>
 
@@ -34,14 +34,13 @@
 
     <table>
         <thead>
-            <tr><th>Date</th><th># Users</th><th># Connections</th><th>Traffic</th></tr>
+            <tr><th>Date</th><th># Unique Users</th><th>Traffic</th></tr>
         </thead>
         <tbody>
         {% for item in stats.days %}
             <tr>
                 <td>{{ item.date|e }}</td>
                 <td>{{ item.unique_user_count|e }}</td>
-                <td>{{ item.number_of_connections|e }}</td>
                 <td>{{ item.traffic|e|sizeToHuman }}</td>
             </tr>
         {% endfor %}
