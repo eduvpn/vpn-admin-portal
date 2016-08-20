@@ -37,9 +37,9 @@ try {
     $request = new Request($_SERVER);
 
     // read the main configuration file
-    $reader = new Reader(new YamlFile(sprintf('%s/config/config.yaml', dirname(__DIR__))));
-    $dataDir = $reader->v('dataDir');
-    $serverMode = $reader->v('serverMode', false, 'production');
+    $configReader = new Reader(new YamlFile(sprintf('%s/config/config.yaml', dirname(__DIR__))));
+    $dataDir = $configReader->v('dataDir');
+    $serverMode = $configReader->v('serverMode', false, 'production');
 
     $templateDirs = [
         sprintf('%s/views', dirname(__DIR__)),
@@ -48,9 +48,9 @@ try {
 
     // if in multi instance configuration, read the instance specific
     // configuration file and add instance specific template directory as well
-    if ($reader->v('multiInstance', false, false)) {
+    if ($configReader->v('multiInstance', false, false)) {
         $instanceId = $request->getUrl()->getHost();
-        $reader = new Reader(new YamlFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId)));
+        $configReader = new Reader(new YamlFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId)));
         $dataDir = sprintf('%s/%s', $dataDir, $instanceId);
         $templateDirs[] = sprintf('%s/config/%s/views', dirname(__DIR__), $instanceId);
     }
@@ -72,13 +72,13 @@ try {
     );
 
     // Authentication
-    $authMethod = $reader->v('authMethod', false, 'FormAuthentication');
+    $authMethod = $configReader->v('authMethod', false, 'FormAuthentication');
     $templateManager->addDefault(array('authMethod' => $authMethod));
 
     switch ($authMethod) {
         case 'MellonAuthentication':
             $auth = new MellonAuthentication(
-                $reader->v('MellonAuthentication', 'attribute')
+                $configReader->v('MellonAuthentication', 'attribute')
             );
             break;
         case 'FormAuthentication':
@@ -89,8 +89,8 @@ try {
                 )
             );
             $auth = new FormAuthentication(
-                function ($userId) use ($reader) {
-                    $userList = $reader->v('FormAuthentication');
+                function ($userId) use ($configReader) {
+                    $userList = $configReader->v('FormAuthentication');
                     if (null === $userList || !array_key_exists($userId, $userList)) {
                         return false;
                     }
@@ -110,11 +110,11 @@ try {
         new Client([
             'defaults' => [
                 'headers' => [
-                    'Authorization' => sprintf('Bearer %s', $reader->v('remoteApi', 'vpn-ca-api', 'token')),
+                    'Authorization' => sprintf('Bearer %s', $configReader->v('remoteApi', 'vpn-ca-api', 'token')),
                 ],
             ],
         ]),
-        $reader->v('remoteApi', 'vpn-ca-api', 'uri')
+        $configReader->v('remoteApi', 'vpn-ca-api', 'uri')
     );
 
     // vpn-server-api
@@ -122,11 +122,11 @@ try {
         new Client([
             'defaults' => [
                 'headers' => [
-                    'Authorization' => sprintf('Bearer %s', $reader->v('remoteApi', 'vpn-server-api', 'token')),
+                    'Authorization' => sprintf('Bearer %s', $configReader->v('remoteApi', 'vpn-server-api', 'token')),
                 ],
             ],
         ]),
-        $reader->v('remoteApi', 'vpn-server-api', 'uri')
+        $configReader->v('remoteApi', 'vpn-server-api', 'uri')
     );
 
     $adminPortalModule = new AdminPortalModule(
