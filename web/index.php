@@ -36,38 +36,32 @@ use fkooman\Config\YamlFile;
 try {
     $request = new Request($_SERVER);
 
-    $hostPort = sprintf(
-        '%s:%d',
-        $request->getUrl()->getHost(),
-        $request->getUrl()->getPort()
-    );
-
-    $reader = new Reader(
-        new YamlFile(
-            [
-                sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $hostPort),
-                sprintf('%s/config/config.yaml', dirname(__DIR__)),
-            ]
-        )
-    );
-
-    $serverMode = $reader->v('serverMode', false, 'production');
+    // read the main configuration file
+    $reader = new Reader(new YamlFile(sprintf('%s/config/config.yaml', dirname(__DIR__))));
     $dataDir = $reader->v('dataDir');
+    $serverMode = $reader->v('serverMode', false, 'production');
+
+    $templateDirs = [
+        sprintf('%s/views', dirname(__DIR__)),
+        sprintf('%s/config/views', dirname(__DIR__)),
+    ];
+
+    // if in multi instance configuration, read the instance specific
+    // configuration file and add instance specific template directory as well
+    if ($reader->v('multiInstance', false, false)) {
+        $instanceId = $request->getUrl()->getHost();
+        $reader = new Reader(new YamlFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId)));
+        $dataDir = sprintf('%s/%s', $dataDir, $instanceId);
+        $templateDirs[] = sprintf('%s/config/%s/views', dirname(__DIR__), $instanceId);
+    }
 
     $templateCache = null;
     if ('production' === $serverMode) {
         // enable template cache when running in production mode
-        $templateCache = sprintf('%s/%s/tpl', $dataDir, $hostPort);
+        $templateCache = sprintf('%s/tpl', $dataDir);
     }
 
-    $templateManager = new TwigTemplateManager(
-        array(
-            dirname(__DIR__).'/views',
-            dirname(__DIR__).'/config/views',
-            dirname(__DIR__).sprintf('/config/%s/views', $hostPort),
-        ),
-        $templateCache
-    );
+    $templateManager = new TwigTemplateManager($templateDirs, $templateCache);
     $templateManager->addFilter(TwigFilters::sizeToHuman());
     $templateManager->setDefault(
         array(
