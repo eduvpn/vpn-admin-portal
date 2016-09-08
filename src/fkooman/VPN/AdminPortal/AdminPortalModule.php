@@ -55,8 +55,13 @@ class AdminPortalModule implements ServiceModuleInterface
                 // get the fancy pool name
                 $serverPools = $this->vpnServerApiClient->getServerPools();
                 $idNameMapping = [];
-                foreach ($serverPools as $pool) {
-                    $idNameMapping[$pool['id']] = $pool['name'];
+                foreach ($serverPools as $poolId => $poolConfig) {
+                    if(array_key_exists('displayName', $poolConfig)) {
+                        $poolName = $poolConfig['displayName'];
+                    } else {
+                        $poolName = $poolId;
+                    }
+                    $idNameMapping[$poolId] = $poolName;
                 }
 
                 return $this->templateManager->render(
