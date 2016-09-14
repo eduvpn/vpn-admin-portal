@@ -20,9 +20,9 @@ class VpnCaApiClient extends VpnApiClient
         if (is_null($userId)) {
             $requestUri = sprintf('%s/certificate/', $this->vpnCaApiUri);
         } else {
-            $requestUri = sprintf('%s/certificate/%s', $this->vpnCaApiUri, $userId);
+            $requestUri = sprintf('%s/certificate?user_id=%s', $this->vpnCaApiUri, $userId);
         }
 
-        return $this->exec('get', $requestUri);
+        return $this->exec('get', $requestUri)['data'];
     }
 }

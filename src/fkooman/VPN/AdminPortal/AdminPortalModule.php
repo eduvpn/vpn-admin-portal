@@ -93,7 +93,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $disabledUsers = $this->vpnServerApiClient->getDisabledUsers();
 
                 $userIdList = [];
-                foreach ($certList['items'] as $certEntry) {
+                foreach ($certList['certificates'] as $certEntry) {
                     $userId = $certEntry['user_id'];
                     if (!in_array($userId, $userIdList)) {
                         $userIdList[] = $userId;
@@ -126,7 +126,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $disabledCommonNames = $this->vpnServerApiClient->getDisabledCommonNames();
 
                 $userConfigList = [];
-                foreach ($userCertList['items'] as $userCert) {
+                foreach ($userCertList['certificates'] as $userCert) {
                     $commonName = sprintf('%s_%s', $userCert['user_id'], $userCert['name']);
                     // only if state is valid it makes sense to show disable
                     if ('V' === $userCert['state']) {
