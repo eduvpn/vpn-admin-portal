@@ -37,7 +37,11 @@ try {
     $instanceId = $request->getUrl()->getHost();
     $dataDir = sprintf('%s/data/%s', dirname(__DIR__), $instanceId);
     $config = Config::fromFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId));
-    $templateDirs[] = sprintf('%s/config/%s/views', dirname(__DIR__), $instanceId);
+
+    $templateDirs = [
+        sprintf('%s/views', dirname(__DIR__)),
+        sprintf('%s/config/%s/views', dirname(__DIR__), $instanceId),
+    ];
     $serverMode = $config->v('serverMode');
 
     $templateCache = null;
