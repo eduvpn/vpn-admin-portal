@@ -14,6 +14,7 @@
     "license": "Apache-2.0",
     "name": "eduvpn/vpn-admin-portal",
     "require": {
+        "eduvpn/common": "dev-master",
         "ext-date": "*",
         "ext-spl": "*",
         "fkooman/config": "^1.1.0",

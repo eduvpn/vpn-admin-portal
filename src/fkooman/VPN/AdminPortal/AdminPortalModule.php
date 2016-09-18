@@ -21,16 +21,18 @@ use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\Rest\ServiceModuleInterface;
 use fkooman\Tpl\TemplateManagerInterface;
+use SURFnet\VPN\Common\Api\VpnCaApiClient;
+use SURFnet\VPN\Common\Api\VpnServerApiClient;
 
 class AdminPortalModule implements ServiceModuleInterface
 {
     /** @var \fkooman\Tpl\TemplateManagerInterface */
     private $templateManager;
 
-    /** @var VpnServerApiClient */
+    /** @var \SURFnet\VPN\Common\Api\VpnServerApiClient */
     private $vpnServerApiClient;
 
-    /** @var VpnCaApiClient */
+    /** @var \SURFnet\VPN\Common\Api\VpnCaApiClient */
     private $vpnCaApiClient;
 
     public function __construct(TemplateManagerInterface $templateManager, VpnServerApiClient $vpnServerApiClient, VpnCaApiClient $vpnCaApiClient)
