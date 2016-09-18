@@ -30,30 +30,15 @@ use SURFnet\VPN\Common\Api\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\AdminPortalModule;
 use fkooman\VPN\AdminPortal\TwigFilters;
 use fkooman\Http\Exception\InternalServerErrorException;
-use fkooman\Config\Reader;
-use fkooman\Config\YamlFile;
+use SURFnet\VPN\Common\Config;
 
 try {
     $request = new Request($_SERVER);
-
-    // read the main configuration file
-    $configReader = new Reader(new YamlFile(sprintf('%s/config/config.yaml', dirname(__DIR__))));
-    $dataDir = $configReader->v('dataDir');
-    $serverMode = $configReader->v('serverMode', false, 'production');
-
-    $templateDirs = [
-        sprintf('%s/views', dirname(__DIR__)),
-        sprintf('%s/config/views', dirname(__DIR__)),
-    ];
-
-    // if in multi instance configuration, read the instance specific
-    // configuration file and add instance specific template directory as well
-    if ($configReader->v('multiInstance', false, false)) {
-        $instanceId = $request->getUrl()->getHost();
-        $configReader = new Reader(new YamlFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId)));
-        $dataDir = sprintf('%s/%s', $dataDir, $instanceId);
-        $templateDirs[] = sprintf('%s/config/%s/views', dirname(__DIR__), $instanceId);
-    }
+    $instanceId = $request->getUrl()->getHost();
+    $dataDir = sprintf('%s/data/%s', dirname(__DIR__), $instanceId);
+    $config = Config::fromFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId));
+    $templateDirs[] = sprintf('%s/config/%s/views', dirname(__DIR__), $instanceId);
+    $serverMode = $config->v('serverMode');
 
     $templateCache = null;
     if ('production' === $serverMode) {
@@ -72,13 +57,13 @@ try {
     );
 
     // Authentication
-    $authMethod = $configReader->v('authMethod', false, 'FormAuthentication');
+    $authMethod = $config->v('authMethod');
     $templateManager->addDefault(array('authMethod' => $authMethod));
 
     switch ($authMethod) {
         case 'MellonAuthentication':
             $auth = new MellonAuthentication(
-                $configReader->v('MellonAuthentication', 'attribute')
+                $config->v('MellonAuthentication', 'attribute')
             );
             break;
         case 'FormAuthentication':
@@ -89,8 +74,8 @@ try {
                 )
             );
             $auth = new FormAuthentication(
-                function ($userId) use ($configReader) {
-                    $userList = $configReader->v('FormAuthentication');
+                function ($userId) use ($config) {
+                    $userList = $config->v('FormAuthentication');
                     if (null === $userList || !array_key_exists($userId, $userList)) {
                         return false;
                     }
@@ -109,20 +94,20 @@ try {
     $vpnCaApiClient = new VpnCaApiClient(
         new Client([
             'defaults' => [
-                'auth' => ['vpn-admin-portal', $configReader->v('remoteApi', 'vpn-ca-api', 'token')],
+                'auth' => ['vpn-admin-portal', $config->v('remoteApi', 'vpn-ca-api', 'token')],
             ],
         ]),
-        $configReader->v('remoteApi', 'vpn-ca-api', 'uri')
+        $config->v('remoteApi', 'vpn-ca-api', 'uri')
     );
 
     // vpn-server-api
     $vpnServerApiClient = new VpnServerApiClient(
         new Client([
             'defaults' => [
-                'auth' => ['vpn-admin-portal', $configReader->v('remoteApi', 'vpn-server-api', 'token')],
+                'auth' => ['vpn-admin-portal', $config->v('remoteApi', 'vpn-server-api', 'token')],
             ],
         ]),
-        $configReader->v('remoteApi', 'vpn-server-api', 'uri')
+        $config->v('remoteApi', 'vpn-server-api', 'uri')
     );
 
     $adminPortalModule = new AdminPortalModule(

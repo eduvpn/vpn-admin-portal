@@ -1,18 +1,11 @@
+
 #
 # VPN Admin Portal Configuration
 #
 
-# the mode in which to operate (default: production)
-#serverMode: development
-
-dataDir: /var/lib/vpn-admin-portal
-
-# enable multi instance (default: false)
-#multiInstance: true
-
-##########################
-# Instance Configuration #
-##########################
+# the mode in which to operate
+# production, development (default: production)
+serverMode: production
 
 authMethod: FormAuthentication
 #authMethod: MellonAuthentication

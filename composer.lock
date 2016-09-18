@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8843a0953cbae6b3330611687cfbaa29",
-    "content-hash": "bda45ff469f877e44d52cbc663fb68be",
+    "hash": "e18da2848e69f9be383f050684c88959",
+    "content-hash": "0312853bb4eccdcbefe874b359c4fd39",
     "packages": [
         {
             "name": "eduvpn/common",
@@ -13,18 +13,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eduvpn/vpn-lib-common.git",
-                "reference": "cf4f131153c4b9dd88ea95a5c072c9584a606d35"
+                "reference": "b7f8f1fd7fe3882b96db367cb6001c9adcb01cbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/cf4f131153c4b9dd88ea95a5c072c9584a606d35",
-                "reference": "cf4f131153c4b9dd88ea95a5c072c9584a606d35",
+                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/b7f8f1fd7fe3882b96db367cb6001c9adcb01cbb",
+                "reference": "b7f8f1fd7fe3882b96db367cb6001c9adcb01cbb",
                 "shasum": ""
             },
             "require": {
                 "ext-hash": "*",
                 "ext-json": "*",
                 "ext-spl": "*",
+                "guzzlehttp/guzzle": "^5.3",
                 "php": ">= 5.4.0",
                 "psr/log": "^1.0",
                 "symfony/intl": "~2.3",
@@ -48,46 +49,7 @@
                 }
             ],
             "description": "Common VPN library",
-            "time": "2016-09-18 15:38:56"
-        },
-        {
-            "name": "fkooman/config",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fkooman/php-lib-config.git",
-                "reference": "92eb45e9c32b9fc41d25824dc47d9462b990085c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-config/zipball/92eb45e9c32b9fc41d25824dc47d9462b990085c",
-                "reference": "92eb45e9c32b9fc41d25824dc47d9462b990085c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-spl": "*",
-                "php": ">=5.4",
-                "symfony/yaml": "^2.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\Config\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Read and write configuration files",
-            "time": "2016-08-10 08:27:32"
+            "time": "2016-09-18 19:41:23"
         },
         {
             "name": "fkooman/http",
