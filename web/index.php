@@ -25,8 +25,9 @@ use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\Http\Session;
 use GuzzleHttp\Client;
-use SURFnet\VPN\Common\Api\VpnCaApiClient;
-use SURFnet\VPN\Common\Api\VpnServerApiClient;
+use fkooman\VPN\AdminPortal\GuzzleHttpClient;
+use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
+use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
 use fkooman\VPN\AdminPortal\AdminPortalModule;
 use fkooman\VPN\AdminPortal\TwigFilters;
 use fkooman\Http\Exception\InternalServerErrorException;
@@ -95,24 +96,25 @@ try {
     }
 
     // vpn-ca-api
-    $vpnCaApiClient = new VpnCaApiClient(
+    $guzzleHttpClientCa = new GuzzleHttpClient(
         new Client([
             'defaults' => [
                 'auth' => ['vpn-admin-portal', $config->v('remoteApi', 'vpn-ca-api', 'token')],
             ],
-        ]),
-        $config->v('remoteApi', 'vpn-ca-api', 'uri')
+        ])
     );
+    $vpnCaApiClient = new VpnCaApiClient($guzzleHttpClientCa, $config->v('remoteApi', 'vpn-ca-api', 'uri'));
 
     // vpn-server-api
-    $vpnServerApiClient = new VpnServerApiClient(
+
+    $guzzleHttpClientServer = new GuzzleHttpClient(
         new Client([
             'defaults' => [
                 'auth' => ['vpn-admin-portal', $config->v('remoteApi', 'vpn-server-api', 'token')],
             ],
-        ]),
-        $config->v('remoteApi', 'vpn-server-api', 'uri')
+        ])
     );
+    $vpnServerApiClient = new VpnServerApiClient($guzzleHttpClientServer, $config->v('remoteApi', 'vpn-server-api', 'uri'));
 
     $adminPortalModule = new AdminPortalModule(
         $templateManager,

@@ -21,18 +21,18 @@ use fkooman\Http\Request;
 use fkooman\Rest\Service;
 use fkooman\Rest\ServiceModuleInterface;
 use fkooman\Tpl\TemplateManagerInterface;
-use SURFnet\VPN\Common\Api\VpnCaApiClient;
-use SURFnet\VPN\Common\Api\VpnServerApiClient;
+use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
+use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
 
 class AdminPortalModule implements ServiceModuleInterface
 {
     /** @var \fkooman\Tpl\TemplateManagerInterface */
     private $templateManager;
 
-    /** @var \SURFnet\VPN\Common\Api\VpnServerApiClient */
+    /** @var \SURFnet\VPN\Common\HttpClient\VpnServerApiClient */
     private $vpnServerApiClient;
 
-    /** @var \SURFnet\VPN\Common\Api\VpnCaApiClient */
+    /** @var \SURFnet\VPN\Common\HttpClient\VpnCaApiClient */
     private $vpnCaApiClient;
 
     public function __construct(TemplateManagerInterface $templateManager, VpnServerApiClient $vpnServerApiClient, VpnCaApiClient $vpnCaApiClient)
@@ -58,7 +58,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $serverPools = $this->vpnServerApiClient->getServerPools();
                 $idNameMapping = [];
                 foreach ($serverPools as $poolId => $poolConfig) {
-                    if(array_key_exists('displayName', $poolConfig)) {
+                    if (array_key_exists('displayName', $poolConfig)) {
                         $poolName = $poolConfig['displayName'];
                     } else {
                         $poolName = $poolId;
