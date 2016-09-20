@@ -24,8 +24,8 @@ use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Admin\TwigTpl;
 use SURFnet\VPN\Admin\HtmlResponse;
 use SURFnet\VPN\Common\Config;
-use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
-use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
+use SURFnet\VPN\Common\HttpClient\CaClient;
+use SURFnet\VPN\Common\HttpClient\ServerClient;
 use SURFnet\VPN\Common\Http\FormAuthenticationHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationModule;
 use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
@@ -109,7 +109,7 @@ try {
     }
 
     // vpn-ca-api
-    $guzzleHttpClientCa = new GuzzleHttpClient(
+    $guzzleCaClient = new GuzzleHttpClient(
         new Client([
             'defaults' => [
                 'auth' => [
@@ -119,10 +119,10 @@ try {
             ],
         ])
     );
-    $vpnCaApiClient = new VpnCaApiClient($guzzleHttpClientCa, $config->v('apiProviders', 'vpn-ca-api', 'apiUri'));
+    $caClient = new CaClient($guzzleCaClient, $config->v('apiProviders', 'vpn-ca-api', 'apiUri'));
 
     // vpn-server-api
-    $guzzleHttpClientServer = new GuzzleHttpClient(
+    $guzzleServerClient = new GuzzleHttpClient(
         new Client([
             'defaults' => [
                 'auth' => [
@@ -132,12 +132,12 @@ try {
             ],
         ])
     );
-    $vpnServerApiClient = new VpnServerApiClient($guzzleHttpClientServer, $config->v('apiProviders', 'vpn-server-api', 'apiUri'));
+    $serverClient = new ServerClient($guzzleServerClient, $config->v('apiProviders', 'vpn-server-api', 'apiUri'));
 
     $adminPortalModule = new AdminPortalModule(
         $tpl,
-        $vpnServerApiClient,
-        $vpnCaApiClient
+        $serverClient,
+        $caClient
     );
 
     $service->addModule($adminPortalModule);
