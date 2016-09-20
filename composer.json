@@ -2,16 +2,17 @@
     "authors": [
         {
             "email": "fkooman@tuxed.net",
-            "name": "Fran\u00e7ois Kooman"
+            "name": "Fran\u00e7ois Kooman",
+            "role": "Developer"
         }
     ],
     "autoload": {
         "psr-0": {
-            "fkooman\\VPN\\AdminPortal\\": "src/"
+            "SURFnet\\VPN\\Admin\\": "src/"
         }
     },
     "description": "VPN Admin Portal",
-    "license": "Apache-2.0",
+    "license": "AGPL-3.0",
     "name": "eduvpn/vpn-admin-portal",
     "require": {
         "eduvpn/common": "dev-master",

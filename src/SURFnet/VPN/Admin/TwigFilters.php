@@ -15,35 +15,30 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace fkooman\VPN\AdminPortal;
+namespace SURFnet\VPN\Admin;
 
-use GuzzleHttp\Client;
-use SURFnet\VPN\Common\HttpClient\HttpClientInterface;
+use Twig_SimpleFilter;
 
-class GuzzleHttpClient implements HttpClientInterface
+class TwigFilters
 {
-    /** @var \GuzzleHttp\Client */
-    private $httpClient;
-
-    public function __construct(Client $httpClient)
+    public static function sizeToHuman()
     {
-        $this->httpClient = $httpClient;
-    }
+        return new Twig_SimpleFilter(
+            'sizeToHuman',
+            function ($byteSize) {
+                $kB = 1024;
+                $MB = $kB * 1024;
+                $GB = $MB * 1024;
 
-    public function get($requestUri)
-    {
-        return $this->httpClient->get(sprintf($requestUri))->json();
-    }
+                if ($byteSize > $GB) {
+                    return sprintf('%0.2fGB', $byteSize / $GB);
+                }
+                if ($byteSize > $MB) {
+                    return sprintf('%0.2fMB', $byteSize / $MB);
+                }
 
-    public function post($requestUri, array $postData)
-    {
-        return $this->httpClient->post(
-            $requestUri,
-            [
-                'body' => [
-                    $postData,
-                ],
-            ]
-        )->json();
+                return sprintf('%0.0fkB', $byteSize / $kB);
+            }
+        );
     }
 }
