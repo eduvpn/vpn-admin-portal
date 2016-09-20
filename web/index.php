@@ -76,6 +76,7 @@ try {
     switch ($authMethod) {
         case 'MellonAuthentication':
             $service->addBeforeHook(
+                'auth',
                 new MellonAuthenticationHook(
                     $config->v('MellonAuthentication', 'attribute')
                 )
