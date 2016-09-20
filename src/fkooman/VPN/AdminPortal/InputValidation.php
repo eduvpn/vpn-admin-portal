@@ -16,7 +16,7 @@
  */
 namespace fkooman\VPN\AdminPortal;
 
-use fkooman\Http\Exception\BadRequestException;
+use SURFnet\VPN\Common\Http\Exception\HttpException;
 
 class InputValidation
 {
@@ -26,27 +26,27 @@ class InputValidation
     public static function userId($userId)
     {
         if (0 === preg_match(self::USER_ID_PATTERN, $userId)) {
-            throw new BadRequestException('invalid value for "user_id"');
+            throw new HttpException('invalid value for "user_id"', 400);
         }
         if ('..' === $userId) {
-            throw new BadRequestException('"user_id" cannot be ".."');
+            throw new HttpException('"user_id" cannot be ".."', 400);
         }
     }
 
     public static function configName($configName)
     {
         if (0 === preg_match(self::CONFIG_NAME_PATTERN, $configName)) {
-            throw new BadRequestException('invalid value for "config_name"');
+            throw new HttpException('invalid value for "config_name"', 400);
         }
         if ('..' === $configName) {
-            throw new BadRequestException('"config_name" cannot be ".."');
+            throw new HttpException('"config_name" cannot be ".."', 400);
         }
     }
 
     public static function checkboxValue($checkBoxValue)
     {
         if (!is_null($checkBoxValue) && 'on' !== $checkBoxValue) {
-            throw new BadRequestException('invalid form checkbox value');
+            throw new HttpException('invalid form checkbox value', 400);
         }
     }
 }

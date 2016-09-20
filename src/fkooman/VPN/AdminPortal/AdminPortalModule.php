@@ -16,18 +16,19 @@
  */
 namespace fkooman\VPN\AdminPortal;
 
-use fkooman\Http\RedirectResponse;
-use fkooman\Http\Request;
-use fkooman\Rest\Service;
-use fkooman\Rest\ServiceModuleInterface;
-use fkooman\Tpl\TemplateManagerInterface;
+use SURFnet\VPN\Common\Http\ServiceModuleInterface;
+use SURFnet\VPN\Common\Http\Service;
+use SURFnet\VPN\Common\Http\Request;
+use SURFnet\VPN\Common\Http\RedirectResponse;
+use SURFnet\VPN\Common\TplInterface;
 use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
 use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
+use SURFnet\VPN\Common\Http\Response;
 
 class AdminPortalModule implements ServiceModuleInterface
 {
-    /** @var \fkooman\Tpl\TemplateManagerInterface */
-    private $templateManager;
+    /** @var \SURFnet\VPN\Common\TplInterface */
+    private $tpl;
 
     /** @var \SURFnet\VPN\Common\HttpClient\VpnServerApiClient */
     private $vpnServerApiClient;
@@ -35,9 +36,9 @@ class AdminPortalModule implements ServiceModuleInterface
     /** @var \SURFnet\VPN\Common\HttpClient\VpnCaApiClient */
     private $vpnCaApiClient;
 
-    public function __construct(TemplateManagerInterface $templateManager, VpnServerApiClient $vpnServerApiClient, VpnCaApiClient $vpnCaApiClient)
+    public function __construct(TplInterface $tpl, VpnServerApiClient $vpnServerApiClient, VpnCaApiClient $vpnCaApiClient)
     {
-        $this->templateManager = $templateManager;
+        $this->tpl = $tpl;
         $this->vpnServerApiClient = $vpnServerApiClient;
         $this->vpnCaApiClient = $vpnCaApiClient;
     }
@@ -47,7 +48,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/',
             function (Request $request) {
-                return new RedirectResponse($request->getUrl()->getRootUrl().'connections', 302);
+                return new RedirectResponse($request->getRootUri().'connections', 302);
             }
         );
 
@@ -66,25 +67,35 @@ class AdminPortalModule implements ServiceModuleInterface
                     $idNameMapping[$poolId] = $poolName;
                 }
 
-                return $this->templateManager->render(
-                    'vpnConnections',
-                    array(
-                        'idNameMapping' => $idNameMapping,
-                        'connections' => $this->vpnServerApiClient->getConnections(),
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnConnections',
+                        array(
+                            'idNameMapping' => $idNameMapping,
+                            'connections' => $this->vpnServerApiClient->getConnections(),
+                        )
                     )
                 );
+
+                return $response;
             }
         );
 
         $service->get(
             '/info',
             function (Request $request) {
-                return $this->templateManager->render(
-                    'vpnInfo',
-                    array(
-                        'serverPools' => $this->vpnServerApiClient->getServerPools(),
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnInfo',
+                        array(
+                            'serverPools' => $this->vpnServerApiClient->getServerPools(),
+                        )
                     )
                 );
+
+                return $response;
             }
         );
 
@@ -110,18 +121,24 @@ class AdminPortalModule implements ServiceModuleInterface
                     ];
                 }
 
-                return $this->templateManager->render(
-                    'vpnUserList',
-                    array(
-                        'userList' => $userList,
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnUserList',
+                        array(
+                            'userList' => $userList,
+                        )
                     )
                 );
+
+                return $response;
             }
         );
 
         $service->get(
-            '/users/:userId',
-            function (Request $request, $userId) {
+            '/user',
+            function (Request $request) {
+                $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
 
                 $userCertList = $this->vpnCaApiClient->getCertList($userId);
@@ -140,25 +157,31 @@ class AdminPortalModule implements ServiceModuleInterface
                     $userConfigList[] = $userCert;
                 }
 
-                return $this->templateManager->render(
-                    'vpnUserConfigList',
-                    array(
-                        'userId' => $userId,
-                        'userConfigList' => $userConfigList,
-                        'hasOtpSecret' => $this->vpnServerApiClient->getHasOtpSecret($userId),
-                        'isDisabled' => $this->vpnServerApiClient->getIsDisabledUser($userId),
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnUserConfigList',
+                        array(
+                            'userId' => $userId,
+                            'userConfigList' => $userConfigList,
+                            'hasOtpSecret' => $this->vpnServerApiClient->getHasOtpSecret($userId),
+                            'isDisabled' => $this->vpnServerApiClient->getIsDisabledUser($userId),
+                        )
                     )
                 );
+
+                return $response;
             }
         );
 
         $service->post(
-            '/users/:userId',
-            function (Request $request, $userId) {
+            '/user',
+            function (Request $request) {
+                $userId = $request->getPostParameter('user_id');
                 InputValidation::userId($userId);
-                $disable = $request->getPostParameter('disable');
+                $disable = $request->getPostParameter('disable', false, null);
                 InputValidation::checkboxValue($disable);
-                $deleteOtpSecret = $request->getPostParameter('otp_secret');
+                $deleteOtpSecret = $request->getPostParameter('otp_secret', false, null);
                 InputValidation::checkboxValue($deleteOtpSecret);
 
                 if ($disable) {
@@ -180,38 +203,47 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->vpnServerApiClient->deleteOtpSecret($userId);
                 }
 
-                $returnUrl = sprintf('%susers', $request->getUrl()->getRootUrl(), $userId);
+                $returnUrl = sprintf('%susers', $request->getRootUri());
 
                 return new RedirectResponse($returnUrl);
             }
         );
 
         $service->get(
-            '/users/:userId/:configName',
-            function (Request $request, $userId, $configName) {
+            '/configuration',
+            function (Request $request) {
+                $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
+                $configName = $request->getQueryParameter('config_name');
                 InputValidation::configName($configName);
 
                 $disabledCommonNames = $this->vpnServerApiClient->getDisabledCommonNames();
                 $commonName = sprintf('%s_%s', $userId, $configName);
 
-                return $this->templateManager->render(
-                    'vpnUserConfig',
-                    array(
-                        'userId' => $userId,
-                        'configName' => $configName,
-                        'isDisabled' => in_array($commonName, $disabledCommonNames),
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnUserConfig',
+                        array(
+                            'userId' => $userId,
+                            'configName' => $configName,
+                            'isDisabled' => in_array($commonName, $disabledCommonNames),
+                        )
                     )
                 );
+
+                return $response;
             }
         );
 
         $service->post(
-            '/users/:userId/:configName',
-            function (Request $request, $userId, $configName) {
+            '/configuration',
+            function (Request $request) {
+                $userId = $request->getPostParameter('user_id');
                 InputValidation::userId($userId);
+                $configName = $request->getPostParameter('config_name');
                 InputValidation::configName($configName);
-                $disable = $request->getPostParameter('disable');
+                $disable = $request->getPostParameter('disable', false, null);
                 InputValidation::checkboxValue($disable);
 
                 $commonName = sprintf('%s_%s', $userId, $configName);
@@ -223,7 +255,7 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 $this->vpnServerApiClient->killCommonName($commonName);
 
-                $returnUrl = sprintf('%susers/%s', $request->getUrl()->getRootUrl(), $userId);
+                $returnUrl = sprintf('%suser?user_id=%s', $request->getRootUri(), $userId);
 
                 return new RedirectResponse($returnUrl);
             }
@@ -232,25 +264,35 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/log',
             function (Request $request) {
-                return $this->templateManager->render(
-                    'vpnLog',
-                    [
-                        'date_time' => null,
-                        'ip_address' => null,
-                    ]
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnLog',
+                        [
+                            'date_time' => null,
+                            'ip_address' => null,
+                        ]
+                    )
                 );
+
+                return $response;
             }
         );
 
         $service->get(
             '/stats',
             function (Request $request) {
-                return $this->templateManager->render(
-                    'vpnStats',
-                    [
-                        'stats' => $this->vpnServerApiClient->getStats(),
-                    ]
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnStats',
+                        [
+                            'stats' => $this->vpnServerApiClient->getStats(),
+                        ]
+                    )
                 );
+
+                return $response;
             }
         );
 
@@ -259,15 +301,21 @@ class AdminPortalModule implements ServiceModuleInterface
             function (Request $request) {
                 $dateTime = $request->getPostParameter('date_time');
                 $ipAddress = $request->getPostParameter('ip_address');
+                // XXX validate!
 
-                return $this->templateManager->render(
-                    'vpnLog',
-                    [
-                        'date_time' => $dateTime,
-                        'ip_address' => $ipAddress,
-                        'results' => $this->vpnServerApiClient->getLog($dateTime, $ipAddress),
-                    ]
+                $response = new Response(200, 'text/html');
+                $response->setBody(
+                    $this->tpl->render(
+                        'vpnLog',
+                        [
+                            'date_time' => $dateTime,
+                            'ip_address' => $ipAddress,
+                            'results' => $this->vpnServerApiClient->getLog($dateTime, $ipAddress),
+                        ]
+                    )
                 );
+
+                return $response;
             }
         );
     }

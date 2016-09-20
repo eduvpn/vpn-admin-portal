@@ -6,11 +6,11 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
-      <li class="active"><a href="{{ rootFolder|e}}users">Users</a></li>
-      <li><a href="{{ rootFolder|e}}info">Info</a></li>
-      <li><a href="{{ rootFolder|e}}stats">Stats</a></li>
-      <li><a href="{{ rootFolder|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
+      <li class="active"><a href="{{ requestRoot|e}}users">Users</a></li>
+      <li><a href="{{ requestRoot|e}}info">Info</a></li>
+      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
+      <li><a href="{{ requestRoot|e}}log">Log</a></li>
     </ul>
 
     {% if userList is empty %}
@@ -23,7 +23,7 @@
             <tbody>
                 {% for user in userList %}
                     <tr>
-                        <td><a href="users/{{ user.userId|e }}">{{ user.userId|e }}</a></td>
+                        <td><a href="{{ requestRoot|e}}user?user_id={{ user.userId|e }}">{{ user.userId|e }}</a></td>
                         <td class="text-right">
                             {% if user.isDisabled %}
                                 <span class="error">Disabled</span>

@@ -17,25 +17,33 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
-use fkooman\Rest\Plugin\Authentication\Form\FormAuthentication;
-use fkooman\Rest\Plugin\Authentication\Mellon\MellonAuthentication;
-use fkooman\Tpl\Twig\TwigTemplateManager;
-use fkooman\Http\Request;
-use fkooman\Rest\Service;
-use fkooman\Http\Session;
+use SURFnet\VPN\Common\Http\Request;
+use SURFnet\VPN\Common\Http\Service;
 use GuzzleHttp\Client;
-use fkooman\VPN\AdminPortal\GuzzleHttpClient;
 use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
 use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
-use fkooman\VPN\AdminPortal\AdminPortalModule;
-use fkooman\VPN\AdminPortal\TwigFilters;
-use fkooman\Http\Exception\InternalServerErrorException;
 use SURFnet\VPN\Common\Config;
+use SURFnet\VPN\Common\Http\Session;
+use SURFnet\VPN\Common\Http\FormAuthenticationHook;
+use SURFnet\VPN\Common\Http\FormAuthenticationModule;
+use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
+use SURFnet\VPN\Common\Http\Response;
+use SURFnet\VPN\Common\Http\SecurityHeadersHook;
+use fkooman\VPN\AdminPortal\GuzzleHttpClient;
+use fkooman\VPN\AdminPortal\AdminPortalModule;
+use fkooman\VPN\AdminPortal\TwigTpl;
+use fkooman\VPN\AdminPortal\TwigFilters;
+use SURFnet\VPN\Common\Logger;
+
+$logger = new Logger('vpn-admin-portal');
+
+//var_dump($_SERVER);
+//die();
 
 try {
-    $request = new Request($_SERVER);
-    $instanceId = $request->getUrl()->getHost();
+    $request = new Request($_SERVER, $_GET, $_POST);
+    $instanceId = $request->getServerName();
+
     $dataDir = sprintf('%s/data/%s', dirname(__DIR__), $instanceId);
     $config = Config::fromFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId));
 
@@ -51,24 +59,28 @@ try {
         $templateCache = sprintf('%s/tpl', $dataDir);
     }
 
-    $templateManager = new TwigTemplateManager($templateDirs, $templateCache);
-    $templateManager->addFilter(TwigFilters::sizeToHuman());
-    $templateManager->setDefault(
+    $tpl = new TwigTpl($templateDirs, $templateCache);
+    $tpl->addFilter(TwigFilters::sizeToHuman());
+    $tpl->setDefault(
         array(
-            'rootFolder' => $request->getUrl()->getRoot(),
-            'rootUrl' => $request->getUrl()->getRootUrl(),
-            'requestUrl' => $request->getUrl()->toString(),
+            'requestUri' => $request->getUri(),
+            'requestRoot' => $request->getRoot(),
+            'requestRootUri' => $request->getRootUri(),
         )
     );
 
+    $service = new Service();
+
     // Authentication
     $authMethod = $config->v('authMethod');
-    $templateManager->addDefault(array('authMethod' => $authMethod));
+    $tpl->addDefault(array('authMethod' => $authMethod));
 
     switch ($authMethod) {
         case 'MellonAuthentication':
-            $auth = new MellonAuthentication(
-                $config->v('MellonAuthentication', 'attribute')
+            $service->addBeforeHook(
+                new MellonAuthenticationHook(
+                    $config->v('MellonAuthentication', 'attribute')
+                )
             );
             break;
         case 'FormAuthentication':
@@ -78,17 +90,19 @@ try {
                     'secure' => 'development' !== $serverMode,
                 )
             );
-            $auth = new FormAuthentication(
-                function ($userId) use ($config) {
-                    $userList = $config->v('FormAuthentication');
-                    if (null === $userList || !array_key_exists($userId, $userList)) {
-                        return false;
-                    }
-
-                    return $userList[$userId];
-                },
-                $templateManager,
-                $session
+            $service->addBeforeHook(
+                'auth',
+                new FormAuthenticationHook(
+                    $session,
+                    $tpl
+                )
+            );
+            $service->addModule(
+                new FormAuthenticationModule(
+                    $config->v('FormAuthentication'),
+                    $session,
+                    $tpl
+                )
             );
             break;
         default:
@@ -117,29 +131,38 @@ try {
     $vpnServerApiClient = new VpnServerApiClient($guzzleHttpClientServer, $config->v('remoteApi', 'vpn-server-api', 'uri'));
 
     $adminPortalModule = new AdminPortalModule(
-        $templateManager,
+        $tpl,
         $vpnServerApiClient,
         $vpnCaApiClient
     );
 
-    $service = new Service();
+//    $service = new Service();
+    $service->addAfterHook('security_headers', new SecurityHeadersHook());
+
     $service->addModule($adminPortalModule);
 
-    $authenticationPlugin = new AuthenticationPlugin();
-    $authenticationPlugin->register($auth, 'user');
-    $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
+//    $authenticationPlugin = new AuthenticationPlugin();
+//    $authenticationPlugin->register($auth, 'user');
+//    $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     $response = $service->run($request);
 
     // CSP: https://developer.mozilla.org/en-US/docs/Security/CSP
-    $response->setHeader('Content-Security-Policy', "default-src 'self'");
-    // X-Frame-Options: https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options
-    $response->setHeader('X-Frame-Options', 'DENY');
-    $response->setHeader('X-Content-Type-Options', 'nosniff');
-    $response->setHeader('X-Xss-Protection', '1; mode=block');
+//    $response->setHeader('Content-Security-Policy', "default-src 'self'");
+//    // X-Frame-Options: https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options
+//    $response->setHeader('X-Frame-Options', 'DENY');
+//    $response->setHeader('X-Content-Type-Options', 'nosniff');
+//    $response->setHeader('X-Xss-Protection', '1; mode=block');
     $response->send();
 } catch (Exception $e) {
-    // internal server error
-    error_log($e->__toString());
-    $e = new InternalServerErrorException($e->getMessage());
-    $e->getHtmlResponse()->send();
+    $logger->error($e->getMessage());
+    $response = new Response(500, 'text/plain');
+    $response->setBody($e->getMessage());
+    $response->send();
 }
+
+//} catch (Exception $e) {
+    // internal server error
+//    error_log($e->__toString());
+//    $e = new InternalServerErrorException($e->getMessage());
+//    $e->getHtmlResponse()->send();
+#}

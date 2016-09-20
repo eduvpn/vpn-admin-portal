@@ -6,11 +6,11 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li class="active"><a href="{{ rootFolder|e}}connections">Connections</a></li>
-      <li><a href="{{ rootFolder|e}}users">Users</a></li>
-      <li><a href="{{ rootFolder|e}}info">Info</a></li>
-      <li><a href="{{ rootFolder|e}}stats">Stats</a></li>
-      <li><a href="{{ rootFolder|e}}log">Log</a></li>
+      <li class="active"><a href="{{ requestRoot|e}}connections">Connections</a></li>
+      <li><a href="{{ requestRoot|e}}users">Users</a></li>
+      <li><a href="{{ requestRoot|e}}info">Info</a></li>
+      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
+      <li><a href="{{ requestRoot|e}}log">Log</a></li>
     </ul>
 
     {% for pool in connections %}
@@ -30,10 +30,10 @@
                 {% for connection in pool.connections %}
                 <tr>
                     <td>
-                        <a href="{{ rootFolder|e }}users/{{ connection.user_id|e }}">{{ connection.user_id|e }}</a>
+                        <a href="{{ requestRoot|e }}user?user_id={{ connection.user_id|e }}">{{ connection.user_id|e }}</a>
                     </td>
                     <td>
-                        <a href="{{ rootFolder|e }}users/{{ connection.user_id|e }}/{{ connection.name|e }}">{{ connection.name|e }}</a>
+                        <a href="{{ requestRoot|e }}configuration?user_id={{ connection.user_id|e }}&config_name={{ connection.name|e }}">{{ connection.name|e }}</a>
                     </td>
                     <td>
                         <ul class="simple">

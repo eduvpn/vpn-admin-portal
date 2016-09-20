@@ -6,11 +6,11 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
-      <li class="active"><a href="{{ rootFolder|e}}users">Users</a></li>
-      <li><a href="{{ rootFolder|e}}info">Info</a></li>
-      <li><a href="{{ rootFolder|e}}stats">Stats</a></li>
-      <li><a href="{{ rootFolder|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
+      <li class="active"><a href="{{ requestRoot|e}}users">Users</a></li>
+      <li><a href="{{ requestRoot|e}}info">Info</a></li>
+      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
+      <li><a href="{{ requestRoot|e}}log">Log</a></li>
     </ul>
 
     <p>
@@ -37,6 +37,7 @@
         {% endif %}
 
         <fieldset>
+            <input type="hidden" name="user_id" value="{{ userId|e }}">
             <button type="submit" value="save">Apply</button>
         </fieldset>
     </form>
@@ -50,7 +51,7 @@
         {% for userConfig in userConfigList %}
             <tr>
                 {% if 'D' == userConfig.state or 'V' == userConfig.state %}
-                    <td><a href="{{ userId|e }}/{{ userConfig.name|e }}">{{ userConfig.name|e }}</a></td>
+                    <td><a href="{{ requestRoot|e }}configuration?user_id={{ userId|e }}&config_name={{ userConfig.name|e }}">{{ userConfig.name|e }}</a></td>
                 {% else %}
                     <td>{{ userConfig.name|e }}</td>
                 {% endif %}    

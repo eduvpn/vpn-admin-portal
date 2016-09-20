@@ -6,11 +6,11 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
-      <li><a href="{{ rootFolder|e}}users">Users</a></li>
-      <li><a href="{{ rootFolder|e}}info">Info</a></li>
-      <li><a href="{{ rootFolder|e}}stats">Stats</a></li>
-      <li class="active"><a href="{{ rootFolder|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
+      <li><a href="{{ requestRoot|e}}users">Users</a></li>
+      <li><a href="{{ requestRoot|e}}info">Info</a></li>
+      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
+      <li class="active"><a href="{{ requestRoot|e}}log">Log</a></li>
     </ul>
 
     <h2>Search</h2>
@@ -47,8 +47,8 @@
                 <tbody>
                 {% for item in results %}
                     <tr>
-                        <td><a href="{{ rootFolder|e }}users/{{ item.user_id|e }}">{{ item.user_id|e }}</a></td>
-                        <td><a href="{{ rootFolder|e }}users/{{ item.user_id|e }}/{{ item.config_name|e }}">{{ item.config_name|e }}</a></td>
+                        <td><a href="{{ requestRoot|e }}user?user_id={{ item.user_id|e }}">{{ item.user_id|e }}</a></td>
+                        <td><a href="{{ requestRoot|e }}configuration?user_id={{ item.user_id|e }}&config_name={{ item.config_name|e }}">{{ item.config_name|e }}</a></td>
                         <td><ul class="simple"><li>{{ item.v4|e }}</li><li>{{ item.v6|e }}</li></ul></td>
                         <td>{{ item.connect_time|e|date('Y-m-d H:i:s') }}</td>
                         <td>

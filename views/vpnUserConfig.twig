@@ -6,15 +6,15 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ rootFolder|e}}connections">Connections</a></li>
-      <li class="active"><a href="{{ rootFolder|e}}users">Users</a></li>
-      <li><a href="{{ rootFolder|e}}info">Info</a></li>
-      <li><a href="{{ rootFolder|e}}stats">Stats</a></li>
-      <li><a href="{{ rootFolder|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
+      <li class="active"><a href="{{ requestRoot|e}}users">Users</a></li>
+      <li><a href="{{ requestRoot|e}}info">Info</a></li>
+      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
+      <li><a href="{{ requestRoot|e}}log">Log</a></li>
     </ul>
 
     <p>
-        Managing configuration <em>{{ configName|e }}</em> of user <a href="{{ rootFolder|e }}users/{{ userId|e }}">{{ userId|e }}</a>.
+        Managing configuration <em>{{ configName|e }}</em> of user <a href="{{ requestRoot|e }}user?user_id{{ userId|e }}">{{ userId|e }}</a>.
     </p>
 
     <form method="post">
@@ -28,6 +28,8 @@
             Disable</label>
         </fieldset>
         <fieldset>
+            <input type="hidden" name="user_id" value="{{ userId|e }}">
+            <input type="hidden" name="config_name" value="{{ configName|e }}">
             <button type="submit" value="save">Apply</button>
         </fieldset>
     </form>
