@@ -142,7 +142,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
 
-                $userCertList = $this->vpnCaApiClient->getCertList($userId);
+                $userCertList = $this->vpnCaApiClient->getUserCertList($userId);
                 $disabledCommonNames = $this->vpnServerApiClient->getDisabledCommonNames();
 
                 $userConfigList = [];
