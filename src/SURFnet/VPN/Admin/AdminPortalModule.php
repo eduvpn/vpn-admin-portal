@@ -24,7 +24,6 @@ use SURFnet\VPN\Common\Http\RedirectResponse;
 use SURFnet\VPN\Common\TplInterface;
 use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
 use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
-use SURFnet\VPN\Common\Http\Response;
 
 class AdminPortalModule implements ServiceModuleInterface
 {
@@ -68,8 +67,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $idNameMapping[$poolId] = $poolName;
                 }
 
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnConnections',
                         array(
@@ -78,16 +76,13 @@ class AdminPortalModule implements ServiceModuleInterface
                         )
                     )
                 );
-
-                return $response;
             }
         );
 
         $service->get(
             '/info',
             function () {
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnInfo',
                         array(
@@ -95,8 +90,6 @@ class AdminPortalModule implements ServiceModuleInterface
                         )
                     )
                 );
-
-                return $response;
             }
         );
 
@@ -122,8 +115,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     ];
                 }
 
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnUserList',
                         array(
@@ -131,8 +123,6 @@ class AdminPortalModule implements ServiceModuleInterface
                         )
                     )
                 );
-
-                return $response;
             }
         );
 
@@ -158,8 +148,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $userConfigList[] = $userCert;
                 }
 
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnUserConfigList',
                         array(
@@ -170,8 +159,6 @@ class AdminPortalModule implements ServiceModuleInterface
                         )
                     )
                 );
-
-                return $response;
             }
         );
 
@@ -221,8 +208,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $disabledCommonNames = $this->vpnServerApiClient->getDisabledCommonNames();
                 $commonName = sprintf('%s_%s', $userId, $configName);
 
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnUserConfig',
                         array(
@@ -232,8 +218,6 @@ class AdminPortalModule implements ServiceModuleInterface
                         )
                     )
                 );
-
-                return $response;
             }
         );
 
@@ -265,8 +249,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/log',
             function () {
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnLog',
                         [
@@ -275,16 +258,13 @@ class AdminPortalModule implements ServiceModuleInterface
                         ]
                     )
                 );
-
-                return $response;
             }
         );
 
         $service->get(
             '/stats',
             function () {
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnStats',
                         [
@@ -292,8 +272,6 @@ class AdminPortalModule implements ServiceModuleInterface
                         ]
                     )
                 );
-
-                return $response;
             }
         );
 
@@ -304,8 +282,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $ipAddress = $request->getPostParameter('ip_address');
                 // XXX validate!
 
-                $response = new Response(200, 'text/html');
-                $response->setBody(
+                return new HtmlResponse(
                     $this->tpl->render(
                         'vpnLog',
                         [
@@ -315,8 +292,6 @@ class AdminPortalModule implements ServiceModuleInterface
                         ]
                     )
                 );
-
-                return $response;
             }
         );
     }
