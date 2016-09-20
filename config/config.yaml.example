@@ -1,11 +1,5 @@
-
-#
-# VPN Admin Portal Configuration
-#
-
-# the mode in which to operate
-# production, development (default: production)
 serverMode: production
+#serverMode: developement
 
 authMethod: FormAuthentication
 #authMethod: MellonAuthentication
@@ -17,11 +11,13 @@ MellonAuthentication:
     attribute: MELLON_NAME_ID
     #attribute: MELLON_eduPersonTargetedID
 
-# API credentials for access to remote services
-remoteApi:
+# API providers & credentials for servers this service is connecting to
+apiProviders:
     vpn-ca-api:
-        uri: 'http://localhost:8008/api.php'
-        token: fedcba
+        userName: vpn-admin-portal
+        userPass: fedcba
+        apiUri: 'http://127.42.101.100:8008/api.php'
     vpn-server-api:
-        uri: 'http://localhost:8009/api.php'
-        token: uuvvww
+        userName: vpn-admin-portal
+        userPass: uuvvww
+        apiUri: 'http://127.42.101.100:8009/api.php'

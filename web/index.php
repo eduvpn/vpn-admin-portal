@@ -112,21 +112,27 @@ try {
     $guzzleHttpClientCa = new GuzzleHttpClient(
         new Client([
             'defaults' => [
-                'auth' => ['vpn-admin-portal', $config->v('remoteApi', 'vpn-ca-api', 'token')],
+                'auth' => [
+                    $config->v('apiProviders', 'vpn-ca-api', 'userName'),
+                    $config->v('apiProviders', 'vpn-ca-api', 'userPass'),
+                ],
             ],
         ])
     );
-    $vpnCaApiClient = new VpnCaApiClient($guzzleHttpClientCa, $config->v('remoteApi', 'vpn-ca-api', 'uri'));
+    $vpnCaApiClient = new VpnCaApiClient($guzzleHttpClientCa, $config->v('apiProviders', 'vpn-ca-api', 'apiUri'));
 
     // vpn-server-api
     $guzzleHttpClientServer = new GuzzleHttpClient(
         new Client([
             'defaults' => [
-                'auth' => ['vpn-admin-portal', $config->v('remoteApi', 'vpn-server-api', 'token')],
+                'auth' => [
+                    $config->v('apiProviders', 'vpn-server-api', 'userName'),
+                    $config->v('apiProviders', 'vpn-server-api', 'userPass'),
+                ],
             ],
         ])
     );
-    $vpnServerApiClient = new VpnServerApiClient($guzzleHttpClientServer, $config->v('remoteApi', 'vpn-server-api', 'uri'));
+    $vpnServerApiClient = new VpnServerApiClient($guzzleHttpClientServer, $config->v('apiProviders', 'vpn-server-api', 'apiUri'));
 
     $adminPortalModule = new AdminPortalModule(
         $tpl,
