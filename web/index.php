@@ -17,28 +17,25 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use SURFnet\VPN\Common\Http\Request;
-use SURFnet\VPN\Common\Http\Service;
+use fkooman\VPN\AdminPortal\AdminPortalModule;
+use fkooman\VPN\AdminPortal\GuzzleHttpClient;
+use fkooman\VPN\AdminPortal\TwigFilters;
+use fkooman\VPN\AdminPortal\TwigTpl;
 use GuzzleHttp\Client;
+use SURFnet\VPN\Common\Config;
 use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
 use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
-use SURFnet\VPN\Common\Config;
-use SURFnet\VPN\Common\Http\Session;
 use SURFnet\VPN\Common\Http\FormAuthenticationHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationModule;
 use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
+use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\Response;
 use SURFnet\VPN\Common\Http\SecurityHeadersHook;
-use fkooman\VPN\AdminPortal\GuzzleHttpClient;
-use fkooman\VPN\AdminPortal\AdminPortalModule;
-use fkooman\VPN\AdminPortal\TwigTpl;
-use fkooman\VPN\AdminPortal\TwigFilters;
+use SURFnet\VPN\Common\Http\Service;
+use SURFnet\VPN\Common\Http\Session;
 use SURFnet\VPN\Common\Logger;
 
 $logger = new Logger('vpn-admin-portal');
-
-//var_dump($_SERVER);
-//die();
 
 try {
     $request = new Request($_SERVER, $_GET, $_POST);
@@ -70,6 +67,7 @@ try {
     );
 
     $service = new Service();
+    $service->addAfterHook('security_headers', new SecurityHeadersHook());
 
     // Authentication
     $authMethod = $config->v('authMethod');
@@ -120,7 +118,6 @@ try {
     $vpnCaApiClient = new VpnCaApiClient($guzzleHttpClientCa, $config->v('remoteApi', 'vpn-ca-api', 'uri'));
 
     // vpn-server-api
-
     $guzzleHttpClientServer = new GuzzleHttpClient(
         new Client([
             'defaults' => [
@@ -136,22 +133,8 @@ try {
         $vpnCaApiClient
     );
 
-//    $service = new Service();
-    $service->addAfterHook('security_headers', new SecurityHeadersHook());
-
     $service->addModule($adminPortalModule);
-
-//    $authenticationPlugin = new AuthenticationPlugin();
-//    $authenticationPlugin->register($auth, 'user');
-//    $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     $response = $service->run($request);
-
-    // CSP: https://developer.mozilla.org/en-US/docs/Security/CSP
-//    $response->setHeader('Content-Security-Policy', "default-src 'self'");
-//    // X-Frame-Options: https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options
-//    $response->setHeader('X-Frame-Options', 'DENY');
-//    $response->setHeader('X-Content-Type-Options', 'nosniff');
-//    $response->setHeader('X-Xss-Protection', '1; mode=block');
     $response->send();
 } catch (Exception $e) {
     $logger->error($e->getMessage());
@@ -159,10 +142,3 @@ try {
     $response->setBody($e->getMessage());
     $response->send();
 }
-
-//} catch (Exception $e) {
-    // internal server error
-//    error_log($e->__toString());
-//    $e = new InternalServerErrorException($e->getMessage());
-//    $e->getHtmlResponse()->send();
-#}
