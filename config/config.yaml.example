@@ -1,5 +1,5 @@
 serverMode: production
-#serverMode: developement
+#serverMode: development
 
 authMethod: FormAuthentication
 #authMethod: MellonAuthentication
