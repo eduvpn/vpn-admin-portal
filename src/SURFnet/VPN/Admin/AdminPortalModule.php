@@ -55,7 +55,7 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/connections',
-            function (Request $request) {
+            function () {
                 // get the fancy pool name
                 $serverPools = $this->vpnServerApiClient->getServerPools();
                 $idNameMapping = [];
@@ -85,7 +85,7 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/info',
-            function (Request $request) {
+            function () {
                 $response = new Response(200, 'text/html');
                 $response->setBody(
                     $this->tpl->render(
@@ -102,7 +102,7 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/users',
-            function (Request $request) {
+            function () {
                 $certList = $this->vpnCaApiClient->getCertList();
                 $disabledUsers = $this->vpnServerApiClient->getDisabledUsers();
 
@@ -264,7 +264,7 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/log',
-            function (Request $request) {
+            function () {
                 $response = new Response(200, 'text/html');
                 $response->setBody(
                     $this->tpl->render(
@@ -282,7 +282,7 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/stats',
-            function (Request $request) {
+            function () {
                 $response = new Response(200, 'text/html');
                 $response->setBody(
                     $this->tpl->render(
