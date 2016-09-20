@@ -22,6 +22,7 @@ use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Admin\GuzzleHttpClient;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Admin\TwigTpl;
+use SURFnet\VPN\Admin\HtmlResponse;
 use SURFnet\VPN\Common\Config;
 use SURFnet\VPN\Common\HttpClient\VpnCaApiClient;
 use SURFnet\VPN\Common\HttpClient\VpnServerApiClient;
@@ -29,7 +30,6 @@ use SURFnet\VPN\Common\Http\FormAuthenticationHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationModule;
 use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
 use SURFnet\VPN\Common\Http\Request;
-use SURFnet\VPN\Common\Http\Response;
 use SURFnet\VPN\Common\Http\SecurityHeadersHook;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\Session;
@@ -145,7 +145,6 @@ try {
     $response->send();
 } catch (Exception $e) {
     $logger->error($e->getMessage());
-    $response = new Response(500, 'text/plain');
-    $response->setBody($e->getMessage());
+    $response = new HtmlResponse($e->getMessage(), 500);
     $response->send();
 }
