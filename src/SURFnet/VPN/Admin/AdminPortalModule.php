@@ -22,21 +22,21 @@ use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\RedirectResponse;
 use SURFnet\VPN\Common\TplInterface;
-use SURFnet\VPN\Common\HttpClient\CaClientInterface;
-use SURFnet\VPN\Common\HttpClient\ServerClientInterface;
+use SURFnet\VPN\Common\HttpClient\CaClient;
+use SURFnet\VPN\Common\HttpClient\ServerClient;
 
 class AdminPortalModule implements ServiceModuleInterface
 {
     /** @var \SURFnet\VPN\Common\TplInterface */
     private $tpl;
 
-    /** @var \SURFnet\VPN\Common\HttpClient\ServerClientInterface */
+    /** @var \SURFnet\VPN\Common\HttpClient\ServerClient */
     private $serverClient;
 
-    /** @var \SURFnet\VPN\Common\HttpClient\CaClientInterface */
+    /** @var \SURFnet\VPN\Common\HttpClient\CaClient */
     private $caClient;
 
-    public function __construct(TplInterface $tpl, ServerClientInterface $serverClient, CaClientInterface $caClient)
+    public function __construct(TplInterface $tpl, ServerClient $serverClient, CaClient $caClient)
     {
         $this->tpl = $tpl;
         $this->serverClient = $serverClient;
@@ -56,7 +56,7 @@ class AdminPortalModule implements ServiceModuleInterface
             '/connections',
             function () {
                 // get the fancy pool name
-                $serverPools = $this->serverClient->getServerPools();
+                $serverPools = $this->serverClient->serverPools();
                 $idNameMapping = [];
                 foreach ($serverPools as $poolId => $poolConfig) {
                     if (array_key_exists('displayName', $poolConfig)) {
@@ -72,7 +72,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         'vpnConnections',
                         array(
                             'idNameMapping' => $idNameMapping,
-                            'connections' => $this->serverClient->getConnections(),
+                            'connections' => $this->serverClient->clientConnections(),
                         )
                     )
                 );
@@ -86,7 +86,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnInfo',
                         array(
-                            'serverPools' => $this->serverClient->getServerPools(),
+                            'serverPools' => $this->serverClient->serverPools(),
                         )
                     )
                 );
@@ -96,11 +96,11 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/users',
             function () {
-                $certList = $this->caClient->getCertList();
-                $disabledUsers = $this->serverClient->getDisabledUsers();
+                $certificateList = $this->caClient->certificateList();
+                $disabledUsers = $this->serverClient->disabledUsers();
 
                 $userIdList = [];
-                foreach ($certList['certificates'] as $certEntry) {
+                foreach ($certificateList as $certEntry) {
                     $userId = $certEntry['user_id'];
                     if (!in_array($userId, $userIdList)) {
                         $userIdList[] = $userId;
@@ -132,11 +132,11 @@ class AdminPortalModule implements ServiceModuleInterface
                 $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
 
-                $userCertList = $this->caClient->getUserCertList($userId);
-                $disabledCommonNames = $this->serverClient->getDisabledCommonNames();
+                $userCertificateList = $this->caClient->userCertificateList($userId);
+                $disabledCommonNames = $this->serverClient->disabledCommonNames();
 
                 $userConfigList = [];
-                foreach ($userCertList['certificates'] as $userCert) {
+                foreach ($userCertificateList as $userCert) {
                     $commonName = sprintf('%s_%s', $userCert['user_id'], $userCert['name']);
                     // only if state is valid it makes sense to show disable
                     if ('V' === $userCert['state']) {
@@ -154,8 +154,8 @@ class AdminPortalModule implements ServiceModuleInterface
                         array(
                             'userId' => $userId,
                             'userConfigList' => $userConfigList,
-                            'hasOtpSecret' => $this->serverClient->getHasOtpSecret($userId),
-                            'isDisabled' => $this->serverClient->getIsDisabledUser($userId),
+                            'hasOtpSecret' => $this->serverClient->hasOtpSecret($userId),
+                            'isDisabled' => $this->serverClient->isDisabledUser($userId),
                         )
                     )
                 );
@@ -175,11 +175,11 @@ class AdminPortalModule implements ServiceModuleInterface
                 if ($disable) {
                     $this->serverClient->disableUser($userId);
                     // kill all active connections for this user
-                    $connections = $this->serverClient->getConnections();
-                    foreach ($connections as $pool) {
+                    $clientConnections = $this->serverClient->clientConnections();
+                    foreach ($clientConnections as $pool) {
                         foreach ($pool['connections'] as $connection) {
                             if ($connection['user_id'] === $userId) {
-                                $this->serverClient->killCommonName($connection['common_name']);
+                                $this->serverClient->killClient($connection['common_name']);
                             }
                         }
                     }
@@ -205,7 +205,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $configName = $request->getQueryParameter('config_name');
                 InputValidation::configName($configName);
 
-                $disabledCommonNames = $this->serverClient->getDisabledCommonNames();
+                $disabledCommonNames = $this->serverClient->disabledCommonNames();
                 $commonName = sprintf('%s_%s', $userId, $configName);
 
                 return new HtmlResponse(
@@ -238,7 +238,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->serverClient->enableCommonName($commonName);
                 }
 
-                $this->serverClient->killCommonName($commonName);
+                $this->serverClient->killClient($commonName);
 
                 $returnUrl = sprintf('%suser?user_id=%s', $request->getRootUri(), $userId);
 
@@ -268,7 +268,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnStats',
                         [
-                            'stats' => $this->serverClient->getStats(),
+                            'stats' => $this->serverClient->stats(),
                         ]
                     )
                 );
@@ -288,7 +288,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         [
                             'date_time' => $dateTime,
                             'ip_address' => $ipAddress,
-                            'results' => $this->serverClient->getLog($dateTime, $ipAddress),
+                            'results' => $this->serverClient->log($dateTime, $ipAddress),
                         ]
                     )
                 );
