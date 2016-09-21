@@ -22,7 +22,6 @@ use Twig_Loader_Filesystem;
 use Twig_Environment;
 use Twig_SimpleFilter;
 use RuntimeException;
-use Twig_Extensions_Extension_I18n;
 
 class TwigTpl implements TplInterface
 {
@@ -82,29 +81,6 @@ class TwigTpl implements TplInterface
         $this->defaultVariables = array_merge(
             $this->defaultVariables, $templateVariables
         );
-    }
-
-    public function setI18n($appName, $languageStr, $localeDir)
-    {
-        putenv(sprintf('LC_ALL=%s', $languageStr));
-
-        if (false === setlocale(LC_ALL, [$languageStr, sprintf('%s.UTF-8', $languageStr)])) {
-            throw new RuntimeException(sprintf('unable to set locale "%s"', $languageStr));
-        }
-
-        if ($localeDir !== bindtextdomain($appName, $localeDir)) {
-            throw new RuntimeException('unable to bind text domain');
-        }
-
-        if (!is_string(bind_textdomain_codeset($appName, 'UTF-8'))) {
-            throw new RuntimeException('unable to bind text domain codeset');
-        }
-
-        if ($appName !== textdomain($appName)) {
-            throw new RuntimeException('unable to set text domain');
-        }
-
-        $this->twig->addExtension(new Twig_Extensions_Extension_I18n());
     }
 
     public function addFilter(Twig_SimpleFilter $filter)

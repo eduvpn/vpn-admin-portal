@@ -16,7 +16,6 @@
     "name": "eduvpn/vpn-admin-portal",
     "require": {
         "eduvpn/common": "dev-master",
-        "ext-gettext": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
         "guzzlehttp/guzzle": "^5.3",
