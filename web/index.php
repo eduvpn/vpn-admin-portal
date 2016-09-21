@@ -139,10 +139,9 @@ try {
         $serverClient,
         $caClient
     );
-
     $service->addModule($adminPortalModule);
-    $response = $service->run($request);
-    $response->send();
+
+    $service->run($request)->send();
 } catch (Exception $e) {
     $logger->error($e->getMessage());
     $response = new HtmlResponse($e->getMessage(), 500);
