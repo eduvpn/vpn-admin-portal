@@ -34,6 +34,7 @@ use SURFnet\VPN\Common\Http\SecurityHeadersHook;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\Session;
 use SURFnet\VPN\Common\Logger;
+use SURFnet\VPN\Common\Http\ReferrerCheckHook;
 
 $logger = new Logger('vpn-admin-portal');
 
@@ -67,6 +68,7 @@ try {
     );
 
     $service = new Service();
+    $service->addBeforeHook('referrer_check', new ReferrerCheckHook());
     $service->addAfterHook('security_headers', new SecurityHeadersHook());
 
     // Authentication
