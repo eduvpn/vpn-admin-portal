@@ -185,6 +185,8 @@ class AdminPortalModule implements ServiceModuleInterface
                         }
                     }
                 } else {
+                    // XXX only if the user was actually disabled before,
+                    // otherwise this will fail!
                     $this->serverClient->enableUser($userId);
                 }
 
