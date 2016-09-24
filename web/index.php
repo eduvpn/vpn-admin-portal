@@ -67,7 +67,7 @@ try {
         )
     );
 
-    $service = new Service();
+    $service = new Service($tpl);
     $service->addBeforeHook('referrer_check', new ReferrerCheckHook());
     $service->addAfterHook('security_headers', new SecurityHeadersHook());
 
