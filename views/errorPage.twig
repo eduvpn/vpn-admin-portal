@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    {% include 'header.twig' %}
+
+    <ul class="menu">
+        <li class="active"><a href="{{ requestRoot|e }}">Error</a>
+    </ul>
+
+    <h2>{{ code|e }}</h2>
+
+    <p>
+    An error occurred.
+    </p>
+
+    <p class="error">
+        <code>
+            {{ message|e }}
+        </code>
+    </p>
+
+    {% include 'footer.twig' %}
+</body>
+</html>
