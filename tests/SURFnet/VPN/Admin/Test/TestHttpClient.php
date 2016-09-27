@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace SURFnet\VPN\Portal\Test;
+namespace SURFnet\VPN\Admin\Test;
 
 use SURFnet\VPN\Common\HttpClient\HttpClientInterface;
 use RuntimeException;
@@ -35,6 +35,16 @@ class TestHttpClient implements HttpClientInterface
                             'twoFactor' => false,
                             'processCount' => 4,
                             'hostName' => 'vpn.example',
+                            'range' => '10.10.10.0/24',
+                            'range6' => 'fd00:4242:4242::/48',
+                            'listen' => '0.0.0.0',
+                            'defaultGateway' => true,
+                            'useNat' => true,
+                            'dns' => ['8.8.8.8'],
+                            'blockSmb' => false,
+                            'forward6' => true,
+                            'clientToClient' => false,
+                            'enableLog' => false,
                         ],
                     ]
                 );
@@ -42,44 +52,104 @@ class TestHttpClient implements HttpClientInterface
                 return self::wrap(
                     'client_connections',
                     [
-                        'connections' => [
-                            [
-                                'bytes_in' => 5428,
-                                'bytes_out' => 5504,
-                                'common_name' => 'me_test',
-                                'connected_since' => 1474963126,
-                                'name' => 'test',
-                                'real_address' => '192.168.122.1:55461',
-                                'user_id' => 'me',
-                                'virtual_address' => [
-                                    '10.111.138.2',
-                                    'fd53:dbd:11bf:6460::1000',
+                        [
+                            'connections' => [
+                                [
+                                    'bytes_in' => 5428,
+                                    'bytes_out' => 5504,
+                                    'common_name' => 'me_test',
+                                    'connected_since' => 1474963126,
+                                    'name' => 'test',
+                                    'real_address' => '192.168.122.1:55461',
+                                    'user_id' => 'me',
+                                    'virtual_address' => [
+                                        '10.111.138.2',
+                                        'fd53:dbd:11bf:6460::1000',
+                                    ],
                                 ],
                             ],
+                            'id' => 'internet',
                         ],
-                        'id' => 'internet',
                     ]
                 );
-
-//            case 'serverClient/server_pool?pool_id=internet':
-//                return self::wrap(
-//                    'server_pool',
-//                    [
-//                        'enableAcl' => false,
-//                        'displayName' => 'Internet Access',
-//                        'twoFactor' => false,
-//                        'processCount' => 4,
-//                        'hostName' => 'vpn.example',
-//                    ]
-//                );
-//            case 'serverClient/has_otp_secret?user_id=foo':
-//                return self::wrap('has_otp_secret', false);
-//            case 'caClient/user_certificate_list?user_id=foo':
-//                return self::wrap('user_certificate_list', [['name' => 'FooConfig', 'user_id' => 'foo', 'state' => 'V']]);
-//            case 'serverClient/user_groups?user_id=foo':
-//                return self::wrap('user_groups', []);
-//            case 'serverClient/disabled_common_names':
-//                return self::wrap('disabled_common_names', []);
+            case 'serverClient/disabled_users':
+                return self::wrap(
+                    'disabled_users',
+                    [
+                        'foo',
+                    ]
+                );
+            case 'caClient/certificate_list':
+                return self::wrap(
+                    'certificate_list',
+                    [
+                        [
+                            'user_id' => 'foo',
+                        ],
+                        [
+                            'user_id' => 'bar',
+                        ],
+                    ]
+                );
+            case 'caClient/user_certificate_list?user_id=foo':
+                return self::wrap(
+                    'user_certificate_list',
+                    [
+                        [
+                            'user_id' => 'foo',
+                            'name' => 'Config1',
+                            'state' => 'V',
+                            'exp' => 1234123213,
+                        ],
+                        [
+                            'user_id' => 'foo',
+                            'name' => 'Config2',
+                            'state' => 'E',
+                            'exp' => 1234123213,
+                        ],
+                        [
+                            'user_id' => 'foo',
+                            'name' => 'Config3',
+                            'state' => 'D',
+                            'exp' => 1234123213,
+                        ],
+                    ]
+                );
+            case 'serverClient/disabled_common_names':
+                return self::wrap(
+                    'disabled_common_names',
+                    [
+                    ]
+                );
+            case 'serverClient/has_otp_secret?user_id=foo':
+                return self::wrap(
+                    'has_otp_secret',
+                    true
+                );
+            case 'serverClient/is_disabled_user?user_id=foo':
+                return self::wrap(
+                    'is_disabled_user',
+                    false
+                );
+            case 'serverClient/stats':
+                return self::wrap(
+                    'stats',
+                    [
+                        'first_entry' => 1234567890,
+                        'last_entry' => 1234666666,
+                        'total_traffic' => 11111111111,
+                        'unique_users' => 5,
+                        'max_concurrent_connections' => 3,
+                        'days' => [
+                            [
+                                'date' => '2016-09-09',
+                                'unique_user_count' => 3,
+                                'traffic' => 121123123,
+                            ],
+                        ],
+                        'generated_at' => 1234888888,
+                    ]
+                );
             default:
                 throw new RuntimeException(sprintf('unexpected requestUri "%s"', $requestUri));
         }
@@ -88,25 +158,6 @@ class TestHttpClient implements HttpClientInterface
     public function post($requestUri, array $postData)
     {
         switch ($requestUri) {
-//            case 'caClient/add_client_certificate':
-//                return self::wrap(
-//                    'add_client_certificate',
-//                    [
-//                        'cn' => 'foo_MyConfig',
-//                        'valid_from' => 12345678,
-//                        'valid_to' => '23456789',
-//                        'ca' => 'CAPEM',
-//                        'cert' => 'CERTPEM',
-//                        'key' => 'KEYPEM',
-//                        'ta' => 'TAKEY',
-//                    ]
-//                );
-//            case 'serverClient/disable_common_name':
-//                return self::wrap('disable_common_name', true);
-//            case 'serverClient/kill_client':
-//                return self::wrap('kill_client', true);
-//            case 'serverClient/set_voot_token':
-//                return self::wrap('set_voot_token', true);
             default:
                 throw new RuntimeException(sprintf('unexpected requestUri "%s"', $requestUri));
         }

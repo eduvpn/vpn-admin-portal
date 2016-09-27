@@ -25,8 +25,8 @@ use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\HttpClient\CaClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
-use SURFnet\VPN\Portal\Test\JsonTpl;
-use SURFnet\VPN\Portal\Test\TestHttpClient;
+use SURFnet\VPN\Admin\Test\JsonTpl;
+use SURFnet\VPN\Admin\Test\TestHttpClient;
 use PHPUnit_Framework_TestCase;
 
 class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
@@ -58,22 +58,24 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
                         'internet' => 'Internet Access',
                     ],
                     'connections' => [
-                        'connections' => [
-                            [
-                                'bytes_in' => 5428,
-                                'bytes_out' => 5504,
-                                'common_name' => 'me_test',
-                                'connected_since' => 1474963126,
-                                'name' => 'test',
-                                'real_address' => '192.168.122.1:55461',
-                                'user_id' => 'me',
-                                'virtual_address' => [
-                                    '10.111.138.2',
-                                    'fd53:dbd:11bf:6460::1000',
+                    [
+                            'connections' => [
+                                [
+                                    'bytes_in' => 5428,
+                                    'bytes_out' => 5504,
+                                    'common_name' => 'me_test',
+                                    'connected_since' => 1474963126,
+                                    'name' => 'test',
+                                    'real_address' => '192.168.122.1:55461',
+                                    'user_id' => 'me',
+                                    'virtual_address' => [
+                                        '10.111.138.2',
+                                        'fd53:dbd:11bf:6460::1000',
+                                    ],
                                 ],
                             ],
+                            'id' => 'internet',
                         ],
-                        'id' => 'internet',
                     ],
                 ],
             ],
@@ -93,6 +95,18 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
                             'twoFactor' => false,
                             'processCount' => 4,
                             'hostName' => 'vpn.example',
+                            'range' => '10.10.10.0/24',
+                            'range6' => 'fd00:4242:4242::/48',
+                            'listen' => '0.0.0.0',
+                            'defaultGateway' => true,
+                            'useNat' => true,
+                            'dns' => [
+                                '8.8.8.8',
+                            ],
+                            'blockSmb' => false,
+                            'forward6' => true,
+                            'clientToClient' => false,
+                            'enableLog' => false,
                         ],
                     ],
                 ],
