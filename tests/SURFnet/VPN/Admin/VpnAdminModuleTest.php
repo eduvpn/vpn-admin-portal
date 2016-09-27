@@ -81,6 +81,26 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetInfo()
+    {
+        $this->assertSame(
+            [
+                'vpnInfo' => [
+                    'serverPools' => [
+                        'internet' => [
+                            'enableAcl' => false,
+                            'displayName' => 'Internet Access',
+                            'twoFactor' => false,
+                            'processCount' => 4,
+                            'hostName' => 'vpn.example',
+                        ],
+                    ],
+                ],
+            ],
+            $this->makeRequest('GET', '/info')
+        );
+    }
+
     private function makeRequest($requestMethod, $pathInfo, array $getData = [], array $postData = [], $returnResponseObj = false)
     {
         $response = $this->service->run(
