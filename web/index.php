@@ -85,6 +85,7 @@ try {
             );
             break;
         case 'FormAuthentication':
+            $tpl->addDefault(['_show_logout' => true]);
             $session = new Session(
                 'vpn-admin-portal',
                 array(
