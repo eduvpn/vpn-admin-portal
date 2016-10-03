@@ -282,8 +282,9 @@ class AdminPortalModule implements ServiceModuleInterface
             '/log',
             function (Request $request) {
                 $dateTime = $request->getPostParameter('date_time');
+                InputValidation::dateTime($dateTime);
                 $ipAddress = $request->getPostParameter('ip_address');
-                // XXX validate!
+                InputValidation::ipAddress($ipAddress);
 
                 return new HtmlResponse(
                     $this->tpl->render(

@@ -50,4 +50,18 @@ class InputValidation
             throw new HttpException('invalid form checkbox value', 400);
         }
     }
+
+    public static function ipAddress($ipAddress)
+    {
+        if (false === filter_var($ipAddress, FILTER_VALIDATE_IP)) {
+            throw new HttpException('invalid IP address', 400);
+        }
+    }
+
+    public static function dateTime($dateTime)
+    {
+        if (false === strtotime($dateTime)) {
+            throw new HttpException('invalid date/time format', 400);
+        }
+    }
 }
