@@ -44,13 +44,6 @@ class InputValidation
         }
     }
 
-    public static function checkboxValue($checkBoxValue)
-    {
-        if (!is_null($checkBoxValue) && 'on' !== $checkBoxValue) {
-            throw new HttpException('invalid form checkbox value', 400);
-        }
-    }
-
     public static function ipAddress($ipAddress)
     {
         if (false === filter_var($ipAddress, FILTER_VALIDATE_IP)) {

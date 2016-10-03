@@ -17,20 +17,15 @@
         Managing configuration <em>{{ configName }}</em> of user <a href="{{ requestRoot }}user?user_id={{ userId }}">{{ userId }}</a>.
     </p>
 
-    <form method="post">
-        <fieldset>
-            <label>
-            {% if isDisabled %}
-                <input type="checkbox" name="disable" id="disable" checked="checked"> 
-            {% else %}
-                <input type="checkbox" name="disable" id="disable"> 
-            {% endif %}
-            Disable</label>
-        </fieldset>
+    <form method="post" action="{{ requestRoot }}configuration">
         <fieldset>
             <input type="hidden" name="user_id" value="{{ userId }}">
             <input type="hidden" name="config_name" value="{{ configName }}">
-            <button type="submit" value="save">Apply</button>
+            {% if isDisabled %}
+                <button name="common_name_action" value="enableCommonName" class="success">Enable Configuration</button>
+            {% else %}
+                <button name="common_name_action" value="disableCommonName" class="error">Disable Configuration</button>
+            {% endif %}
         </fieldset>
     </form>
 

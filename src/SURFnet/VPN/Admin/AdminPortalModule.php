@@ -168,30 +168,34 @@ class AdminPortalModule implements ServiceModuleInterface
             function (Request $request) {
                 $userId = $request->getPostParameter('user_id');
                 InputValidation::userId($userId);
-                $disable = $request->getPostParameter('disable', false, null);
-                InputValidation::checkboxValue($disable);
-                $deleteOtpSecret = $request->getPostParameter('otp_secret', false, null);
-                InputValidation::checkboxValue($deleteOtpSecret);
+                $userAction = $request->getPostParameter('user_action');
+                // no need to explicitly validate userAction, as we will have
+                // switch below with whitelisted acceptable values
 
-                if ($disable) {
-                    $this->serverClient->disableUser($userId);
-                    // kill all active connections for this user
-                    $clientConnections = $this->serverClient->clientConnections();
-                    foreach ($clientConnections as $pool) {
-                        foreach ($pool['connections'] as $connection) {
-                            if ($connection['user_id'] === $userId) {
-                                $this->serverClient->killClient($connection['common_name']);
+                switch ($userAction) {
+                    case 'disableUser':
+                        $this->serverClient->disableUser($userId);
+                        // kill all active connections for this user
+                        $clientConnections = $this->serverClient->clientConnections();
+                        foreach ($clientConnections as $pool) {
+                            foreach ($pool['connections'] as $connection) {
+                                if ($connection['user_id'] === $userId) {
+                                    $this->serverClient->killClient($connection['common_name']);
+                                }
                             }
                         }
-                    }
-                } else {
-                    // XXX only if the user was actually disabled before,
-                    // otherwise this will fail!
-                    $this->serverClient->enableUser($userId);
-                }
+                        break;
 
-                if ($deleteOtpSecret) {
-                    $this->serverClient->deleteOtpSecret($userId);
+                    case 'enableUser':
+                        $this->serverClient->enableUser($userId);
+                        break;
+
+                    case 'deleteOtpSecret':
+                        $this->serverClient->deleteOtpSecret($userId);
+                        break;
+
+                    default:
+                        throw new HttpException('unsupported "user_action"', 400);
                 }
 
                 $returnUrl = sprintf('%susers', $request->getRootUri());
@@ -231,17 +235,23 @@ class AdminPortalModule implements ServiceModuleInterface
                 InputValidation::userId($userId);
                 $configName = $request->getPostParameter('config_name');
                 InputValidation::configName($configName);
-                $disable = $request->getPostParameter('disable', false, null);
-                InputValidation::checkboxValue($disable);
-
                 $commonName = sprintf('%s_%s', $userId, $configName);
-                if ($disable) {
-                    $this->serverClient->disableCommonName($commonName);
-                } else {
-                    $this->serverClient->enableCommonName($commonName);
-                }
 
-                $this->serverClient->killClient($commonName);
+                $commonNameAction = $request->getPostParameter('common_name_action');
+                // no need to explicitly validate userAction, as we will have
+                // switch below with whitelisted acceptable values
+
+                switch ($commonNameAction) {
+                    case 'disableCommonName':
+                        $this->serverClient->disableCommonName($commonName);
+                        $this->serverClient->killClient($commonName);
+                        break;
+                    case 'enableCommonName':
+                        $this->serverClient->enableCommonName($commonName);
+                        break;
+                    default:
+                        throw new HttpException('unsupported "common_name_action"', 400);
+                }
 
                 $returnUrl = sprintf('%suser?user_id=%s', $request->getRootUri(), $userId);
 
