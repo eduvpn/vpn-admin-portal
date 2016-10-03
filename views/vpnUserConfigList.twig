@@ -6,15 +6,15 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
-      <li class="active"><a href="{{ requestRoot|e}}users">Users</a></li>
-      <li><a href="{{ requestRoot|e}}info">Info</a></li>
-      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
-      <li><a href="{{ requestRoot|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">Connections</a></li>
+      <li class="active"><a href="{{ requestRoot }}users">Users</a></li>
+      <li><a href="{{ requestRoot }}info">Info</a></li>
+      <li><a href="{{ requestRoot }}stats">Stats</a></li>
+      <li><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
     <p>
-        Managing user <em>{{ userId|e }}</em>.
+        Managing user <em>{{ userId }}</em>.
     </p>
     
     <form method="post">
@@ -37,7 +37,7 @@
         {% endif %}
 
         <fieldset>
-            <input type="hidden" name="user_id" value="{{ userId|e }}">
+            <input type="hidden" name="user_id" value="{{ userId }}">
             <button type="submit" value="save">Apply</button>
         </fieldset>
     </form>
@@ -51,11 +51,11 @@
         {% for userConfig in userConfigList %}
             <tr>
                 {% if 'D' == userConfig.state or 'V' == userConfig.state %}
-                    <td><a href="{{ requestRoot|e }}configuration?user_id={{ userId|e }}&config_name={{ userConfig.name|e }}">{{ userConfig.name|e }}</a></td>
+                    <td><a href="{{ requestRoot }}configuration?user_id={{ userId }}&config_name={{ userConfig.name }}">{{ userConfig.name }}</a></td>
                 {% else %}
-                    <td>{{ userConfig.name|e }}</td>
+                    <td>{{ userConfig.name }}</td>
                 {% endif %}    
-                <td>{{ userConfig.exp|e|date('Y-m-d H:i:s') }}</td>
+                <td>{{ userConfig.exp|date('Y-m-d H:i:s') }}</td>
                 <td class="text-right">
                     {% if 'D' == userConfig.state %}
                         <span class="error">Disabled</span>

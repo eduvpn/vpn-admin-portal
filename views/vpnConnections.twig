@@ -6,15 +6,15 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li class="active"><a href="{{ requestRoot|e}}connections">Connections</a></li>
-      <li><a href="{{ requestRoot|e}}users">Users</a></li>
-      <li><a href="{{ requestRoot|e}}info">Info</a></li>
-      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
-      <li><a href="{{ requestRoot|e}}log">Log</a></li>
+      <li class="active"><a href="{{ requestRoot }}connections">Connections</a></li>
+      <li><a href="{{ requestRoot }}users">Users</a></li>
+      <li><a href="{{ requestRoot }}info">Info</a></li>
+      <li><a href="{{ requestRoot }}stats">Stats</a></li>
+      <li><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
     {% for pool in connections %}
-        <h2 id="{{ pool.id|e }}">{{ idNameMapping[pool.id]|e }}</h2>
+        <h2 id="{{ pool.id }}">{{ idNameMapping[pool.id] }}</h2>
         {% if pool.connections is empty %}
             <p class="block">No clients connected.</p>
         {% else %}
@@ -30,15 +30,15 @@
                 {% for connection in pool.connections %}
                 <tr>
                     <td>
-                        <a href="{{ requestRoot|e }}user?user_id={{ connection.user_id|e }}">{{ connection.user_id|e }}</a>
+                        <a href="{{ requestRoot }}user?user_id={{ connection.user_id }}">{{ connection.user_id }}</a>
                     </td>
                     <td>
-                        <a href="{{ requestRoot|e }}configuration?user_id={{ connection.user_id|e }}&config_name={{ connection.name|e }}">{{ connection.name|e }}</a>
+                        <a href="{{ requestRoot }}configuration?user_id={{ connection.user_id }}&config_name={{ connection.name }}">{{ connection.name }}</a>
                     </td>
                     <td>
                         <ul class="simple">
                             {% for ip in connection.virtual_address|sort %}
-                            <li><code>{{ ip|e }}</code></li>
+                            <li><code>{{ ip }}</code></li>
                             {% endfor %}
                         </ul>
                     </td>

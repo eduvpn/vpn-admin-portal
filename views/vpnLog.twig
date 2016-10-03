@@ -6,11 +6,11 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
-      <li><a href="{{ requestRoot|e}}users">Users</a></li>
-      <li><a href="{{ requestRoot|e}}info">Info</a></li>
-      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
-      <li class="active"><a href="{{ requestRoot|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">Connections</a></li>
+      <li><a href="{{ requestRoot }}users">Users</a></li>
+      <li><a href="{{ requestRoot }}info">Info</a></li>
+      <li><a href="{{ requestRoot }}stats">Stats</a></li>
+      <li class="active"><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
     <h2>Search</h2>
@@ -24,9 +24,9 @@
     <form method="post">
         <fieldset>
             <label for="dateTime">Date/Time ({{ date()|date('T') }})</label>
-            <input id="dateTime" name="date_time" type="text" size="40" value="{{ date_time|e }}" placeholder="2016-08-05T09:44:18+02:00" required>
+            <input id="dateTime" name="date_time" type="text" size="40" value="{{ date_time }}" placeholder="2016-08-05T09:44:18+02:00" required>
             <label for="ipAddress">IP Address</label>
-            <input id="ipAddress" name="ip_address" type="text" size="40" value="{{ ip_address|e }}" placeholder="fdc6:6794:d2bf:1::1000" required>
+            <input id="ipAddress" name="ip_address" type="text" size="40" value="{{ ip_address }}" placeholder="fdc6:6794:d2bf:1::1000" required>
         </fieldset>
         <fieldset>
             <button type="submit">Search</button>
@@ -47,13 +47,13 @@
                 <tbody>
                 {% for item in results %}
                     <tr>
-                        <td><a href="{{ requestRoot|e }}user?user_id={{ item.user_id|e }}">{{ item.user_id|e }}</a></td>
-                        <td><a href="{{ requestRoot|e }}configuration?user_id={{ item.user_id|e }}&config_name={{ item.config_name|e }}">{{ item.config_name|e }}</a></td>
-                        <td><ul class="simple"><li>{{ item.v4|e }}</li><li>{{ item.v6|e }}</li></ul></td>
-                        <td>{{ item.connect_time|e|date('Y-m-d H:i:s') }}</td>
+                        <td><a href="{{ requestRoot }}user?user_id={{ item.user_id }}">{{ item.user_id }}</a></td>
+                        <td><a href="{{ requestRoot }}configuration?user_id={{ item.user_id }}&config_name={{ item.config_name }}">{{ item.config_name }}</a></td>
+                        <td><ul class="simple"><li>{{ item.v4 }}</li><li>{{ item.v6 }}</li></ul></td>
+                        <td>{{ item.connect_time|date('Y-m-d H:i:s') }}</td>
                         <td>
                             {% if item.disconnect_time %}
-                                {{ item.disconnect_time|e|date('Y-m-d H:i:s') }}
+                                {{ item.disconnect_time|date('Y-m-d H:i:s') }}
                             {% else %}
                                 -
                             {% endif %}

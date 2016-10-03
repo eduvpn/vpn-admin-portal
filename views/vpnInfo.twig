@@ -6,29 +6,29 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
-      <li><a href="{{ requestRoot|e}}users">Users</a></li>
-      <li class="active"><a href="{{ requestRoot|e}}info">Info</a></li>
-      <li><a href="{{ requestRoot|e}}stats">Stats</a></li>
-      <li><a href="{{ requestRoot|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">Connections</a></li>
+      <li><a href="{{ requestRoot }}users">Users</a></li>
+      <li class="active"><a href="{{ requestRoot }}info">Info</a></li>
+      <li><a href="{{ requestRoot }}stats">Stats</a></li>
+      <li><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
     {% for pool in serverPools %}
-        <h2>{{ pool.displayName|e }}</h2>
+        <h2>{{ pool.displayName }}</h2>
 
         <dl>
             <dt>IPv4</dt>            
-            <dd><code>{{ pool.range|e }}</code></dd>
+            <dd><code>{{ pool.range }}</code></dd>
 
             <dt>IPv6</dt>            
-            <dd><code>{{ pool.range6|e }}</code></dd>
+            <dd><code>{{ pool.range6 }}</code></dd>
 
             <dt>Hostname</dt>        
-            <dd><code>{{ pool.hostName|e }}</code></dd>
+            <dd><code>{{ pool.hostName }}</code></dd>
 
             {% if pool.listen != "::" %}
                 <dt>Listening On</dt>
-                <dd><code>{{ pool.listen|e }}</code></dd>
+                <dd><code>{{ pool.listen }}</code></dd>
             {% endif %}
 
             <dt>Default Gateway</dt>
@@ -57,7 +57,7 @@
                     {% else %}
                         <ul class="simple">
                             {% for route in pool.routes %}
-                                <li><code>{{ route|e }}</code></li>
+                                <li><code>{{ route }}</code></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
@@ -72,7 +72,7 @@
                     {% else %}
                         <ul class="simple">
                         {% for d in pool.dns %}
-                            <li><code>{{ d|e }}</code></li>
+                            <li><code>{{ d }}</code></li>
                         {% endfor %}
                         </ul>
                     {% endif %}
@@ -129,7 +129,7 @@
             <dd>
                 <ul class="simple">
                 {% for group in pool.aclGroupList %}
-                    <li><code>{{ group|e }}</code></li>
+                    <li><code>{{ group }}</code></li>
                 {% endfor %}
                 </ul>
             </dd>

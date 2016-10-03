@@ -6,10 +6,10 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-        <li class="active"><a href="{{ requestRoot|e }}">Error</a>
+        <li class="active"><a href="{{ requestRoot }}">Error</a>
     </ul>
 
-    <h2>{{ code|e }}</h2>
+    <h2>{{ code }}</h2>
 
     <p>
     An error occurred.
@@ -17,7 +17,7 @@
 
     <p class="error">
         <code>
-            {{ message|e }}
+            {{ message }}
         </code>
     </p>
 

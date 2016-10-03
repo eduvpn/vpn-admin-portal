@@ -6,28 +6,28 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot|e}}connections">Connections</a></li>
-      <li><a href="{{ requestRoot|e}}users">Users</a></li>
-      <li><a href="{{ requestRoot|e}}info">Info</a></li>
-      <li class="active"><a href="{{ requestRoot|e}}stats">Stats</a></li>
-      <li><a href="{{ requestRoot|e}}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">Connections</a></li>
+      <li><a href="{{ requestRoot }}users">Users</a></li>
+      <li><a href="{{ requestRoot }}info">Info</a></li>
+      <li class="active"><a href="{{ requestRoot }}stats">Stats</a></li>
+      <li><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
     <h2>Overall</h2>
 
     <p>
-        The statistics are based on data from {{ stats.first_entry|e|date('Y-m-d') }} to {{ stats.last_entry|e|date('Y-m-d') }}.
+        The statistics are based on data from {{ stats.first_entry|date('Y-m-d') }} to {{ stats.last_entry|date('Y-m-d') }}.
     </p>
 
     <dl>
         <dt>Total Traffic</dt>
-        <dd>{{ stats.total_traffic|e|sizeToHuman }}</dd>
+        <dd>{{ stats.total_traffic|sizeToHuman }}</dd>
 
         <dt>Total Unique Users</dt>
-        <dd>{{ stats.unique_users|e }}</dd>
+        <dd>{{ stats.unique_users }}</dd>
 
         <dt># Concurrent Connections (Maximum)</dt>
-        <dd>{{ stats.max_concurrent_connections|e }}</dd>
+        <dd>{{ stats.max_concurrent_connections }}</dd>
     </dl>
 
     <h2>Daily</h2>
@@ -39,16 +39,16 @@
         <tbody>
         {% for item in stats.days %}
             <tr>
-                <td>{{ item.date|e }}</td>
-                <td>{{ item.unique_user_count|e }}</td>
-                <td>{{ item.traffic|e|sizeToHuman }}</td>
+                <td>{{ item.date }}</td>
+                <td>{{ item.unique_user_count }}</td>
+                <td>{{ item.traffic|sizeToHuman }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
     <p>
-        Data from <em>{{ stats.generated_at|e|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})</em>.
+        Data from <em>{{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})</em>.
     </p>
     {% include 'footer.twig' %}
 </body>
