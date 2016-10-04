@@ -87,10 +87,9 @@ try {
         case 'FormAuthentication':
             $tpl->addDefault(['_show_logout' => true]);
             $session = new Session(
-                'vpn-admin-portal',
-                array(
-                    'secure' => 'development' !== $serverMode,
-                )
+                $request->getServerName(),
+                $request->getRoot(),
+                'development' !== $serverMode
             );
             $service->addBeforeHook(
                 'auth',
