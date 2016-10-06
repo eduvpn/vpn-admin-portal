@@ -19,7 +19,7 @@ require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
 use GuzzleHttp\Client;
 use SURFnet\VPN\Admin\AdminPortalModule;
-use SURFnet\VPN\Admin\GuzzleHttpClient;
+use SURFnet\VPN\Common\HttpClient\GuzzleHttpClient;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Admin\TwigTpl;
 use SURFnet\VPN\Common\Config;
