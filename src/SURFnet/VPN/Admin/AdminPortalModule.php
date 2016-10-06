@@ -25,6 +25,7 @@ use SURFnet\VPN\Common\Http\RedirectResponse;
 use SURFnet\VPN\Common\TplInterface;
 use SURFnet\VPN\Common\HttpClient\CaClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
+use SURFnet\VPN\Common\Http\Exception\HttpException;
 
 class AdminPortalModule implements ServiceModuleInterface
 {
