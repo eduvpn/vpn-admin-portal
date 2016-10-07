@@ -17,7 +17,6 @@
  */
 require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
-use GuzzleHttp\Client;
 use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Common\HttpClient\GuzzleHttpClient;
 use SURFnet\VPN\Admin\TwigFilters;
@@ -36,6 +35,8 @@ use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\Session;
 use SURFnet\VPN\Common\Logger;
 use SURFnet\VPN\Common\Http\ReferrerCheckHook;
+use SURFnet\VPN\Common\Http\TwoFactorModule;
+use SURFnet\VPN\Common\Http\TwoFactorHook;
 
 $logger = new Logger('vpn-admin-portal');
 
@@ -77,6 +78,12 @@ try {
     $authMethod = $config->v('authMethod');
     $tpl->addDefault(array('authMethod' => $authMethod));
 
+    $session = new Session(
+        $request->getServerName(),
+        $request->getRoot(),
+        'development' !== $serverMode
+    );
+
     switch ($authMethod) {
         case 'MellonAuthentication':
             $service->addBeforeHook(
@@ -88,11 +95,6 @@ try {
             break;
         case 'FormAuthentication':
             $tpl->addDefault(['_show_logout' => true]);
-            $session = new Session(
-                $request->getServerName(),
-                $request->getRoot(),
-                'development' !== $serverMode
-            );
             $service->addBeforeHook(
                 'auth',
                 new FormAuthenticationHook(
@@ -125,6 +127,12 @@ try {
         $config->v('apiProviders', 'vpn-server-api', 'userPass')
     );
     $serverClient = new ServerClient($guzzleServerClient, $config->v('apiProviders', 'vpn-server-api', 'apiUri'));
+
+    $service->addBeforehook('two_factor', new TwoFactorHook($session, $tpl, $serverClient));
+
+    // two factor module
+    $twoFactorModule = new TwoFactorModule($serverClient, $session, $tpl);
+    $service->addModule($twoFactorModule);
 
     $adminPortalModule = new AdminPortalModule(
         $tpl,
