@@ -18,7 +18,6 @@
         "eduvpn/common": "dev-master",
         "ext-pcre": "*",
         "ext-spl": "*",
-        "guzzlehttp/guzzle": "^5.3",
         "php": ">5.4",
         "twig/twig": "^1.24"
     }
