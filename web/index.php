@@ -29,7 +29,6 @@ use SURFnet\VPN\Common\Http\FormAuthenticationModule;
 use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\HtmlResponse;
-use SURFnet\VPN\Common\Http\SecurityHeadersHook;
 use SURFnet\VPN\Common\Http\NoCacheHook;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\Session;
@@ -71,7 +70,6 @@ try {
 
     $service = new Service($tpl);
     $service->addBeforeHook('referrer_check', new ReferrerCheckHook());
-    $service->addAfterHook('security_headers', new SecurityHeadersHook());
     $service->addAfterHook('no_cache', new NoCacheHook());
 
     // Authentication
