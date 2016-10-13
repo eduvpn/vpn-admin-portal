@@ -18,7 +18,7 @@
 require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
 use SURFnet\VPN\Admin\AdminPortalModule;
-use SURFnet\VPN\Common\HttpClient\GuzzleHttpClient;
+use SURFnet\VPN\Common\HttpClient\CurlHttpClient;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Admin\TwigTpl;
 use SURFnet\VPN\Common\Config;
@@ -113,18 +113,22 @@ try {
     }
 
     // vpn-ca-api
-    $guzzleCaClient = new GuzzleHttpClient(
-        $config->v('apiProviders', 'vpn-ca-api', 'userName'),
-        $config->v('apiProviders', 'vpn-ca-api', 'userPass')
+    $caClient = new CaClient(
+        new CurlHttpClient(
+            $config->v('apiProviders', 'vpn-ca-api', 'userName'),
+            $config->v('apiProviders', 'vpn-ca-api', 'userPass')
+        ), 
+        $config->v('apiProviders', 'vpn-ca-api', 'apiUri')
     );
-    $caClient = new CaClient($guzzleCaClient, $config->v('apiProviders', 'vpn-ca-api', 'apiUri'));
 
     // vpn-server-api
-    $guzzleServerClient = new GuzzleHttpClient(
-        $config->v('apiProviders', 'vpn-server-api', 'userName'),
-        $config->v('apiProviders', 'vpn-server-api', 'userPass')
+    $serverClient = new ServerClient(
+        new CurlHttpClient(
+            $config->v('apiProviders', 'vpn-server-api', 'userName'),
+            $config->v('apiProviders', 'vpn-server-api', 'userPass')
+        ),
+        $config->v('apiProviders', 'vpn-server-api', 'apiUri')
     );
-    $serverClient = new ServerClient($guzzleServerClient, $config->v('apiProviders', 'vpn-server-api', 'apiUri'));
 
     $service->addBeforehook('two_factor', new TwoFactorHook($session, $tpl, $serverClient));
 
