@@ -18,7 +18,7 @@
 require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
 use SURFnet\VPN\Admin\AdminPortalModule;
-use SURFnet\VPN\Common\HttpClient\CurlHttpClient;
+use SURFnet\VPN\Common\HttpClient\GuzzleHttpClient;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Admin\TwigTpl;
 use SURFnet\VPN\Common\Config;
@@ -114,18 +114,30 @@ try {
 
     // vpn-ca-api
     $caClient = new CaClient(
-        new CurlHttpClient(
-            $config->v('apiProviders', 'vpn-ca-api', 'userName'),
-            $config->v('apiProviders', 'vpn-ca-api', 'userPass')
+        new GuzzleHttpClient(
+            [
+                'defaults' => [
+                    'auth' => [
+                        $config->v('apiProviders', 'vpn-ca-api', 'userName'),
+                        $config->v('apiProviders', 'vpn-ca-api', 'userPass')
+                    ]
+                ]
+            ]
         ),
         $config->v('apiProviders', 'vpn-ca-api', 'apiUri')
     );
 
     // vpn-server-api
     $serverClient = new ServerClient(
-        new CurlHttpClient(
-            $config->v('apiProviders', 'vpn-server-api', 'userName'),
-            $config->v('apiProviders', 'vpn-server-api', 'userPass')
+        new GuzzleHttpClient(
+            [
+                'defaults' => [
+                    'auth' => [
+                        $config->v('apiProviders', 'vpn-server-api', 'userName'),
+                        $config->v('apiProviders', 'vpn-server-api', 'userPass')
+                    ]
+                ]
+            ]
         ),
         $config->v('apiProviders', 'vpn-server-api', 'apiUri')
     );
