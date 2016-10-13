@@ -117,7 +117,7 @@ try {
         new CurlHttpClient(
             $config->v('apiProviders', 'vpn-ca-api', 'userName'),
             $config->v('apiProviders', 'vpn-ca-api', 'userPass')
-        ), 
+        ),
         $config->v('apiProviders', 'vpn-ca-api', 'apiUri')
     );
 
