@@ -22,7 +22,7 @@ use RuntimeException;
 
 class TestHttpClient implements HttpClientInterface
 {
-    public function get($requestUri)
+    public function get($requestUri, array $requestOptions = [])
     {
         switch ($requestUri) {
             case 'serverClient/server_pools':
@@ -155,7 +155,7 @@ class TestHttpClient implements HttpClientInterface
         }
     }
 
-    public function post($requestUri, array $postData)
+    public function post($requestUri, array $postData, array $requestOptions = [])
     {
         switch ($requestUri) {
             default:
