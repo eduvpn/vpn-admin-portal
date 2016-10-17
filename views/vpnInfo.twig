@@ -13,7 +13,7 @@
       <li><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
-    {% for pool in serverPools %}
+    {% for pool in instanceConfig.vpnPools %}
         <h2>{{ pool.displayName }}</h2>
 
         <dl>

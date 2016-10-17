@@ -25,26 +25,29 @@ class TestHttpClient implements HttpClientInterface
     public function get($requestUri)
     {
         switch ($requestUri) {
-            case 'serverClient/server_pools':
+            case 'serverClient/instance_config':
                 return self::wrap(
-                    'server_pools',
+                    'instance_config',
                     [
-                        'internet' => [
-                            'enableAcl' => false,
-                            'displayName' => 'Internet Access',
-                            'twoFactor' => false,
-                            'processCount' => 4,
-                            'hostName' => 'vpn.example',
-                            'range' => '10.10.10.0/24',
-                            'range6' => 'fd00:4242:4242::/48',
-                            'listen' => '0.0.0.0',
-                            'defaultGateway' => true,
-                            'useNat' => true,
-                            'dns' => ['8.8.8.8'],
-                            'blockSmb' => false,
-                            'forward6' => true,
-                            'clientToClient' => false,
-                            'enableLog' => false,
+                        'instanceNumber' => 1,
+                        'vpnPools' => [
+                            'internet' => [
+                                'enableAcl' => false,
+                                'displayName' => 'Internet Access',
+                                'twoFactor' => false,
+                                'processCount' => 4,
+                                'hostName' => 'vpn.example',
+                                'range' => '10.10.10.0/24',
+                                'range6' => 'fd00:4242:4242::/48',
+                                'listen' => '0.0.0.0',
+                                'defaultGateway' => true,
+                                'useNat' => true,
+                                'dns' => ['8.8.8.8'],
+                                'blockSmb' => false,
+                                'forward6' => true,
+                                'clientToClient' => false,
+                                'enableLog' => false,
+                            ],
                         ],
                     ]
                 );

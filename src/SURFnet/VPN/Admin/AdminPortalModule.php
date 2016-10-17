@@ -58,9 +58,9 @@ class AdminPortalModule implements ServiceModuleInterface
             '/connections',
             function () {
                 // get the fancy pool name
-                $serverPools = $this->serverClient->serverPools();
+                $instanceConfig = $this->serverClient->instanceConfig();
                 $idNameMapping = [];
-                foreach ($serverPools as $poolId => $poolConfig) {
+                foreach ($instanceConfig['vpnPools'] as $poolId => $poolConfig) {
                     if (array_key_exists('displayName', $poolConfig)) {
                         $poolName = $poolConfig['displayName'];
                     } else {
@@ -88,7 +88,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnInfo',
                         array(
-                            'serverPools' => $this->serverClient->serverPools(),
+                            'instanceConfig' => $this->serverClient->instanceConfig(),
                         )
                     )
                 );
