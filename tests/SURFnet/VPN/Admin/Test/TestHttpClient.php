@@ -30,7 +30,7 @@ class TestHttpClient implements HttpClientInterface
                     'instance_config',
                     [
                         'instanceNumber' => 1,
-                        'vpnPools' => [
+                        'vpnProfiles' => [
                             'internet' => [
                                 'enableAcl' => false,
                                 'displayName' => 'Internet Access',

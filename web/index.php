@@ -119,9 +119,9 @@ try {
                 'defaults' => [
                     'auth' => [
                         $config->v('apiProviders', 'vpn-ca-api', 'userName'),
-                        $config->v('apiProviders', 'vpn-ca-api', 'userPass')
-                    ]
-                ]
+                        $config->v('apiProviders', 'vpn-ca-api', 'userPass'),
+                    ],
+                ],
             ]
         ),
         $config->v('apiProviders', 'vpn-ca-api', 'apiUri')
@@ -134,9 +134,9 @@ try {
                 'defaults' => [
                     'auth' => [
                         $config->v('apiProviders', 'vpn-server-api', 'userName'),
-                        $config->v('apiProviders', 'vpn-server-api', 'userPass')
-                    ]
-                ]
+                        $config->v('apiProviders', 'vpn-server-api', 'userPass'),
+                    ],
+                ],
             ]
         ),
         $config->v('apiProviders', 'vpn-server-api', 'apiUri')

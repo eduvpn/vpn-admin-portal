@@ -13,137 +13,35 @@
       <li><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
-    {% for pool in instanceConfig.vpnPools %}
-        <h2>{{ pool.displayName }}</h2>
+    {% for profile in instanceConfig.vpnProfiles %}
+        <h2>{{ profile.displayName }}</h2>
 
-        <dl>
-            <dt>IPv4</dt>            
-            <dd><code>{{ pool.range }}</code></dd>
-
-            <dt>IPv6</dt>            
-            <dd><code>{{ pool.range6 }}</code></dd>
-
-            <dt>Hostname</dt>        
-            <dd><code>{{ pool.hostName }}</code></dd>
-
-            {% if pool.listen != "::" %}
-                <dt>Listening On</dt>
-                <dd><code>{{ pool.listen }}</code></dd>
-            {% endif %}
-
-            <dt>Default Gateway</dt>
-            <dd>
-                {% if pool.defaultGateway %}
-                    <span class="success">Yes</span>
-                {% else %}
-                    <span class="error">No</span>
-                {% endif %}
-            </dd>
-
-            <dt>NAT</dt>
-            <dd>
-                {% if pool.useNat %}
-                    <span class="success">Yes</span>
-                {% else %}
-                <span class="error">No</span>
-                {% endif %}
-            </dd>
-
-            {% if not pool.defaultGateway %}
-                <dt>Route(s)</dt>
-                <dd>
-                    {% if pool.routes is empty %}
-                        <em>None</em>
-                    {% else %}
-                        <ul class="simple">
-                            {% for route in pool.routes %}
-                                <li><code>{{ route }}</code></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </dd>
-            {% endif %}
-
-            {% if pool.defaultGateway and pool.dns is not empty %}
-                <dt>DNS</dt>
-                <dd>
-                    {% if pool.dns is empty %}
-                        <em>None</em>
-                    {% else %}
-                        <ul class="simple">
-                        {% for d in pool.dns %}
-                            <li><code>{{ d }}</code></li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                </dd>
-            {% endif %}
-
-            <dt>Block Outgoing SMB traffic</dt>
-            <dd>
-                {% if pool.blockSmb %}
-                    <span class="success">Yes</span>
-                {% else %}
-                    <span class="error">No</span>
-                {% endif %}
-            </dd>
-
-<!--            <dt>Forward IPv6 traffic</dt>-->
-<!--            <dd>-->
-<!--                {% if pool.forward6 %}-->
-<!--                    <span class="success">Yes</span>-->
-<!--                {% else %}-->
-<!--                    <span class="error">No</span>-->
-<!--                {% endif %}-->
-<!--            </dd>-->
-
-            <dt>Client-to-client</dt>
-            <dd>
-                {% if pool.clientToClient %}
-                    <span class="success">Yes</span>
-                {% else %}
-                    <span class="error">No</span>
-                {% endif %}
-            </dd>
-
-            <dt>Two-factor Authentication</dt>
-            <dd>
-                {% if pool.twoFactor %}
-                    <span class="success">Yes</span>
-                {% else %}
-                    <span class="error">No</span>
-                {% endif %}
-            </dd>
-
-            <dt>Access Control</dt>
-            <dd>
-                {% if pool.enableAcl %}
-                    <span class="success">Yes</span>
-                {% else %}
-                    <span class="error">No</span>
-                {% endif %}
-            </dd>
-
-            {% if pool.enableAcl %}
-            <dt>Access Control Groups</dt>
-            <dd>
-                <ul class="simple">
-                {% for group in pool.aclGroupList %}
-                    <li><code>{{ group }}</code></li>
+        <table>
+            <tbody>
+                {% for key, v in profile %}
+                    <tr>
+                        <th>{{ key }}</th>
+                        {% if v is iterable and v is not empty %}
+                            <td>
+                            <ul>
+                                {% for x in v %}
+                                    <li>{{ x }}</li>
+                                {% endfor %}
+                            </ul>
+                            </td>
+                        {% elseif v is same as (true) %}
+                            <td><span class="success">Yes</span></td>
+                        {% elseif v is same as (false) %}
+                            <td><span class="error">No</span></td>
+                        {% elseif v is empty %}
+                            <td><em>N/A</em></td>
+                        {% else %}                        
+                            <td> {{ v }}</td>
+                        {% endif %}    
+                    </tr>
                 {% endfor %}
-                </ul>
-            </dd>
-            {% endif %}
-
-            <dt>Detailed Logging</dt>
-            <dd>
-                {% if pool.enableLog %}
-                    <span class="success">Yes</span>
-                {% else %}
-                    <span class="error">No</span>
-                {% endif %}
-            </dd>
-        </dl>
+            </tbody>
+        </table>
     {% endfor %}
 
     {% include 'footer.twig' %}

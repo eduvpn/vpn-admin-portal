@@ -90,7 +90,7 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
                 'vpnInfo' => [
                     'instanceConfig' => [
                         'instanceNumber' => 1,
-                        'vpnPools' => [
+                        'vpnProfiles' => [
                             'internet' => [
                                 'enableAcl' => false,
                                 'displayName' => 'Internet Access',

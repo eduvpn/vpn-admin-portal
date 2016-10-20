@@ -57,16 +57,16 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/connections',
             function () {
-                // get the fancy pool name
+                // get the fancy profile name
                 $instanceConfig = $this->serverClient->instanceConfig();
                 $idNameMapping = [];
-                foreach ($instanceConfig['vpnPools'] as $poolId => $poolConfig) {
-                    if (array_key_exists('displayName', $poolConfig)) {
-                        $poolName = $poolConfig['displayName'];
+                foreach ($instanceConfig['vpnProfiles'] as $profileId => $profileConfig) {
+                    if (array_key_exists('displayName', $profileConfig)) {
+                        $profileName = $profileConfig['displayName'];
                     } else {
-                        $poolName = $poolId;
+                        $profileName = $profileId;
                     }
-                    $idNameMapping[$poolId] = $poolName;
+                    $idNameMapping[$profileId] = $profileName;
                 }
 
                 return new HtmlResponse(
@@ -178,8 +178,8 @@ class AdminPortalModule implements ServiceModuleInterface
                         $this->serverClient->disableUser($userId);
                         // kill all active connections for this user
                         $clientConnections = $this->serverClient->clientConnections();
-                        foreach ($clientConnections as $pool) {
-                            foreach ($pool['connections'] as $connection) {
+                        foreach ($clientConnections as $profile) {
+                            foreach ($profile['connections'] as $connection) {
                                 if ($connection['user_id'] === $userId) {
                                     $this->serverClient->killClient($connection['common_name']);
                                 }
