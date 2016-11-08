@@ -15,7 +15,7 @@
     "license": "AGPL-3.0",
     "name": "eduvpn/vpn-admin-portal",
     "require": {
-        "eduvpn/common": "dev-master",
+        "eduvpn/common": "^1.0",
         "ext-pcre": "*",
         "ext-spl": "*",
         "php": ">5.4",
