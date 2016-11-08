@@ -16,7 +16,7 @@
     <h2>Overall</h2>
 
     <p>
-        The statistics are based on data from {{ stats.first_entry|date('Y-m-d') }} to {{ stats.last_entry|date('Y-m-d') }}.
+        These statistics were last updated on {{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }}).
     </p>
 
     <dl>
@@ -24,7 +24,7 @@
         <dd>{{ stats.total_traffic|sizeToHuman }}</dd>
 
         <dt>Total # Unique Users</dt>
-        <dd>{{ stats.unique_users }}</dd>
+        <dd>{{ stats.unique_user_count }}</dd>
 
         <dt># Concurrent Connections (Maximum)</dt>
         <dd>{{ stats.max_concurrent_connections }}</dd>
@@ -47,9 +47,6 @@
         </tbody>
     </table>
 
-    <p>
-        Data from <em>{{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})</em>.
-    </p>
     {% include 'footer.twig' %}
 </body>
 </html>
