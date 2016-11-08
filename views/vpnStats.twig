@@ -41,7 +41,7 @@
             <tr>
                 <td>{{ item.date }}</td>
                 <td>{{ item.unique_user_count }}</td>
-                <td>{{ item.traffic|sizeToHuman }}</td>
+                <td>{{ item.bytes_transferred|sizeToHuman }}</td>
             </tr>
         {% endfor %}
         </tbody>
