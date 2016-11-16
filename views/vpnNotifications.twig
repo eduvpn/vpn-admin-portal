@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+{% include 'head.twig' %}
+<body>
+    {% include 'header.twig' %}
+
+    <ul class="menu">
+      <li><a href="{{ requestRoot }}connections">Connections</a></li>
+      <li><a href="{{ requestRoot }}users">Users</a></li>
+      <li><a href="{{ requestRoot }}info">Info</a></li>
+      <li><a href="{{ requestRoot }}stats">Stats</a></li>
+      <li class="active"><a href="{{ requestRoot }}notifications">Notifications</a></li>
+      <li><a href="{{ requestRoot }}log">Log</a></li>
+    </ul>
+
+    <h2>MOTD</h2>
+    <p>
+        All users will see this message when logging in to the portal, or when
+        connecting to the VPN using an application supporting the API.
+    </p>
+
+    <form method="post">
+        <fieldset>
+            <label for="x">Message</label>
+            <textarea id="x" name="motd_message" rows="5" style="width: 100%;">{{ motd }}</textarea>
+        </fieldset>
+        <fieldset>
+            <button name="motd_action" value="set" type="submit">Set</button>
+            {% if motd %}
+                <button name="motd_action" value="delete" class="error">Delete</button>
+            {% endif %}
+        </fieldset>
+    </form>
+
+    {% include 'footer.twig' %}
+</body>
+</html>

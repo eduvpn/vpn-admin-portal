@@ -127,6 +127,11 @@ td, th {
     padding: 0 0.5em;
 }
 
+td {
+    padding: 0.5em;
+    vertical-align: top;
+}
+
 thead th {
     text-align: left;
     border-bottom: 2px solid #ddd;

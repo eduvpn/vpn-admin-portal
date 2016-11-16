@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace SURFnet\VPN\Admin;
 
 use SURFnet\VPN\Common\Http\ServiceModuleInterface;
@@ -286,6 +287,43 @@ class AdminPortalModule implements ServiceModuleInterface
                         ]
                     )
                 );
+            }
+        );
+
+        $service->get(
+            '/notifications',
+            function () {
+                return new HtmlResponse(
+                    $this->tpl->render(
+                        'vpnNotifications',
+                        [
+                            'motd' => $this->serverClient->motd(),
+                        ]
+                    )
+                );
+            }
+        );
+
+        $service->post(
+            '/notifications',
+            function (Request $request) {
+                $motdAction = $request->getPostParameter('motd_action');
+                switch ($motdAction) {
+                    case 'set':
+                        $motdMessage = $request->getPostParameter('motd_message');
+                        // XXX InputValidation::motdMessage($motdMessage);
+                        $this->serverClient->setMotd($motdMessage);
+                        break;
+                    case 'delete':
+                        $this->serverClient->deleteMotd();
+                        break;
+                    default:
+                        throw new HttpException('unsupported "motd_action"', 400);
+                }
+
+                $returnUrl = sprintf('%snotifications', $request->getRootUri());
+
+                return new RedirectResponse($returnUrl);
             }
         );
 
