@@ -26,6 +26,10 @@ dt {
     text-align: right;
 }
 
+fieldset textarea {
+    width: 100%;
+}
+
 fieldset {
     border: 0;
     margin: 0;
@@ -125,11 +129,6 @@ tr {
 
 td, th {
     padding: 0 0.5em;
-}
-
-td {
-    padding: 0.5em;
-    vertical-align: top;
 }
 
 thead th {
