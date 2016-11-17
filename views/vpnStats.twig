@@ -14,39 +14,49 @@
       <li><a href="{{ requestRoot }}log">Log</a></li>
     </ul>
 
-    <h2>Overall</h2>
+    {% if false == stats %}
 
-    <p>
-        These statistics were last updated on {{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }}).
-    </p>
+        <p class="block">
+            The process generating the VPN usage statistics did not run yet...
+        </p>
 
-    <dl>
-        <dt>Total Traffic</dt>
-        <dd>{{ stats.total_traffic|sizeToHuman }}</dd>
+    {% else %}
 
-        <dt>Total # Unique Users</dt>
-        <dd>{{ stats.unique_user_count }}</dd>
+        <h2>Overall</h2>
 
-        <dt># Concurrent Connections (Maximum)</dt>
-        <dd>{{ stats.max_concurrent_connections }}</dd>
-    </dl>
+        <p>
+            These statistics were last updated on {{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }}).
+        </p>
 
-    <h2>Daily</h2>
+        <dl>
+            <dt>Total Traffic</dt>
+            <dd>{{ stats.total_traffic|sizeToHuman }}</dd>
 
-    <table>
-        <thead>
-            <tr><th>Date</th><th># Unique Users</th><th>Traffic</th></tr>
-        </thead>
-        <tbody>
-        {% for item in stats.days %}
-            <tr>
-                <td>{{ item.date }}</td>
-                <td>{{ item.unique_user_count }}</td>
-                <td>{{ item.bytes_transferred|sizeToHuman }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <dt>Total # Unique Users</dt>
+            <dd>{{ stats.unique_user_count }}</dd>
+
+            <dt># Concurrent Connections (Maximum)</dt>
+            <dd>{{ stats.max_concurrent_connections }}</dd>
+        </dl>
+
+        <h2>Daily</h2>
+
+        <table>
+            <thead>
+                <tr><th>Date</th><th># Unique Users</th><th>Traffic</th></tr>
+            </thead>
+            <tbody>
+            {% for item in stats.days %}
+                <tr>
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.unique_user_count }}</td>
+                    <td>{{ item.bytes_transferred|sizeToHuman }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
 
     {% include 'footer.twig' %}
 </body>
