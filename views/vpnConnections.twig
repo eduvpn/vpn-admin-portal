@@ -25,6 +25,7 @@
                     <th>User ID</th>
                     <th>Name</th>
                     <th>IP address</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -42,6 +43,11 @@
                             <li><code>{{ ip }}</code></li>
                             {% endfor %}
                         </ul>
+                    </td>
+                    <td>
+                        {% if 6 == connection.proto %}
+                            <span class="success">IPv6</span>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
