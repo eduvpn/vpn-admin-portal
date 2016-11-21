@@ -24,7 +24,7 @@
                         <th>{{ key }}</th>
                         {% if v is iterable and v is not empty %}
                             <td>
-                            <ul>
+                            <ul class="simple">
                                 {% for x in v %}
                                     <li>{{ x }}</li>
                                 {% endfor %}
