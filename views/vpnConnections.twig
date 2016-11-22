@@ -17,7 +17,7 @@
     {% for profile in connections %}
         <h2 id="{{ profile.id }}">{{ idNameMapping[profile.id] }}</h2>
         {% if profile.connections is empty %}
-            <p class="block">No clients connected.</p>
+            <p class="plain">No clients connected.</p>
         {% else %}
             <table>
             <thead>
