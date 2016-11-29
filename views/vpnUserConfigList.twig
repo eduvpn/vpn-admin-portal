@@ -36,27 +36,30 @@
     <h3>Configurations</h3>
     <table>
         <thead>
-            <tr><th>Name</th><th>Expires ({{ date()|date('T') }})</th><th></th></tr> 
+            <tr><th>Name</th><th>Issued ({{ date()|date('T') }})</th><th>Expires ({{ date()|date('T') }})</th><th class="text-right">Status</th><th></th></tr> 
         </thead>
         <tbody>
-        {% for userConfig in userConfigList %}
+        {% for clientCertificate in clientCertificateList %}
             <tr>
-                {% if 'D' == userConfig.state or 'V' == userConfig.state %}
-                    <td><a href="{{ requestRoot }}configuration?user_id={{ userId }}&config_name={{ userConfig.name }}">{{ userConfig.name }}</a></td>
-                {% else %}
-                    <td>{{ userConfig.name }}</td>
-                {% endif %}    
-                <td>{{ userConfig.exp|date('Y-m-d H:i:s') }}</td>
+                <td>{{ clientCertificate.display_name }}</td>
+                <td>{{ clientCertificate.valid_from|date('Y-m-d H:i:s') }}</td>
+                <td>{{ clientCertificate.valid_to|date('Y-m-d H:i:s') }}</td>
                 <td class="text-right">
-                    {% if 'D' == userConfig.state %}
+                    {% if clientCertificate.is_disabled %}
                         <span class="error">Disabled</span>
-                    {% elseif 'V' == userConfig.state %}
+                    {% else %}
                         <span class="success">Active</span>
-                    {% elseif 'R' == userConfig.state %}
-                        <span class="error">Revoked</span>
-                    {% elseif 'E' == userConfig.state %}
-                        <span>Expired</span>
                     {% endif %}
+                </td>
+                <td class="text-right">
+                    <form method="post" class="inline" action="setCertificateStatus">
+                        <input type="hidden" name="commonName" value="{{ clientCertificate.common_name }}">
+                        {% if clientCertificate.is_disabled %}
+                            <button type="submit" name="newState" value="enable">Enable</button>
+                        {% else %}
+                            <button type="submit" name="newState" value="disable">Disable</button>
+                        {% endif %}
+                    </form>
                 </td>
             </tr>
         {% endfor %}

@@ -22,7 +22,6 @@ use SURFnet\VPN\Common\HttpClient\GuzzleHttpClient;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Admin\TwigTpl;
 use SURFnet\VPN\Common\Config;
-use SURFnet\VPN\Common\HttpClient\CaClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
 use SURFnet\VPN\Common\Http\FormAuthenticationHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationModule;
@@ -119,21 +118,6 @@ try {
             throw new RuntimeException('unsupported authentication mechanism');
     }
 
-    // vpn-ca-api
-    $caClient = new CaClient(
-        new GuzzleHttpClient(
-            [
-                'defaults' => [
-                    'auth' => [
-                        $config->v('apiProviders', 'vpn-ca-api', 'userName'),
-                        $config->v('apiProviders', 'vpn-ca-api', 'userPass'),
-                    ],
-                ],
-            ]
-        ),
-        $config->v('apiProviders', 'vpn-ca-api', 'apiUri')
-    );
-
     // vpn-server-api
     $serverClient = new ServerClient(
         new GuzzleHttpClient(
@@ -157,8 +141,7 @@ try {
 
     $adminPortalModule = new AdminPortalModule(
         $tpl,
-        $serverClient,
-        $caClient
+        $serverClient
     );
     $service->addModule($adminPortalModule);
 

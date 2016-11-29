@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace SURFnet\VPN\Admin;
 
 require_once sprintf('%s/Test/JsonTpl.php', __DIR__);
@@ -23,7 +24,6 @@ require_once sprintf('%s/Test/TestHttpClient.php', __DIR__);
 use SURFnet\VPN\Common\Http\NullAuthenticationHook;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\Request;
-use SURFnet\VPN\Common\HttpClient\CaClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
 use SURFnet\VPN\Admin\Test\JsonTpl;
 use SURFnet\VPN\Admin\Test\TestHttpClient;
@@ -42,8 +42,7 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
         $this->service->addModule(
             new AdminPortalModule(
                 new JsonTpl(),
-                new ServerClient($httpClient, 'serverClient'),
-                new CaClient($httpClient, 'caClient')
+                new ServerClient($httpClient, 'serverClient')
             )
         );
         $this->service->addBeforeHook('auth', new NullAuthenticationHook('foo'));
@@ -88,28 +87,25 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
         $this->assertSame(
             [
                 'vpnInfo' => [
-                    'instanceConfig' => [
-                        'instanceNumber' => 1,
-                        'vpnProfiles' => [
-                            'internet' => [
-                                'enableAcl' => false,
-                                'displayName' => 'Internet Access',
-                                'twoFactor' => false,
-                                'processCount' => 4,
-                                'hostName' => 'vpn.example',
-                                'range' => '10.10.10.0/24',
-                                'range6' => 'fd00:4242:4242::/48',
-                                'listen' => '0.0.0.0',
-                                'defaultGateway' => true,
-                                'useNat' => true,
-                                'dns' => [
-                                    '8.8.8.8',
-                                ],
-                                'blockSmb' => false,
-                                'forward6' => true,
-                                'clientToClient' => false,
-                                'enableLog' => false,
+                    'profileList' => [
+                        'internet' => [
+                            'enableAcl' => false,
+                            'displayName' => 'Internet Access',
+                            'twoFactor' => false,
+                            'processCount' => 4,
+                            'hostName' => 'vpn.example',
+                            'range' => '10.10.10.0/24',
+                            'range6' => 'fd00:4242:4242::/48',
+                            'listen' => '0.0.0.0',
+                            'defaultGateway' => true,
+                            'useNat' => true,
+                            'dns' => [
+                                '8.8.8.8',
                             ],
+                            'blockSmb' => false,
+                            'forward6' => true,
+                            'clientToClient' => false,
+                            'enableLog' => false,
                         ],
                     ],
                 ],

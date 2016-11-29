@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace SURFnet\VPN\Admin\Test;
 
 use SURFnet\VPN\Common\HttpClient\HttpClientInterface;
@@ -25,29 +26,26 @@ class TestHttpClient implements HttpClientInterface
     public function get($requestUri, array $getData = [], array $requestHeaders = [])
     {
         switch ($requestUri) {
-            case 'serverClient/instance_config':
+            case 'serverClient/profile_list':
                 return self::wrap(
-                    'instance_config',
+                    'profile_list',
                     [
-                        'instanceNumber' => 1,
-                        'vpnProfiles' => [
-                            'internet' => [
-                                'enableAcl' => false,
-                                'displayName' => 'Internet Access',
-                                'twoFactor' => false,
-                                'processCount' => 4,
-                                'hostName' => 'vpn.example',
-                                'range' => '10.10.10.0/24',
-                                'range6' => 'fd00:4242:4242::/48',
-                                'listen' => '0.0.0.0',
-                                'defaultGateway' => true,
-                                'useNat' => true,
-                                'dns' => ['8.8.8.8'],
-                                'blockSmb' => false,
-                                'forward6' => true,
-                                'clientToClient' => false,
-                                'enableLog' => false,
-                            ],
+                        'internet' => [
+                            'enableAcl' => false,
+                            'displayName' => 'Internet Access',
+                            'twoFactor' => false,
+                            'processCount' => 4,
+                            'hostName' => 'vpn.example',
+                            'range' => '10.10.10.0/24',
+                            'range6' => 'fd00:4242:4242::/48',
+                            'listen' => '0.0.0.0',
+                            'defaultGateway' => true,
+                            'useNat' => true,
+                            'dns' => ['8.8.8.8'],
+                            'blockSmb' => false,
+                            'forward6' => true,
+                            'clientToClient' => false,
+                            'enableLog' => false,
                         ],
                     ]
                 );
@@ -72,49 +70,6 @@ class TestHttpClient implements HttpClientInterface
                                 ],
                             ],
                             'id' => 'internet',
-                        ],
-                    ]
-                );
-            case 'serverClient/disabled_users':
-                return self::wrap(
-                    'disabled_users',
-                    [
-                        'foo',
-                    ]
-                );
-            case 'caClient/certificate_list':
-                return self::wrap(
-                    'certificate_list',
-                    [
-                        [
-                            'user_id' => 'foo',
-                        ],
-                        [
-                            'user_id' => 'bar',
-                        ],
-                    ]
-                );
-            case 'caClient/user_certificate_list?user_id=foo':
-                return self::wrap(
-                    'user_certificate_list',
-                    [
-                        [
-                            'user_id' => 'foo',
-                            'name' => 'Config1',
-                            'state' => 'V',
-                            'exp' => 1234123213,
-                        ],
-                        [
-                            'user_id' => 'foo',
-                            'name' => 'Config2',
-                            'state' => 'E',
-                            'exp' => 1234123213,
-                        ],
-                        [
-                            'user_id' => 'foo',
-                            'name' => 'Config3',
-                            'state' => 'D',
-                            'exp' => 1234123213,
                         ],
                     ]
                 );
@@ -174,7 +129,7 @@ class TestHttpClient implements HttpClientInterface
                 'data' => [
                     $key => $response,
                 ],
-            ]
+            ],
         ];
     }
 }

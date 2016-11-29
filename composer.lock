@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8aa0df77712465d31c18250e9d66f425",
-    "content-hash": "1b36e987069774f018bbc77a0cb4d1d3",
+    "hash": "23ba405f2a4eb33450e65eb9950698eb",
+    "content-hash": "c44a0f8b1a72fc2651c93225128a6a83",
     "packages": [
         {
             "name": "eduvpn/common",
-            "version": "1.0.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eduvpn/vpn-lib-common",
-                "reference": "c1fdf04b377aa248e82be92d9699aac5f41a2797"
+                "reference": "cefa0a4a536081836f136756e19ca3fdd5815ce0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/c1fdf04b377aa248e82be92d9699aac5f41a2797",
-                "reference": "c1fdf04b377aa248e82be92d9699aac5f41a2797",
+                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/cefa0a4a536081836f136756e19ca3fdd5815ce0",
+                "reference": "cefa0a4a536081836f136756e19ca3fdd5815ce0",
                 "shasum": ""
             },
             "require": {
@@ -43,18 +43,17 @@
                     "SURFnet\\VPN\\Common\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "AGPL-3.0"
             ],
             "authors": [
                 {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net"
+                    "email": "fkooman@tuxed.net",
+                    "name": "François Kooman"
                 }
             ],
             "description": "Common VPN library",
-            "time": "2016-11-20 22:09:54"
+            "time": "2016-11-29 21:00:49"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -606,16 +605,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.28.1",
+            "version": "v1.28.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "fff80c4a7ae1d47a81dfec10c76cbcb939170b45"
+                "reference": "b22ce0eb070e41f7cba65d78fe216de29726459c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/fff80c4a7ae1d47a81dfec10c76cbcb939170b45",
-                "reference": "fff80c4a7ae1d47a81dfec10c76cbcb939170b45",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b22ce0eb070e41f7cba65d78fe216de29726459c",
+                "reference": "b22ce0eb070e41f7cba65d78fe216de29726459c",
                 "shasum": ""
             },
             "require": {
@@ -623,7 +622,7 @@
             },
             "require-dev": {
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~2.7"
+                "symfony/phpunit-bridge": "~3.2@dev"
             },
             "type": "library",
             "extra": {
@@ -663,13 +662,15 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-11-19 05:52:49"
+            "time": "2016-11-23 18:41:40"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "eduvpn/common": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

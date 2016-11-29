@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace SURFnet\VPN\Admin;
 
 use SURFnet\VPN\Common\Http\Exception\HttpException;
@@ -32,6 +33,11 @@ class InputValidation
         if ('..' === $userId) {
             throw new HttpException('"user_id" cannot be ".."', 400);
         }
+    }
+
+    public static function commonName($commonName)
+    {
+        // TBD
     }
 
     public static function configName($configName)

@@ -24,7 +24,6 @@ use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\HtmlResponse;
 use SURFnet\VPN\Common\Http\RedirectResponse;
 use SURFnet\VPN\Common\TplInterface;
-use SURFnet\VPN\Common\HttpClient\CaClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
 use SURFnet\VPN\Common\Http\Exception\HttpException;
 
@@ -36,14 +35,10 @@ class AdminPortalModule implements ServiceModuleInterface
     /** @var \SURFnet\VPN\Common\HttpClient\ServerClient */
     private $serverClient;
 
-    /** @var \SURFnet\VPN\Common\HttpClient\CaClient */
-    private $caClient;
-
-    public function __construct(TplInterface $tpl, ServerClient $serverClient, CaClient $caClient)
+    public function __construct(TplInterface $tpl, ServerClient $serverClient)
     {
         $this->tpl = $tpl;
         $this->serverClient = $serverClient;
-        $this->caClient = $caClient;
     }
 
     public function init(Service $service)
@@ -59,15 +54,11 @@ class AdminPortalModule implements ServiceModuleInterface
             '/connections',
             function () {
                 // get the fancy profile name
-                $instanceConfig = $this->serverClient->instanceConfig();
+                $profileList = $this->serverClient->profileList();
+
                 $idNameMapping = [];
-                foreach ($instanceConfig['vpnProfiles'] as $profileId => $profileConfig) {
-                    if (array_key_exists('displayName', $profileConfig)) {
-                        $profileName = $profileConfig['displayName'];
-                    } else {
-                        $profileName = $profileId;
-                    }
-                    $idNameMapping[$profileId] = $profileName;
+                foreach ($profileList as $profileId => $profileData) {
+                    $idNameMapping[$profileId] = $profileData['displayName'];
                 }
 
                 return new HtmlResponse(
@@ -89,7 +80,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnInfo',
                         array(
-                            'instanceConfig' => $this->serverClient->instanceConfig(),
+                            'profileList' => $this->serverClient->profileList(),
                         )
                     )
                 );
@@ -99,24 +90,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/users',
             function () {
-                $certificateList = $this->caClient->certificateList();
-                $disabledUsers = $this->serverClient->disabledUsers();
-
-                $userIdList = [];
-                foreach ($certificateList as $certEntry) {
-                    $userId = $certEntry['user_id'];
-                    if (!in_array($userId, $userIdList)) {
-                        $userIdList[] = $userId;
-                    }
-                }
-
-                $userList = [];
-                foreach ($userIdList as $userId) {
-                    $userList[] = [
-                        'userId' => $userId,
-                        'isDisabled' => in_array($userId, $disabledUsers),
-                    ];
-                }
+                $userList = $this->serverClient->userList();
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -135,29 +109,15 @@ class AdminPortalModule implements ServiceModuleInterface
                 $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
 
-                $userCertificateList = $this->caClient->userCertificateList($userId);
-                $disabledCommonNames = $this->serverClient->disabledCommonNames();
-
-                $userConfigList = [];
-                foreach ($userCertificateList as $userCert) {
-                    $commonName = sprintf('%s_%s', $userCert['user_id'], $userCert['name']);
-                    // only if state is valid it makes sense to show disable
-                    if ('V' === $userCert['state']) {
-                        if (in_array($commonName, $disabledCommonNames)) {
-                            $userCert['state'] = 'D';
-                        }
-                    }
-
-                    $userConfigList[] = $userCert;
-                }
+                $clientCertificateList = $this->serverClient->listClientCertificates($userId);
 
                 return new HtmlResponse(
                     $this->tpl->render(
                         'vpnUserConfigList',
                         array(
                             'userId' => $userId,
-                            'userConfigList' => $userConfigList,
-                            'hasOtpSecret' => $this->serverClient->hasOtpSecret($userId),
+                            'clientCertificateList' => $clientCertificateList,
+                            'hasOtpSecret' => $this->serverClient->hasTotpSecret($userId),
                             'isDisabled' => $this->serverClient->isDisabledUser($userId),
                         )
                     )
@@ -193,7 +153,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         break;
 
                     case 'deleteOtpSecret':
-                        $this->serverClient->deleteOtpSecret($userId);
+                        $this->serverClient->deleteTotpSecret($userId);
                         break;
 
                     default:
@@ -206,58 +166,21 @@ class AdminPortalModule implements ServiceModuleInterface
             }
         );
 
-        $service->get(
-            '/configuration',
-            function (Request $request) {
-                $userId = $request->getQueryParameter('user_id');
-                InputValidation::userId($userId);
-                $configName = $request->getQueryParameter('config_name');
-                InputValidation::configName($configName);
-
-                $disabledCommonNames = $this->serverClient->disabledCommonNames();
-                $commonName = sprintf('%s_%s', $userId, $configName);
-
-                return new HtmlResponse(
-                    $this->tpl->render(
-                        'vpnUserConfig',
-                        array(
-                            'userId' => $userId,
-                            'configName' => $configName,
-                            'isDisabled' => in_array($commonName, $disabledCommonNames),
-                        )
-                    )
-                );
-            }
-        );
-
         $service->post(
-            '/configuration',
-            function (Request $request) {
-                $userId = $request->getPostParameter('user_id');
-                InputValidation::userId($userId);
-                $configName = $request->getPostParameter('config_name');
-                InputValidation::configName($configName);
-                $commonName = sprintf('%s_%s', $userId, $configName);
+            '/setCertificateStatus',
+            function (Request $request, array $hookData) {
+                $commonName = $request->getPostParameter('commonName');
+                InputValidation::commonName($commonName);
 
-                $commonNameAction = $request->getPostParameter('common_name_action');
-                // no need to explicitly validate userAction, as we will have
-                // switch below with whitelisted acceptable values
-
-                switch ($commonNameAction) {
-                    case 'disableCommonName':
-                        $this->serverClient->disableCommonName($commonName);
-                        $this->serverClient->killClient($commonName);
-                        break;
-                    case 'enableCommonName':
-                        $this->serverClient->enableCommonName($commonName);
-                        break;
-                    default:
-                        throw new HttpException('unsupported "common_name_action"', 400);
+                $newState = $request->getPostParameter('newState');
+                if ('enable' === $newState) {
+                    $this->serverClient->enableClientCertificate($commonName);
+                } else {
+                    $this->serverClient->disableClientCertificate($commonName);
+                    $this->serverClient->killClient($commonName);
                 }
 
-                $returnUrl = sprintf('%suser?user_id=%s', $request->getRootUri(), $userId);
-
-                return new RedirectResponse($returnUrl);
+                return new RedirectResponse($request->getHeader('HTTP_REFERER'), 302);
             }
         );
 
