@@ -20,6 +20,7 @@ namespace SURFnet\VPN\Admin;
 
 use SURFnet\VPN\Common\Http\Exception\HttpException;
 use SURFnet\VPN\Common\Http\HtmlResponse;
+use SURFnet\VPN\Common\Http\InputValidation;
 use SURFnet\VPN\Common\Http\RedirectResponse;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\Service;
@@ -233,8 +234,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $motdAction = $request->getPostParameter('motd_action');
                 switch ($motdAction) {
                     case 'set':
-                        $motdMessage = $request->getPostParameter('motd_message');
-                        // XXX InputValidation::motdMessage($motdMessage);
+                        $motdMessage = InputValidation::motdMessage($request->getPostParameter('motd_message'));
                         $this->serverClient->setMotd($motdMessage);
                         break;
                     case 'delete':
