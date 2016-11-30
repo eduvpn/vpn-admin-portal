@@ -64,10 +64,10 @@ class AdminPortalModule implements ServiceModuleInterface
                 return new HtmlResponse(
                     $this->tpl->render(
                         'vpnConnections',
-                        array(
+                        [
                             'idNameMapping' => $idNameMapping,
                             'connections' => $this->serverClient->clientConnections(),
-                        )
+                        ]
                     )
                 );
             }
@@ -79,9 +79,9 @@ class AdminPortalModule implements ServiceModuleInterface
                 return new HtmlResponse(
                     $this->tpl->render(
                         'vpnInfo',
-                        array(
+                        [
                             'profileList' => $this->serverClient->profileList(),
-                        )
+                        ]
                     )
                 );
             }
@@ -95,9 +95,9 @@ class AdminPortalModule implements ServiceModuleInterface
                 return new HtmlResponse(
                     $this->tpl->render(
                         'vpnUserList',
-                        array(
+                        [
                             'userList' => $userList,
-                        )
+                        ]
                     )
                 );
             }
@@ -114,12 +114,12 @@ class AdminPortalModule implements ServiceModuleInterface
                 return new HtmlResponse(
                     $this->tpl->render(
                         'vpnUserConfigList',
-                        array(
+                        [
                             'userId' => $userId,
                             'clientCertificateList' => $clientCertificateList,
                             'hasOtpSecret' => $this->serverClient->hasTotpSecret($userId),
                             'isDisabled' => $this->serverClient->isDisabledUser($userId),
-                        )
+                        ]
                     )
                 );
             }

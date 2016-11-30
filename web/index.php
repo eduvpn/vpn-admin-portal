@@ -67,11 +67,11 @@ try {
     $tpl = new TwigTpl($templateDirs, $templateCache);
     $tpl->addFilter(TwigFilters::sizeToHuman());
     $tpl->setDefault(
-        array(
+        [
             'requestUri' => $request->getUri(),
             'requestRoot' => $request->getRoot(),
             'requestRootUri' => $request->getRootUri(),
-        )
+        ]
     );
 
     $service = new Service($tpl);
@@ -80,7 +80,7 @@ try {
 
     // Authentication
     $authMethod = $config->v('authMethod');
-    $tpl->addDefault(array('authMethod' => $authMethod));
+    $tpl->addDefault(['authMethod' => $authMethod]);
 
     $session = new Session(
         $request->getServerName(),
