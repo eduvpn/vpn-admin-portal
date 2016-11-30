@@ -18,11 +18,11 @@
 
 namespace SURFnet\VPN\Admin;
 
-use SURFnet\VPN\Common\TplInterface;
-use Twig_Loader_Filesystem;
-use Twig_Environment;
-use Twig_SimpleFilter;
 use RuntimeException;
+use SURFnet\VPN\Common\TplInterface;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+use Twig_SimpleFilter;
 
 class TwigTpl implements TplInterface
 {

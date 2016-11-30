@@ -21,13 +21,13 @@ namespace SURFnet\VPN\Admin;
 require_once sprintf('%s/Test/JsonTpl.php', __DIR__);
 require_once sprintf('%s/Test/TestHttpClient.php', __DIR__);
 
-use SURFnet\VPN\Common\Http\NullAuthenticationHook;
-use SURFnet\VPN\Common\Http\Service;
-use SURFnet\VPN\Common\Http\Request;
-use SURFnet\VPN\Common\HttpClient\ServerClient;
+use PHPUnit_Framework_TestCase;
 use SURFnet\VPN\Admin\Test\JsonTpl;
 use SURFnet\VPN\Admin\Test\TestHttpClient;
-use PHPUnit_Framework_TestCase;
+use SURFnet\VPN\Common\Http\NullAuthenticationHook;
+use SURFnet\VPN\Common\Http\Request;
+use SURFnet\VPN\Common\Http\Service;
+use SURFnet\VPN\Common\HttpClient\ServerClient;
 
 class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
 {

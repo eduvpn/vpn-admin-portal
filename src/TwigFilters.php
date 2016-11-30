@@ -18,8 +18,8 @@
 
 namespace SURFnet\VPN\Admin;
 
-use Twig_SimpleFilter;
 use Twig_Error_Runtime;
+use Twig_SimpleFilter;
 
 class TwigFilters
 {
