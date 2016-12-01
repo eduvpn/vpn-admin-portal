@@ -43,14 +43,14 @@
         {% else %}
             <table>
                 <thead>
-                    <tr><th>Profile</th><th>User ID</th><th>Config Name</th><th>IPs</th><th>Connected ({{ date()|date('T') }})</th><th>Disconnected ({{ date()|date('T') }})</th></tr>
+                    <tr><th>Profile</th><th>User ID</th><th>Name</th><th>IPs</th><th>Connected ({{ date()|date('T') }})</th><th>Disconnected ({{ date()|date('T') }})</th></tr>
                 </thead>
                 <tbody>
                 {% for item in results %}
                     <tr>
                         <td>{{ item.profile_id }}</a></td>
                         <td><a href="{{ requestRoot }}user?user_id={{ item.user_id }}">{{ item.user_id }}</a></td>
-                        <td><a href="{{ requestRoot }}configuration?user_id={{ item.user_id }}&config_name={{ item.config_name }}">{{ item.config_name }}</a></td>
+                        <td><span title="{{ item.common_name }}">{{ item.display_name }}</span></td>
                         <td><ul class="simple"><li>{{ item.ip4 }}</li><li>{{ item.ip6 }}</li></ul></td>
                         <td>{{ item.connected_at|date('Y-m-d H:i:s') }}</td>
                         <td>
