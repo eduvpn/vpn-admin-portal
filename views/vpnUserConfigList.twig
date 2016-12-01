@@ -34,37 +34,44 @@
     </form>
 
     <h3>Configurations</h3>
-    <table>
-        <thead>
-            <tr><th>Name</th><th>Issued ({{ date()|date('T') }})</th><th>Expires ({{ date()|date('T') }})</th><th class="text-right">Status</th><th></th></tr> 
-        </thead>
-        <tbody>
-        {% for clientCertificate in clientCertificateList %}
-            <tr>
-                <td>{{ clientCertificate.display_name }}</td>
-                <td>{{ clientCertificate.valid_from|date('Y-m-d H:i:s') }}</td>
-                <td>{{ clientCertificate.valid_to|date('Y-m-d H:i:s') }}</td>
-                <td class="text-right">
-                    {% if clientCertificate.is_disabled %}
-                        <span class="error">Disabled</span>
-                    {% else %}
-                        <span class="success">Active</span>
-                    {% endif %}
-                </td>
-                <td class="text-right">
-                    <form method="post" class="inline" action="setCertificateStatus">
-                        <input type="hidden" name="commonName" value="{{ clientCertificate.common_name }}">
+
+    {% if clientCertificateList is empty %}
+        <p class="plain">
+            This user does not have any configurations.
+        </p>
+    {% else %}
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Issued ({{ date()|date('T') }})</th><th>Expires ({{ date()|date('T') }})</th><th class="text-right">Status</th><th></th></tr> 
+            </thead>
+            <tbody>
+            {% for clientCertificate in clientCertificateList %}
+                <tr>
+                    <td>{{ clientCertificate.display_name }}</td>
+                    <td>{{ clientCertificate.valid_from|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ clientCertificate.valid_to|date('Y-m-d H:i:s') }}</td>
+                    <td class="text-right">
                         {% if clientCertificate.is_disabled %}
-                            <button type="submit" name="newState" value="enable">Enable</button>
+                            <span class="error">Disabled</span>
                         {% else %}
-                            <button type="submit" name="newState" value="disable">Disable</button>
+                            <span class="success">Active</span>
                         {% endif %}
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    </td>
+                    <td class="text-right">
+                        <form method="post" class="inline" action="setCertificateStatus">
+                            <input type="hidden" name="commonName" value="{{ clientCertificate.common_name }}">
+                            {% if clientCertificate.is_disabled %}
+                                <button type="submit" name="newState" value="enable">Enable</button>
+                            {% else %}
+                                <button type="submit" name="newState" value="disable">Disable</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 
     {% include 'footer.twig' %}
 </body>
