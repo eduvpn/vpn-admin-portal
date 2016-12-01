@@ -78,7 +78,7 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
-            $this->makeRequest('GET', '/connections')
+            $this->makeRequest('GET', 'connections')
         );
     }
 
@@ -110,11 +110,11 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
-            $this->makeRequest('GET', '/info')
+            $this->makeRequest('GET', 'info')
         );
     }
 
-    private function makeRequest($requestMethod, $pathInfo, array $getData = [], array $postData = [], $returnResponseObj = false)
+    private function makeRequest($requestMethod, $pathInfo, array $getData = [], array $postData = [])
     {
         $response = $this->service->run(
             new Request(
@@ -122,20 +122,14 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
                     'SERVER_PORT' => 80,
                     'SERVER_NAME' => 'vpn.example',
                     'REQUEST_METHOD' => $requestMethod,
-                    'PATH_INFO' => $pathInfo,
-                    'REQUEST_URI' => $pathInfo,
+                    'PATH_INFO' => sprintf('/%s', $pathInfo),
+                    'REQUEST_URI' => sprintf('/%s', $pathInfo),
                 ],
                 $getData,
                 $postData
             )
         );
 
-        if ($returnResponseObj) {
-            return $response;
-        }
-
-        $responseBody = $response->getBody();
-
-        return json_decode($responseBody, true);
+        return json_decode($response->getBody(), true);
     }
 }

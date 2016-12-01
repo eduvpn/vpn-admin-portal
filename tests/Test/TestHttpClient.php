@@ -73,41 +73,6 @@ class TestHttpClient implements HttpClientInterface
                         ],
                     ]
                 );
-            case 'serverClient/disabled_common_names':
-                return self::wrap(
-                    'disabled_common_names',
-                    [
-                    ]
-                );
-            case 'serverClient/has_otp_secret?user_id=foo':
-                return self::wrap(
-                    'has_otp_secret',
-                    true
-                );
-            case 'serverClient/is_disabled_user?user_id=foo':
-                return self::wrap(
-                    'is_disabled_user',
-                    false
-                );
-            case 'serverClient/stats':
-                return self::wrap(
-                    'stats',
-                    [
-                        'first_entry' => 1234567890,
-                        'last_entry' => 1234666666,
-                        'total_traffic' => 11111111111,
-                        'unique_users' => 5,
-                        'max_concurrent_connections' => 3,
-                        'days' => [
-                            [
-                                'date' => '2016-09-09',
-                                'unique_user_count' => 3,
-                                'traffic' => 121123123,
-                            ],
-                        ],
-                        'generated_at' => 1234888888,
-                    ]
-                );
             default:
                 throw new RuntimeException(sprintf('unexpected requestUri "%s"', $requestUri));
         }
@@ -121,13 +86,27 @@ class TestHttpClient implements HttpClientInterface
         }
     }
 
-    private static function wrap($key, $response, $statusCode = 200)
+    private static function wrap($key, $responseData, $statusCode = 200)
     {
         return [
             $statusCode,
             [
-                'data' => [
-                    $key => $response,
+                $key => [
+                    'ok' => true,
+                    'data' => $responseData,
+                ],
+            ],
+        ];
+    }
+
+    private static function wrapError($key, $errorMessage, $statusCode = 200)
+    {
+        return [
+            $statusCode,
+            [
+                $key => [
+                    'ok' => false,
+                    'error' => $errorMessage,
                 ],
             ],
         ];

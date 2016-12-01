@@ -35,7 +35,8 @@
                         <a href="{{ requestRoot }}user?user_id={{ connection.user_id }}">{{ connection.user_id }}</a>
                     </td>
                     <td>
-                        <a href="{{ requestRoot }}configuration?user_id={{ connection.user_id }}&config_name={{ connection.name }}">{{ connection.name }}</a>
+                        {{ connection.name }}
+<!--                        <a href="{{ requestRoot }}configuration?user_id={{ connection.user_id }}&config_name={{ connection.name }}">{{ connection.name }}</a> -->
                     </td>
                     <td>
                         <ul class="simple">
