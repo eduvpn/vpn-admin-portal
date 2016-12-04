@@ -55,7 +55,7 @@ class AdminPortalModule implements ServiceModuleInterface
             '/connections',
             function () {
                 // get the fancy profile name
-                $profileList = $this->serverClient->profileList();
+                $profileList = $this->serverClient->getProfileList();
 
                 $idNameMapping = [];
                 foreach ($profileList as $profileId => $profileData) {
@@ -67,7 +67,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         'vpnConnections',
                         [
                             'idNameMapping' => $idNameMapping,
-                            'connections' => $this->serverClient->clientConnections(),
+                            'connections' => $this->serverClient->getClientConnections(),
                         ]
                     )
                 );
@@ -81,7 +81,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnInfo',
                         [
-                            'profileList' => $this->serverClient->profileList(),
+                            'profileList' => $this->serverClient->getProfileList(),
                         ]
                     )
                 );
@@ -91,7 +91,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/users',
             function () {
-                $userList = $this->serverClient->userList();
+                $userList = $this->serverClient->getUserList();
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -110,7 +110,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
 
-                $clientCertificateList = $this->serverClient->listClientCertificates($userId);
+                $clientCertificateList = $this->serverClient->getClientCertificateList(['user_id' => $userId]);
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -118,8 +118,8 @@ class AdminPortalModule implements ServiceModuleInterface
                         [
                             'userId' => $userId,
                             'clientCertificateList' => $clientCertificateList,
-                            'hasOtpSecret' => $this->serverClient->hasTotpSecret($userId),
-                            'isDisabled' => $this->serverClient->isDisabledUser($userId),
+                            'hasOtpSecret' => $this->serverClient->getHasTotpSecret(['user_id' => $userId]),
+                            'isDisabled' => $this->serverClient->getIsDisabledUser(['user_id' => $userId]),
                         ]
                     )
                 );
@@ -137,24 +137,24 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 switch ($userAction) {
                     case 'disableUser':
-                        $this->serverClient->disableUser($userId);
+                        $this->serverClient->postDisableUser(['user_id' => $userId]);
                         // kill all active connections for this user
-                        $clientConnections = $this->serverClient->clientConnections();
+                        $clientConnections = $this->serverClient->getClientConnections();
                         foreach ($clientConnections as $profile) {
                             foreach ($profile['connections'] as $connection) {
                                 if ($connection['user_id'] === $userId) {
-                                    $this->serverClient->killClient($connection['common_name']);
+                                    $this->serverClient->postKillClient(['common_name' => $connection['common_name']]);
                                 }
                             }
                         }
                         break;
 
                     case 'enableUser':
-                        $this->serverClient->enableUser($userId);
+                        $this->serverClient->postEnableUser(['user_id' => $userId]);
                         break;
 
                     case 'deleteOtpSecret':
-                        $this->serverClient->deleteTotpSecret($userId);
+                        $this->serverClient->postDeleteTotpSecret(['user_id' => $userId]);
                         break;
 
                     default:
@@ -175,10 +175,10 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 $newState = $request->getPostParameter('newState');
                 if ('enable' === $newState) {
-                    $this->serverClient->enableClientCertificate($commonName);
+                    $this->serverClient->postEnableClientCertificate(['common_name' => $commonName]);
                 } else {
-                    $this->serverClient->disableClientCertificate($commonName);
-                    $this->serverClient->killClient($commonName);
+                    $this->serverClient->postDisableClientCertificate(['common_name' => $commonName]);
+                    $this->serverClient->postKillClient(['common_name' => $commonName]);
                 }
 
                 return new RedirectResponse($request->getHeader('HTTP_REFERER'), 302);
@@ -207,7 +207,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnStats',
                         [
-                            'stats' => $this->serverClient->stats(),
+                            'stats' => $this->serverClient->getStats(),
                         ]
                     )
                 );
@@ -221,7 +221,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnNotifications',
                         [
-                            'motd' => $this->serverClient->motd(),
+                            'motd' => $this->serverClient->getMotd(),
                         ]
                     )
                 );
@@ -235,10 +235,10 @@ class AdminPortalModule implements ServiceModuleInterface
                 switch ($motdAction) {
                     case 'set':
                         $motdMessage = InputValidation::motdMessage($request->getPostParameter('motd_message'));
-                        $this->serverClient->setMotd($motdMessage);
+                        $this->serverClient->postSetMotd(['motd_message' => $motdMessage]);
                         break;
                     case 'delete':
-                        $this->serverClient->deleteMotd();
+                        $this->serverClient->postDeleteMotd();
                         break;
                     default:
                         throw new HttpException('unsupported "motd_action"', 400);
@@ -264,7 +264,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         [
                             'date_time' => $dateTime,
                             'ip_address' => $ipAddress,
-                            'results' => $this->serverClient->log($dateTime, $ipAddress),
+                            'results' => $this->serverClient->getLog(['date_time' => $dateTime, 'ip_address' => $ipAddress]),
                         ]
                     )
                 );
