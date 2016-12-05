@@ -50,7 +50,7 @@
                     <tr>
                         <td>{{ item.profile_id }}</td>
                         <td><a href="{{ requestRoot }}user?user_id={{ item.user_id }}">{{ item.user_id }}</a></td>
-                        <td><span title="{{ item.common_name }}">{{ item.display_name }}</span></td>
+                        <td>{{ item.common_name }}</td>
                         <td><ul class="simple"><li>{{ item.ip4 }}</li><li>{{ item.ip6 }}</li></ul></td>
                         <td>{{ item.connected_at|date('Y-m-d H:i:s') }}</td>
                         <td>
