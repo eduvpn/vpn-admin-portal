@@ -215,13 +215,22 @@ class AdminPortalModule implements ServiceModuleInterface
         );
 
         $service->get(
-            '/notifications',
+            '/messages',
             function () {
+                $motdMessages = $this->serverClient->getSystemMessages('motd');
+
+                // we only want the first one
+                if (0 === count($motdMessages)) {
+                    $motdMessage = false;
+                } else {
+                    $motdMessage = $motdMessages[0];
+                }
+
                 return new HtmlResponse(
                     $this->tpl->render(
-                        'vpnNotifications',
+                        'vpnMessages',
                         [
-                            'motd' => $this->serverClient->getMotd(),
+                            'motdMessage' => $motdMessage,
                         ]
                     )
                 );
@@ -229,22 +238,32 @@ class AdminPortalModule implements ServiceModuleInterface
         );
 
         $service->post(
-            '/notifications',
+            '/messages',
             function (Request $request) {
-                $motdAction = $request->getPostParameter('motd_action');
-                switch ($motdAction) {
+                $messageAction = $request->getPostParameter('message_action');
+                switch ($messageAction) {
                     case 'set':
-                        $motdMessage = InputValidation::motdMessage($request->getPostParameter('motd_message'));
-                        $this->serverClient->postSetMotd(['motd_message' => $motdMessage]);
+                        // we can only have one "motd", so remove the ones that
+                        // already exist
+                        $motdMessages = $this->serverClient->getSystemMessages('motd');
+                        foreach ($motdMessages as $motdMessage) {
+                            $this->serverClient->postDeleteSystemMessage($motdMessage['id']);
+                        }
+
+                        // no need to validate, we accept everything
+                        $messageBody = $request->getPostParameter('message_body');
+                        $this->serverClient->postAddSystemMessage('motd', $messageBody);
                         break;
                     case 'delete':
-                        $this->serverClient->postDeleteMotd();
+                        $messageId = InputValidation::messageId($request->getPostParameter('message_id'));
+
+                        $this->serverClient->postDeleteSystemMessage($messageId);
                         break;
                     default:
-                        throw new HttpException('unsupported "motd_action"', 400);
+                        throw new HttpException('unsupported "message_action"', 400);
                 }
 
-                $returnUrl = sprintf('%snotifications', $request->getRootUri());
+                $returnUrl = sprintf('%smessages', $request->getRootUri());
 
                 return new RedirectResponse($returnUrl);
             }
