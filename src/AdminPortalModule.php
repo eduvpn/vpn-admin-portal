@@ -111,12 +111,14 @@ class AdminPortalModule implements ServiceModuleInterface
                 InputValidation::userId($userId);
 
                 $clientCertificateList = $this->serverClient->getClientCertificateList(['user_id' => $userId]);
+                $userMessages = $this->serverClient->getUserMessages(['user_id' => $userId]);
 
                 return new HtmlResponse(
                     $this->tpl->render(
                         'vpnUserConfigList',
                         [
                             'userId' => $userId,
+                            'userMessages' => $userMessages,
                             'clientCertificateList' => $clientCertificateList,
                             'hasOtpSecret' => $this->serverClient->getHasTotpSecret(['user_id' => $userId]),
                             'isDisabled' => $this->serverClient->getIsDisabledUser(['user_id' => $userId]),
@@ -217,7 +219,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/messages',
             function () {
-                $motdMessages = $this->serverClient->getSystemMessages('motd');
+                $motdMessages = $this->serverClient->getSystemMessages(['message_type' => 'motd']);
 
                 // we only want the first one
                 if (0 === count($motdMessages)) {
@@ -245,19 +247,19 @@ class AdminPortalModule implements ServiceModuleInterface
                     case 'set':
                         // we can only have one "motd", so remove the ones that
                         // already exist
-                        $motdMessages = $this->serverClient->getSystemMessages('motd');
+                        $motdMessages = $this->serverClient->getSystemMessages(['message_type' => 'motd']);
                         foreach ($motdMessages as $motdMessage) {
-                            $this->serverClient->postDeleteSystemMessage($motdMessage['id']);
+                            $this->serverClient->postDeleteSystemMessage(['message_id' => $motdMessage['id']]);
                         }
 
                         // no need to validate, we accept everything
                         $messageBody = $request->getPostParameter('message_body');
-                        $this->serverClient->postAddSystemMessage('motd', $messageBody);
+                        $this->serverClient->postAddSystemMessage(['message_type' => 'motd', 'message_body' => $messageBody]);
                         break;
                     case 'delete':
                         $messageId = InputValidation::messageId($request->getPostParameter('message_id'));
 
-                        $this->serverClient->postDeleteSystemMessage($messageId);
+                        $this->serverClient->postDeleteSystemMessage(['message_id' => $messageId]);
                         break;
                     default:
                         throw new HttpException('unsupported "message_action"', 400);
