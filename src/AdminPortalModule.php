@@ -55,7 +55,7 @@ class AdminPortalModule implements ServiceModuleInterface
             '/connections',
             function () {
                 // get the fancy profile name
-                $profileList = $this->serverClient->getProfileList();
+                $profileList = $this->serverClient->get('profile_list');
 
                 $idNameMapping = [];
                 foreach ($profileList as $profileId => $profileData) {
@@ -67,7 +67,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         'vpnConnections',
                         [
                             'idNameMapping' => $idNameMapping,
-                            'connections' => $this->serverClient->getClientConnections(),
+                            'connections' => $this->serverClient->get('client_connections'),
                         ]
                     )
                 );
@@ -81,7 +81,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnInfo',
                         [
-                            'profileList' => $this->serverClient->getProfileList(),
+                            'profileList' => $this->serverClient->get('profile_list'),
                         ]
                     )
                 );
@@ -91,7 +91,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/users',
             function () {
-                $userList = $this->serverClient->getUserList();
+                $userList = $this->serverClient->get('user_list');
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -110,8 +110,8 @@ class AdminPortalModule implements ServiceModuleInterface
                 $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
 
-                $clientCertificateList = $this->serverClient->getClientCertificateList(['user_id' => $userId]);
-                $userMessages = $this->serverClient->getUserMessages(['user_id' => $userId]);
+                $clientCertificateList = $this->serverClient->get('client_certificate_list', ['user_id' => $userId]);
+                $userMessages = $this->serverClient->get('user_messages', ['user_id' => $userId]);
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -120,8 +120,8 @@ class AdminPortalModule implements ServiceModuleInterface
                             'userId' => $userId,
                             'userMessages' => $userMessages,
                             'clientCertificateList' => $clientCertificateList,
-                            'hasOtpSecret' => $this->serverClient->getHasTotpSecret(['user_id' => $userId]),
-                            'isDisabled' => $this->serverClient->getIsDisabledUser(['user_id' => $userId]),
+                            'hasOtpSecret' => $this->serverClient->get('has_totp_secret', ['user_id' => $userId]),
+                            'isDisabled' => $this->serverClient->get('is_disabled_user', ['user_id' => $userId]),
                         ]
                     )
                 );
@@ -139,24 +139,24 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 switch ($userAction) {
                     case 'disableUser':
-                        $this->serverClient->postDisableUser(['user_id' => $userId]);
+                        $this->serverClient->post('disable_user', ['user_id' => $userId]);
                         // kill all active connections for this user
-                        $clientConnections = $this->serverClient->getClientConnections();
+                        $clientConnections = $this->serverClient->get('client_connections');
                         foreach ($clientConnections as $profile) {
                             foreach ($profile['connections'] as $connection) {
                                 if ($connection['user_id'] === $userId) {
-                                    $this->serverClient->postKillClient(['common_name' => $connection['common_name']]);
+                                    $this->serverClient->post('kill_client', ['common_name' => $connection['common_name']]);
                                 }
                             }
                         }
                         break;
 
                     case 'enableUser':
-                        $this->serverClient->postEnableUser(['user_id' => $userId]);
+                        $this->serverClient->post('enable_user', ['user_id' => $userId]);
                         break;
 
                     case 'deleteOtpSecret':
-                        $this->serverClient->postDeleteTotpSecret(['user_id' => $userId]);
+                        $this->serverClient->post('delete_totp_secret', ['user_id' => $userId]);
                         break;
 
                     default:
@@ -177,10 +177,10 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 $newState = $request->getPostParameter('newState');
                 if ('enable' === $newState) {
-                    $this->serverClient->postEnableClientCertificate(['common_name' => $commonName]);
+                    $this->serverClient->post('enable_client_certificate', ['common_name' => $commonName]);
                 } else {
-                    $this->serverClient->postDisableClientCertificate(['common_name' => $commonName]);
-                    $this->serverClient->postKillClient(['common_name' => $commonName]);
+                    $this->serverClient->post('disable_client_certificate', ['common_name' => $commonName]);
+                    $this->serverClient->post('kill_client', ['common_name' => $commonName]);
                 }
 
                 return new RedirectResponse($request->getHeader('HTTP_REFERER'), 302);
@@ -209,7 +209,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnStats',
                         [
-                            'stats' => $this->serverClient->getStats(),
+                            'stats' => $this->serverClient->get('stats'),
                         ]
                     )
                 );
@@ -219,7 +219,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/messages',
             function () {
-                $motdMessages = $this->serverClient->getSystemMessages(['message_type' => 'motd']);
+                $motdMessages = $this->serverClient->get('system_messages', ['message_type' => 'motd']);
 
                 // we only want the first one
                 if (0 === count($motdMessages)) {
@@ -247,19 +247,19 @@ class AdminPortalModule implements ServiceModuleInterface
                     case 'set':
                         // we can only have one "motd", so remove the ones that
                         // already exist
-                        $motdMessages = $this->serverClient->getSystemMessages(['message_type' => 'motd']);
+                        $motdMessages = $this->serverClient->get('system_messages', ['message_type' => 'motd']);
                         foreach ($motdMessages as $motdMessage) {
-                            $this->serverClient->postDeleteSystemMessage(['message_id' => $motdMessage['id']]);
+                            $this->serverClient->post('delete_system_message', ['message_id' => $motdMessage['id']]);
                         }
 
                         // no need to validate, we accept everything
                         $messageBody = $request->getPostParameter('message_body');
-                        $this->serverClient->postAddSystemMessage(['message_type' => 'motd', 'message_body' => $messageBody]);
+                        $this->serverClient->post('add_system_message', ['message_type' => 'motd', 'message_body' => $messageBody]);
                         break;
                     case 'delete':
                         $messageId = InputValidation::messageId($request->getPostParameter('message_id'));
 
-                        $this->serverClient->postDeleteSystemMessage(['message_id' => $messageId]);
+                        $this->serverClient->post('delete_system_message', ['message_id' => $messageId]);
                         break;
                     default:
                         throw new HttpException('unsupported "message_action"', 400);
@@ -285,7 +285,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         [
                             'date_time' => $dateTime,
                             'ip_address' => $ipAddress,
-                            'results' => $this->serverClient->getLog(['date_time' => $dateTime, 'ip_address' => $ipAddress]),
+                            'results' => $this->serverClient->get('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),
                         ]
                     )
                 );
