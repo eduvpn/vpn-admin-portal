@@ -26,6 +26,12 @@
                     <tr>
                         <td><a href="{{ requestRoot }}user?user_id={{ user.user_id }}">{{ user.user_id }}</a></td>
                         <td class="text-right">
+                            {% if user.has_totp_secret %}
+                                <span class="plain">TOTP</span>
+                            {% endif %}
+                            {% if user.has_yubi_key %}
+                                <span class="plain">YubiKey</span>
+                            {% endif %}
                             {% if user.is_disabled %}
                                 <span class="error">Disabled</span>
                             {% else %}
