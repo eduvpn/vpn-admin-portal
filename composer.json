@@ -23,7 +23,6 @@
     ],
     "require": {
         "eduvpn/common": "dev-master",
-        "ext-pcre": "*",
         "ext-spl": "*",
         "php": ">5.4",
         "twig/twig": "^1.24"
