@@ -52,7 +52,7 @@ try {
         }
     }
 
-    $config = Config::fromFile(sprintf('%s/config/%s/config.yaml', dirname(__DIR__), $instanceId));
+    $config = Config::fromFile(sprintf('%s/config/%s/config.php', dirname(__DIR__), $instanceId));
 
     $templateDirs = [
         sprintf('%s/views', dirname(__DIR__)),
@@ -60,7 +60,7 @@ try {
     ];
 
     $templateCache = null;
-    if ($config->v('enableTemplateCache')) {
+    if ($config->getItem('enableTemplateCache')) {
         $templateCache = sprintf('%s/tpl', $dataDir);
     }
 
@@ -79,13 +79,13 @@ try {
     $service->addAfterHook('no_cache', new NoCacheHook());
 
     // Authentication
-    $authMethod = $config->v('authMethod');
+    $authMethod = $config->getItem('authMethod');
     $tpl->addDefault(['authMethod' => $authMethod]);
 
     $session = new Session(
         $request->getServerName(),
         $request->getRoot(),
-        $config->v('secureCookie')
+        $config->getItem('secureCookie')
     );
 
     switch ($authMethod) {
@@ -93,7 +93,7 @@ try {
             $service->addBeforeHook(
                 'auth',
                 new MellonAuthenticationHook(
-                    $config->v('MellonAuthentication', 'attribute')
+                    $config->getSection('MellonAuthentication')->getItem('attribute')
                 )
             );
             break;
@@ -108,7 +108,7 @@ try {
             );
             $service->addModule(
                 new FormAuthenticationModule(
-                    $config->v('FormAuthentication'),
+                    $config->getSection('FormAuthentication')->toArray(),
                     $session,
                     $tpl
                 )
@@ -124,13 +124,13 @@ try {
             [
                 'defaults' => [
                     'auth' => [
-                        $config->v('apiUser'),
-                        $config->v('apiPass'),
+                        $config->getItem('apiUser'),
+                        $config->getItem('apiPass'),
                     ],
                 ],
             ]
         ),
-        $config->v('apiUri')
+        $config->getItem('apiUri')
     );
 
     $service->addBeforehook('two_factor', new TwoFactorHook($session, $tpl, $serverClient));
