@@ -120,7 +120,8 @@ class AdminPortalModule implements ServiceModuleInterface
                             'userId' => $userId,
                             'userMessages' => $userMessages,
                             'clientCertificateList' => $clientCertificateList,
-                            'hasOtpSecret' => $this->serverClient->get('has_totp_secret', ['user_id' => $userId]),
+                            'hasTotpSecret' => $this->serverClient->get('has_totp_secret', ['user_id' => $userId]),
+                            'hasYubiKeyId' => $this->serverClient->get('has_yubi_key_id', ['user_id' => $userId]),
                             'isDisabled' => $this->serverClient->get('is_disabled_user', ['user_id' => $userId]),
                         ]
                     )
@@ -155,8 +156,12 @@ class AdminPortalModule implements ServiceModuleInterface
                         $this->serverClient->post('enable_user', ['user_id' => $userId]);
                         break;
 
-                    case 'deleteOtpSecret':
+                    case 'deleteTotpSecret':
                         $this->serverClient->post('delete_totp_secret', ['user_id' => $userId]);
+                        break;
+
+                    case 'deleteYubiId':
+                        $this->serverClient->post('delete_yubi_key_id', ['user_id' => $userId]);
                         break;
 
                     default:
