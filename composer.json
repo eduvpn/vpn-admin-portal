@@ -25,7 +25,6 @@
         "eduvpn/common": "dev-master",
         "ext-spl": "*",
         "php": ">5.4",
-	"symfony/intl": "^2.8",
         "twig/twig": "^1.24"
     }
 }
