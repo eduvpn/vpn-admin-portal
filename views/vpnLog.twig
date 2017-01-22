@@ -19,13 +19,13 @@
         Find the user identifier that used an IPv4 or IPv6 address at a particular point in time.
     </p>
     <p>
-        The <em>Date/Time</em> field understands various formats, e.g. <a target="_blank" href="https://tools.ietf.org/html/rfc2822#section-3.3">RFC 2822</a> and <a target="_blank" href="https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations">ISO 8601</a>, but also literal strings like <code>yesterday 11:00</code> or <code>now</code>. The default time zone is {{ date()|date('T') }}, add it if you want to override it.
+        The <em>Date/Time</em> field accepts dates of the format <code>Y-m-d H:i:s</code>, e.g. <code>{{ date()|date('Y-m-d H:i:s') }}</code>. Use <em>UTC</em> as the time zone.
     </p>
 
     <form method="post">
         <fieldset>
             <label for="dateTime">Date/Time ({{ date()|date('T') }})</label>
-            <input id="dateTime" name="date_time" type="text" size="40" value="{{ date_time }}" placeholder="2016-08-05T09:44:18+02:00" required>
+            <input id="dateTime" name="date_time" type="text" size="40" value="{% if date_time %}{{ date_time }}{% else %}{{ date()|date('Y-m-d H:i:s') }}{% endif %}" required>
             <label for="ipAddress">IP Address</label>
             <input id="ipAddress" name="ip_address" type="text" size="40" value="{{ ip_address }}" placeholder="fdc6:6794:d2bf:1::1000" required>
         </fieldset>
