@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d682271fc072298d1d4a4f397dbf894c",
+    "content-hash": "55516599eb83b96f1df2ca5997329e3f",
     "packages": [
         {
             "name": "eduvpn/common",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eduvpn/vpn-lib-common",
-                "reference": "13e9cec78452762c30d868405cebd87a8814f25e"
+                "reference": "ba1efbd4e50818678677d8267ac950c02c52fd72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/13e9cec78452762c30d868405cebd87a8814f25e",
-                "reference": "13e9cec78452762c30d868405cebd87a8814f25e",
+                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/ba1efbd4e50818678677d8267ac950c02c52fd72",
+                "reference": "ba1efbd4e50818678677d8267ac950c02c52fd72",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 }
             ],
             "description": "Common VPN library",
-            "time": "2017-01-22 16:01:04"
+            "time": "2017-01-25 23:58:12"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -485,6 +485,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "ext-json": "*",
         "ext-spl": "*",
         "php": ">5.4"
     },
