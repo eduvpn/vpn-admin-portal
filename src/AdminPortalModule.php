@@ -290,7 +290,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         [
                             'date_time' => $dateTime,
                             'ip_address' => $ipAddress,
-                            'results' => $this->serverClient->get('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),
+                            'result' => $this->serverClient->get('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),
                         ]
                     )
                 );
