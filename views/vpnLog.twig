@@ -42,16 +42,29 @@
             </p>
         {% else %}
             <table>
-                <thead>
-                    <tr><th>Profile</th><th>User ID</th><th>Name</th><th>IPs</th><th>Connected ({{ date()|date('T') }})</th><th>Disconnected ({{ date()|date('T') }})</th></tr>
-                </thead>
                 <tbody>
                     <tr>
-                        <td>{{ result.profile_id }}</td>
+                        <th>Profile</th>
+                        <td>{{ result.profile_id }}</td> <!-- XXX use display_name -->
+                    </tr>
+                    <tr>
+                        <th>User ID</th>
                         <td><a href="{{ requestRoot }}user?user_id={{ result.user_id }}">{{ result.user_id }}</a></td>
-                        <td>{{ result.common_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ result.common_name }}</td> <!-- XXX use display_name -->
+                    </tr>
+                    <tr>
+                        <th>IPs</th>
                         <td><ul class="simple"><li>{{ result.ip4 }}</li><li>{{ result.ip6 }}</li></ul></td>
+                    </tr>
+                    <tr>
+                        <th>Connected ({{ date()|date('T') }})</th>
                         <td>{{ result.connected_at|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Disconnected ({{ date()|date('T') }})</th>
                         <td>
                             {% if result.disconnected_at %}
                                 {{ result.disconnected_at|date('Y-m-d H:i:s') }}
