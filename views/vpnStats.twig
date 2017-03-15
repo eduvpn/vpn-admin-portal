@@ -6,44 +6,44 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot }}connections">Connections</a></li>
-      <li><a href="{{ requestRoot }}users">Users</a></li>
-      <li><a href="{{ requestRoot }}info">Info</a></li>
-      <li class="active"><a href="{{ requestRoot }}stats">Stats</a></li>
-      <li><a href="{{ requestRoot }}messages">Messages</a></li>
-      <li><a href="{{ requestRoot }}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">{% trans "Connections" %}</a></li>
+      <li><a href="{{ requestRoot }}users">{% trans "Users" %}</a></li>
+      <li><a href="{{ requestRoot }}info">{% trans "Info" %}</a></li>
+      <li class="active"><a href="{{ requestRoot }}stats">{% trans "Stats" %}</a></li>
+      <li><a href="{{ requestRoot }}messages">{% trans "Messages" %}</a></li>
+      <li><a href="{{ requestRoot }}log">{% trans "Log" %}</a></li>
     </ul>
 
     {% if false == stats %}
 
         <p class="plain">
-            The process generating the VPN usage statistics did not run yet...
+            {% trans "The process generating the VPN usage statistics did not run yet..." %}
         </p>
 
     {% else %}
 
-        <h2>Overall</h2>
+        <h2>{% trans "Overall" %}</h2>
 
         <p>
-            These statistics were last updated on {{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }}).
+            {% trans "These statistics were last updated on" %} {{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }}).
         </p>
 
         <dl>
-            <dt>Total Traffic</dt>
+            <dt>{% trans "Total Traffic" %}</dt>
             <dd>{{ stats.total_traffic|sizeToHuman }}</dd>
 
-            <dt>Total # Unique Users</dt>
+            <dt>{% trans "Total # Unique Users" %}</dt>
             <dd>{{ stats.unique_user_count }}</dd>
 
-            <dt># Concurrent Connections (Maximum)</dt>
+            <dt>{% trans "# Concurrent Connections (Maximum)" %}</dt>
             <dd>{{ stats.max_concurrent_connections }}</dd>
         </dl>
 
-        <h2>Daily</h2>
+        <h2>{% trans "Daily" %}</h2>
 
         <table>
             <thead>
-                <tr><th>Date</th><th># Unique Users</th><th>Traffic</th></tr>
+                <tr><th>{% trans "Date" %}</th><th>{% trans "# Unique Users" %}</th><th>{% trans "Traffic" %}</th></tr>
             </thead>
             <tbody>
             {% for item in stats.days %}

@@ -17,6 +17,14 @@ return [
         //'attribute' => 'MELLON_eduPersonTargetedID',
     ],
 
+    // supported languages in the UI, the first one mentioned is the default
+    'supportedLanguages' => [
+        'en_US' => 'English',
+        //'nl_NL' => 'Nederlands',
+        //'fr_FR' => 'Français',
+        //'de_DE' => 'Deutsch',
+    ],
+
     'apiUser' => 'vpn-admin-portal',
     'apiPass' => 'XXX-vpn-admin-portal/vpn-server-api-XXX',
     'apiUri' => 'http://localhost/vpn-server-api/api.php',

@@ -6,20 +6,20 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot }}connections">Connections</a></li>
-      <li class="active"><a href="{{ requestRoot }}users">Users</a></li>
-      <li><a href="{{ requestRoot }}info">Info</a></li>
-      <li><a href="{{ requestRoot }}stats">Stats</a></li>
-      <li><a href="{{ requestRoot }}messages">Messages</a></li>
-      <li><a href="{{ requestRoot }}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">{% trans "Connections" %}</a></li>
+      <li class="active"><a href="{{ requestRoot }}users">{% trans "Users" %}</a></li>
+      <li><a href="{{ requestRoot }}info">{% trans "Info" %}</a></li>
+      <li><a href="{{ requestRoot }}stats">{% trans "Stats" %}</a></li>
+      <li><a href="{{ requestRoot }}messages">{% trans "Messages" %}</a></li>
+      <li><a href="{{ requestRoot }}log">{% trans "Log" %}</a></li>
     </ul>
 
     {% if userList is empty %}
-        <p class="plain">There are no users with VPN configurations.</p>
+        <p class="plain">{% trans "There are no users with VPN configurations." %}</p>
     {% else %}
         <table>
             <thead>
-                <tr><th>User ID</th><th class="text-right">Status</th></tr>
+                <tr><th>{% trans "User ID" %}</th><th class="text-right">{% trans "Status" %}</th></tr>
             </thead>
             <tbody>
                 {% for user in userList %}
@@ -27,15 +27,15 @@
                         <td><a href="{{ requestRoot }}user?user_id={{ user.user_id }}">{{ user.user_id }}</a></td>
                         <td class="text-right">
                             {% if user.has_totp_secret %}
-                                <span class="plain">TOTP</span>
+                                <span class="plain">{% trans "TOTP" %}</span>
                             {% endif %}
                             {% if user.has_yubi_key_id %}
-                                <span class="plain">YubiKey</span>
+                                <span class="plain">{% trans "YubiKey" %}</span>
                             {% endif %}
                             {% if user.is_disabled %}
-                                <span class="error">Disabled</span>
+                                <span class="error">{% trans "Disabled" %}</span>
                             {% else %}
-                                <span class="success">Active</span>
+                                <span class="success">{% trans "Active" %}</span>
                             {% endif %}
                         </td>
                     </tr>

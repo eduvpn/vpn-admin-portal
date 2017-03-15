@@ -6,12 +6,12 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot }}connections">Connections</a></li>
-      <li><a href="{{ requestRoot }}users">Users</a></li>
-      <li class="active"><a href="{{ requestRoot }}info">Info</a></li>
-      <li><a href="{{ requestRoot }}stats">Stats</a></li>
-      <li><a href="{{ requestRoot }}messages">Messages</a></li>
-      <li><a href="{{ requestRoot }}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">{% trans "Connections" %}</a></li>
+      <li><a href="{{ requestRoot }}users">{% trans "Users" %}</a></li>
+      <li class="active"><a href="{{ requestRoot }}info">{% trans "Info" %}</a></li>
+      <li><a href="{{ requestRoot }}stats">{% trans "Stats" %}</a></li>
+      <li><a href="{{ requestRoot }}messages">{% trans "Messages" %}</a></li>
+      <li><a href="{{ requestRoot }}log">{% trans "Log" %}</a></li>
     </ul>
 
     {% for profile in profileList %}

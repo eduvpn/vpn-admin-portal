@@ -6,46 +6,48 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-      <li><a href="{{ requestRoot }}connections">Connections</a></li>
-      <li class="active"><a href="{{ requestRoot }}users">Users</a></li>
-      <li><a href="{{ requestRoot }}info">Info</a></li>
-      <li><a href="{{ requestRoot }}stats">Stats</a></li>
-      <li><a href="{{ requestRoot }}messages">Messages</a></li>
-      <li><a href="{{ requestRoot }}log">Log</a></li>
+      <li><a href="{{ requestRoot }}connections">{% trans "Connections" %}</a></li>
+      <li class="active"><a href="{{ requestRoot }}users">{% trans "Users" %}</a></li>
+      <li><a href="{{ requestRoot }}info">{% trans "Info" %}</a></li>
+      <li><a href="{{ requestRoot }}stats">{% trans "Stats" %}</a></li>
+      <li><a href="{{ requestRoot }}messages">{% trans "Messages" %}</a></li>
+      <li><a href="{{ requestRoot }}log">{% trans "Log" %}</a></li>
     </ul>
 
     <p>
+        {% trans %}
         Managing user <em>{{ userId }}</em>.
+        {% endtrans %}
     </p>
     
     <form method="post" action="{{ requestRoot }}user">
         <fieldset>
             <input type="hidden" name="user_id" value="{{ userId }}">
             {% if isDisabled %}
-                <button name="user_action" value="enableUser" class="success">Enable User</button>
+                <button name="user_action" value="enableUser" class="success">{% trans "Enable User" %}</button>
             {% else %}
-                <button name="user_action" value="disableUser" class="error">Disable User</button>
+                <button name="user_action" value="disableUser" class="error">{% trans "Disable User" %}</button>
             {% endif %}
 
             {% if hasTotpSecret %}
-                <button name="user_action" value="deleteTotpSecret" class="error">Delete TOTP Secret</button>
+                <button name="user_action" value="deleteTotpSecret" class="error">{% trans "Delete TOTP Secret" %}</button>
             {% endif %}
             {% if hasYubiKeyId %}
-                <button name="user_action" value="deleteYubiId" class="error">Delete Yubi ID</button>
+                <button name="user_action" value="deleteYubiId" class="error">{% trans "Delete Yubi ID" %}</button>
             {% endif %}
         </fieldset>
     </form>
 
-    <h2>Configurations</h2>
+    <h2>{% trans "Configurations" %}</h2>
 
     {% if clientCertificateList is empty %}
         <p class="plain">
-            This user does not have any configurations.
+            {% trans "This user does not have any configurations." %}
         </p>
     {% else %}
         <table>
             <thead>
-                <tr><th>Name</th><th>Issued ({{ date()|date('T') }})</th><th>Expires ({{ date()|date('T') }})</th><th class="text-right">Status</th><th></th></tr> 
+                <tr><th>{% trans "Name" %}</th><th>{% trans "Issued" %} ({{ date()|date('T') }})</th><th>{% trans "Expires" %} ({{ date()|date('T') }})</th><th class="text-right">{% trans "Status" %}</th><th></th></tr> 
             </thead>
             <tbody>
             {% for clientCertificate in clientCertificateList %}
@@ -55,18 +57,18 @@
                     <td>{{ clientCertificate.valid_to|date('Y-m-d H:i:s') }}</td>
                     <td class="text-right">
                         {% if clientCertificate.is_disabled %}
-                            <span class="error">Disabled</span>
+                            <span class="error">{% trans "Disabled" %}</span>
                         {% else %}
-                            <span class="success">Active</span>
+                            <span class="success">{% trans "Active" %}</span>
                         {% endif %}
                     </td>
                     <td class="text-right">
                         <form method="post" class="inline" action="setCertificateStatus">
                             <input type="hidden" name="commonName" value="{{ clientCertificate.common_name }}">
                             {% if clientCertificate.is_disabled %}
-                                <button type="submit" name="newState" value="enable">Enable</button>
+                                <button type="submit" name="newState" value="enable">{% trans "Enable" %}</button>
                             {% else %}
-                                <button type="submit" name="newState" value="disable">Disable</button>
+                                <button type="submit" name="newState" value="disable">{% trans "Disable" %}</button>
                             {% endif %}
                         </form>
                     </td>
@@ -76,16 +78,16 @@
         </table>
     {% endif %}
 
-    <h2>Events</h2>
+    <h2>{% trans "Events" %}</h2>
     <p>
-        This is a list of events that occurred related to this user account.
+        {% trans "This is a list of events that occurred related to this user account." %}
     </p>
     {% if userMessages is empty %}
-        <p class="plain">No events yet.</p>
+        <p class="plain">{% trans "No events yet." %}</p>
     {% else %}
         <table>
             <thead>
-                <tr><th>Date/Time ({{ date()|date('T') }})</th><th>Message</th><th>Type</tr>
+                <tr><th>{% trans "Date/Time" %} ({{ date()|date('T') }})</th><th>{% trans "Message" %}</th><th>{% trans "Type" %}</tr>
             </thead>
             <tbody>
                 {% for message in userMessages %}

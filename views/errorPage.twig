@@ -6,13 +6,13 @@
     {% include 'header.twig' %}
 
     <ul class="menu">
-        <li class="active"><a href="{{ requestRoot }}">Error</a>
+        <li class="active"><a href="{{ requestRoot }}">{% trans "Error" %}</a>
     </ul>
 
     <h2>{{ code }}</h2>
 
     <p>
-    An error occurred.
+    {% trans "An error occurred." %}
     </p>
 
     <p class="error">

@@ -18,6 +18,7 @@
 require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
 use SURFnet\VPN\Admin\AdminPortalModule;
+use SURFnet\VPN\Admin\LanguageSwitcherHook;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Admin\TwigTpl;
 use SURFnet\VPN\Common\Config;
@@ -63,7 +64,13 @@ try {
         $templateCache = sprintf('%s/tpl', $dataDir);
     }
 
-    $tpl = new TwigTpl($templateDirs, $templateCache);
+    $session = new Session(
+        $request->getServerName(),
+        $request->getRoot(),
+        $config->getItem('secureCookie')
+    );
+
+    $tpl = new TwigTpl($session, $templateDirs, dirname(__DIR__).'/locale', $templateCache);
     $tpl->addFilter(TwigFilters::sizeToHuman());
     $tpl->setDefault(
         [
@@ -72,19 +79,20 @@ try {
             'requestRootUri' => $request->getRootUri(),
         ]
     );
+    $supportedLanguages = $config->getSection('supportedLanguages')->toArray();
+    $tpl->addDefault(
+        [
+            'supportedLanguages' => $supportedLanguages,
+        ]
+    );
 
     $service = new Service($tpl);
     $service->addBeforeHook('csrf_protection', new CsrfProtectionHook());
+    $service->addBeforeHook('language_switcher', new LanguageSwitcherHook($session, array_keys($supportedLanguages)));
 
     // Authentication
     $authMethod = $config->getItem('authMethod');
     $tpl->addDefault(['authMethod' => $authMethod]);
-
-    $session = new Session(
-        $request->getServerName(),
-        $request->getRoot(),
-        $config->getItem('secureCookie')
-    );
 
     switch ($authMethod) {
         case 'MellonAuthentication':
