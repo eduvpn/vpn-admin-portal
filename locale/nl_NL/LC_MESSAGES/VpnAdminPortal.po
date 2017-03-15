@@ -52,7 +52,7 @@ msgstr "Er is een fout opgetreden."
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:37
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:37
 msgid "Connections"
-msgstr ""
+msgstr "Verbindingen"
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:43
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:43
@@ -62,7 +62,7 @@ msgstr ""
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:43
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:43
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:49
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:49
@@ -72,7 +72,7 @@ msgstr ""
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:49
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:49
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:55
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:55
@@ -82,7 +82,7 @@ msgstr ""
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:55
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:55
 msgid "Stats"
-msgstr ""
+msgstr "Statistieken"
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:61
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:61
@@ -92,7 +92,7 @@ msgstr ""
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:61
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:61
 msgid "Messages"
-msgstr ""
+msgstr "Berichten"
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:67
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:67
@@ -102,7 +102,7 @@ msgstr ""
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:67
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:67
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:87
 msgid "No clients connected."
@@ -122,27 +122,27 @@ msgstr "Naam"
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:105
 msgid "IP address"
-msgstr ""
+msgstr "IP-adres"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:74
 msgid "Managing user <em>%userId%</em>."
-msgstr ""
+msgstr "Beheer gebruiker <em>%userId%</em>."
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:93
 msgid "Enable User"
-msgstr ""
+msgstr "Laat gebruiker toe"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:99
 msgid "Disable User"
-msgstr ""
+msgstr "Blokkeer gebruiker"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:110
 msgid "Delete TOTP Secret"
-msgstr ""
+msgstr "Verwijder TOTP geheim"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:119
 msgid "Delete Yubi ID"
-msgstr ""
+msgstr "Verwijder Yubi ID"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:129
 msgid "Configurations"
@@ -150,7 +150,7 @@ msgstr "Configuraties"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:139
 msgid "This user does not have any configurations."
-msgstr ""
+msgstr "Deze gebruiker heeft geen instellingen"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:151
 msgid "Issued"
@@ -177,7 +177,7 @@ msgstr "Actief"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:211
 msgid "Enable"
-msgstr ""
+msgstr "Laat toe"
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:217
 msgid "Disable"
@@ -214,22 +214,24 @@ msgid ""
 "Find the user identifier that used an IPv4 or IPv6 address at a particular "
 "point in time."
 msgstr ""
+"Zoek het gebruikerskenmerk van een gebruiker die een specifieke IPv4- of "
+"IPv6-adres gebruikte."
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:103
 msgid "IP Address"
-msgstr ""
+msgstr "IP-adres"
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:113
 msgid "Search"
-msgstr ""
+msgstr "Zoek"
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:123
 msgid "Results"
-msgstr ""
+msgstr "Resultaten"
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:132
 msgid "There are no results matching your criteria."
-msgstr ""
+msgstr "Er zijn geen resultaten die voldoen aan uw criteria."
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:143
 msgid "Profile"
@@ -237,15 +239,15 @@ msgstr "Profiel"
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:177
 msgid "IPs"
-msgstr ""
+msgstr "IP’s"
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:189
 msgid "Connected"
-msgstr ""
+msgstr "Verbonden"
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:201
 msgid "Disconnected"
-msgstr ""
+msgstr "Niet verbonden"
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:217
 msgid "N/A"
@@ -253,7 +255,7 @@ msgstr "N.v.t."
 
 #: /tmp/cache/c4/c4d25ac705b99f0a0846b8422dcb3eab5fee6d2ac92f575c2e624432bff829b8.php:76
 msgid "There are no users with VPN configurations."
-msgstr ""
+msgstr "Er zijn geen gebruikers met VPN-configuraties."
 
 #: /tmp/cache/c4/c4d25ac705b99f0a0846b8422dcb3eab5fee6d2ac92f575c2e624432bff829b8.php:112
 #: /tmp/cache/9b/9bedf8f62fae907840c0820b050c2546250b2002eb9f1a1df48c00c5a334cfea.php:71
@@ -275,30 +277,32 @@ msgstr "De TOTP-code is ongeldig."
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:79
 msgid "The process generating the VPN usage statistics did not run yet..."
 msgstr ""
+"Het proces, dat de VPN gebruiksstatistieken maakt, heeft nog niet "
+"gelopen ..."
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:89
 msgid "Overall"
-msgstr ""
+msgstr "Overal"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:95
 msgid "These statistics were last updated on"
-msgstr ""
+msgstr "Deze statistieken werden voor het laatst bijgewerkt op"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:106
 msgid "Total Traffic"
-msgstr ""
+msgstr "Totaal verkeer"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:115
 msgid "Total # Unique Users"
-msgstr ""
+msgstr "Totaal # Unieke Gebruikers"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:124
 msgid "# Concurrent Connections (Maximum)"
-msgstr ""
+msgstr "# Verbindingen Tegelijkertijd (Maximaal)"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:134
 msgid "Daily"
-msgstr ""
+msgstr "Dagelijks"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:141
 msgid "Date"
@@ -306,19 +310,19 @@ msgstr "Datum"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:143
 msgid "# Unique Users"
-msgstr ""
+msgstr "# Unieke Gebruikers"
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:145
 msgid "Traffic"
-msgstr ""
+msgstr "Verkeer"
 
 #: /tmp/cache/0b/0b6d4054af43e7b8ad3e1ba3d5a248c6f690469ae7c336296629b5a30352cdab.php:60
 msgid "Sign Out"
-msgstr ""
+msgstr "Afmelden"
 
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:73
 msgid "System"
-msgstr ""
+msgstr "Systeem"
 
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:78
 msgid ""
@@ -326,14 +330,17 @@ msgid ""
 "in to the portal, or when connecting to the VPN using an application "
 "supporting the API."
 msgstr ""
+"Alle gebruikers zullen het \"Bericht van de Dag “(MOTD) zien bij het "
+"aanmelden bij de portal, of bij het verbinden met de VPN wanneer de eduVPN "
+"app gebruikt wordt."
 
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:86
 msgid "MOTD"
-msgstr ""
+msgstr "MOTD"
 
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:98
 msgid "Set"
-msgstr ""
+msgstr "Instellen"
 
 #: /tmp/cache/eb/eb712ffeb02d152835b4ee9bb22b6cce383b4a39cad41a5754b2cf9161e3b0de.php:44
 msgid "Please sign in with your username and password."
