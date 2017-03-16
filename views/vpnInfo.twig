@@ -31,11 +31,11 @@
                             </ul>
                             </td>
                         {% elseif v is same as (true) %}
-                            <td><span class="plain">Yes</span></td>
+                            <td><span class="plain">{% trans "Yes" %}</span></td>
                         {% elseif v is same as (false) %}
-                            <td><span class="plain">No</span></td>
+                            <td><span class="plain">{% trans "No" %}</span></td>
                         {% elseif v is empty %}
-                            <td><em>N/A</em></td>
+                            <td><em>{% trans "N/A" %}</em></td>
                         {% else %}                        
                             <td> {{ v }}</td>
                         {% endif %}    

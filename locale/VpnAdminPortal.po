@@ -95,14 +95,14 @@ msgid "No clients connected."
 msgstr ""
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:97
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:156
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:160
 #: /tmp/cache/c4/c4d25ac705b99f0a0846b8422dcb3eab5fee6d2ac92f575c2e624432bff829b8.php:85
 msgid "User ID"
 msgstr ""
 
 #: /tmp/cache/3c/3c726881a863560d9176bd94f24d346871d5ee9f02af64b292ec8e11b4305781.php:101
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:149
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:170
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:174
 msgid "Name"
 msgstr ""
 
@@ -182,7 +182,7 @@ msgid "No events yet."
 msgstr ""
 
 #: /tmp/cache/c3/c389a0bd1e6f26b73e7b3230a1d5f50224d0eaab8020c8a9d9ddbb5ae7161c70.php:261
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:92
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:96
 msgid "Date/Time"
 msgstr ""
 
@@ -195,7 +195,7 @@ msgid "Type"
 msgstr ""
 
 #: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:73
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:116
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:120
 msgid "Search"
 msgstr ""
 
@@ -205,35 +205,42 @@ msgid ""
 "point in time."
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:106
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:87
+msgid ""
+"The <em>Date/Time</em> field accepts dates of the format <code>Y-m-d H:i:s</"
+"code>, e.g. <code>%currentDate%</code>. Use <em>UTC</em> as the time zone."
+msgstr ""
+
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:110
 msgid "IP Address"
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:126
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:130
 msgid "Results"
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:135
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:139
 msgid "There are no results matching your criteria."
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:146
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:150
 msgid "Profile"
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:180
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:184
 msgid "IPs"
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:192
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:196
 msgid "Connected"
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:204
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:208
 msgid "Disconnected"
 msgstr ""
 
-#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:220
+#: /tmp/cache/cf/cf130e44cbb0d9aed54c8784859fedada590eda58c33f903a88f6d8ed4d8987c.php:224
+#: /tmp/cache/89/89259076ec94eee1a39d83bdab2a7af046956fe04b0dbb1eb74952d07fb966a6.php:136
 msgid "N/A"
 msgstr ""
 
@@ -256,6 +263,14 @@ msgstr ""
 
 #: /tmp/cache/9b/9bedf8f62fae907840c0820b050c2546250b2002eb9f1a1df48c00c5a334cfea.php:55
 msgid "The TOTP you provided is incorrect."
+msgstr ""
+
+#: /tmp/cache/89/89259076ec94eee1a39d83bdab2a7af046956fe04b0dbb1eb74952d07fb966a6.php:122
+msgid "Yes"
+msgstr ""
+
+#: /tmp/cache/89/89259076ec94eee1a39d83bdab2a7af046956fe04b0dbb1eb74952d07fb966a6.php:129
+msgid "No"
 msgstr ""
 
 #: /tmp/cache/98/98759fe55997254112be4652bb62d699360e5935ac9d696ad965e2ae7e576b5b.php:79
@@ -319,6 +334,10 @@ msgstr ""
 
 #: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:98
 msgid "Set"
+msgstr ""
+
+#: /tmp/cache/8b/8b1e19e46fd986e309c030fd46ce05802bb46d0cfe5ed0d9abf5383a5dc1e486.php:109
+msgid "Delete"
 msgstr ""
 
 #: /tmp/cache/eb/eb712ffeb02d152835b4ee9bb22b6cce383b4a39cad41a5754b2cf9161e3b0de.php:44

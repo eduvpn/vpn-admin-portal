@@ -19,7 +19,10 @@
         {% trans "Find the user identifier that used an IPv4 or IPv6 address at a particular point in time." %}
     </p>
     <p>
-        The <em>Date/Time</em> field accepts dates of the format <code>Y-m-d H:i:s</code>, e.g. <code>{{ date()|date('Y-m-d H:i:s') }}</code>. Use <em>UTC</em> as the time zone.
+        {% set currentDate = date()|date('Y-m-d H:i:s') %}
+        {% trans %}
+        The <em>Date/Time</em> field accepts dates of the format <code>Y-m-d H:i:s</code>, e.g. <code>{{ currentDate }}</code>. Use <em>UTC</em> as the time zone.
+        {% endtrans %}
     </p>
 
     <form method="post">

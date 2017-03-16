@@ -28,7 +28,7 @@
             <button name="message_action" value="set" type="submit">{% trans "Set" %}</button>
             {% if motdMessage %}
                 <input type="hidden" name="message_id" value="{{ motdMessage.id }}">
-                <button name="message_action" value="delete">Delete</button>
+                <button name="message_action" value="delete">{% trans "Delete" %}</button>
             {% endif %}
         </fieldset>
     </form>
