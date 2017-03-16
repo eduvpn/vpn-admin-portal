@@ -70,7 +70,7 @@ try {
         $config->getItem('secureCookie')
     );
 
-    $tpl = new TwigTpl($templateDirs, dirname(__DIR__).'/locale', $templateCache);
+    $tpl = new TwigTpl($templateDirs, dirname(__DIR__).'/locale', 'VpnAdminPortal', $templateCache);
     $tpl->addFilter(TwigFilters::sizeToHuman());
     $tpl->setDefault(
         [
