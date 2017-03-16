@@ -27,7 +27,6 @@
         "ext-json": "*",
         "ext-spl": "*",
         "php": ">5.4",
-        "twig/extensions": "^1.3",
-        "twig/twig": "^1.24"
+        "twig/twig": "^1"
     }
 }

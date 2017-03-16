@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8067cd48b5a7c1a7820867b31a4f8c95",
+    "content-hash": "d26bc001c042ab0ac0020b793c1f2418",
     "packages": [
         {
             "name": "eduvpn/common",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eduvpn/vpn-lib-common",
-                "reference": "ee497fc26e20141aefbc639dae7822b93a4a631f"
+                "reference": "133a1b46101c58a7ec8ec348b01d4bdf4c95570f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/ee497fc26e20141aefbc639dae7822b93a4a631f",
-                "reference": "ee497fc26e20141aefbc639dae7822b93a4a631f",
+                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/133a1b46101c58a7ec8ec348b01d4bdf4c95570f",
+                "reference": "133a1b46101c58a7ec8ec348b01d4bdf4c95570f",
                 "shasum": ""
             },
             "require": {
@@ -33,7 +33,9 @@
                 "ext-spl": "*",
                 "ircmaxell/password-compat": "^1.0",
                 "php": ">= 5.4.0",
-                "psr/log": "^1.0"
+                "psr/log": "^1.0",
+                "twig/extensions": "^1",
+                "twig/twig": "^1"
             },
             "type": "library",
             "autoload": {
@@ -51,7 +53,7 @@
                 }
             ],
             "description": "Common VPN library",
-            "time": "2017-02-15 09:51:53"
+            "time": "2017-03-16 11:52:37"
         },
         {
             "name": "ircmaxell/password-compat",

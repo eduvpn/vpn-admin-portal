@@ -18,14 +18,13 @@
 require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
 use SURFnet\VPN\Admin\AdminPortalModule;
-use SURFnet\VPN\Admin\LanguageSwitcherHook;
 use SURFnet\VPN\Admin\TwigFilters;
-use SURFnet\VPN\Admin\TwigTpl;
 use SURFnet\VPN\Common\Config;
 use SURFnet\VPN\Common\Http\CsrfProtectionHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationModule;
 use SURFnet\VPN\Common\Http\HtmlResponse;
+use SURFnet\VPN\Common\Http\LanguageSwitcherHook;
 use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\Service;
@@ -35,6 +34,7 @@ use SURFnet\VPN\Common\Http\TwoFactorModule;
 use SURFnet\VPN\Common\HttpClient\CurlHttpClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
 use SURFnet\VPN\Common\Logger;
+use SURFnet\VPN\Common\TwigTpl;
 
 $logger = new Logger('vpn-admin-portal');
 
