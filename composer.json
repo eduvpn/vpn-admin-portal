@@ -28,5 +28,8 @@
         "ext-spl": "*",
         "php": ">5.4",
         "twig/twig": "^1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
     }
 }
