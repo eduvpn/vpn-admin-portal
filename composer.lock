@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd63b6484b82dff0ee02e652fd5751ba",
+    "content-hash": "ab38ded8617e28a296710c52e4981961",
     "packages": [
         {
             "name": "eduvpn/common",
@@ -12,19 +12,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eduvpn/vpn-lib-common",
-                "reference": "07510f6562bb4a063a8349fcd4ee0e4acb2652a9"
+                "reference": "59c35afd232a6733db0f9f3a743829abd54ea708"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/07510f6562bb4a063a8349fcd4ee0e4acb2652a9",
-                "reference": "07510f6562bb4a063a8349fcd4ee0e4acb2652a9",
+                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/59c35afd232a6733db0f9f3a743829abd54ea708",
+                "reference": "59c35afd232a6733db0f9f3a743829abd54ea708",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-date": "*",
                 "ext-filter": "*",
-                "ext-hash": "*",
+                "ext-gettext": "*",
                 "ext-json": "*",
                 "ext-libsodium": "*",
                 "ext-mbstring": "*",
@@ -37,10 +37,14 @@
                 "twig/extensions": "^1",
                 "twig/twig": "^1"
             },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "SURFnet\\VPN\\Common\\": "src/"
+                    "SURFnet\\VPN\\Common\\": "src/",
+                    "SURFnet\\VPN\\Common\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -53,7 +57,7 @@
                 }
             ],
             "description": "Common VPN library",
-            "time": "2017-04-24 20:18:10"
+            "time": "2017-04-29 19:11:16"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -1273,31 +1277,25 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.2.7",
+            "version": "v2.8.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "62b4cdb99d52cb1ff253c465eb1532a80cebb621"
+                "reference": "286d84891690b0e2515874717e49360d1c98a703"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/62b4cdb99d52cb1ff253c465eb1532a80cebb621",
-                "reference": "62b4cdb99d52cb1ff253c465eb1532a80cebb621",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/286d84891690b0e2515874717e49360d1c98a703",
+                "reference": "286d84891690b0e2515874717e49360d1c98a703",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "symfony/console": "~2.8|~3.0"
-            },
-            "suggest": {
-                "symfony/console": "For validating YAML files using the lint command"
+                "php": ">=5.3.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
@@ -1324,7 +1322,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-20T09:45:15+00:00"
+            "time": "2017-03-20T09:41:44+00:00"
         },
         {
             "name": "webmozart/assert",

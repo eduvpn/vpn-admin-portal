@@ -16,14 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace SURFnet\VPN\Admin;
-
-require_once sprintf('%s/Test/JsonTpl.php', __DIR__);
-require_once sprintf('%s/Test/TestHttpClient.php', __DIR__);
+namespace SURFnet\VPN\Admin\Tests;
 
 use PHPUnit_Framework_TestCase;
-use SURFnet\VPN\Admin\Test\JsonTpl;
-use SURFnet\VPN\Admin\Test\TestHttpClient;
+use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Common\Http\NullAuthenticationHook;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\Service;
