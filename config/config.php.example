@@ -18,8 +18,25 @@ return [
 
         // add the entityID of the IdP to the user ID. This MUST be enabled
         // if multiple IdPs are used and the attribute used for the user ID is 
-        // not enforced to be unique among the different IdPs
+        // not enforced to be unique among the different IdPs. In a "hub&spoke"
+        // identity federation, e.g. SURFconext you do not need this, for 
+        // eduGAIN enabled SPs you do!
         'addEntityID' => false,
+
+        // only allow users from IdP with entityID and userId value, in the 
+        // format "entityID|userId"
+        //'userIdAuthorization' => [
+        //    'https://idp.example.org/saml|12345678',
+        //    'https://idp.example.com/saml|87654321',
+        //],
+
+        // only allow users from IdP with entityId and entitlement value, in 
+        // the format "entityID|entitlement"
+        //'entitlementAttribute' => 'MELLON_eduPersonEntitlement',
+        //'entitlementAuthorization' => [
+        //    'https://idp.example.org/saml|urn:x:admin',
+        //    'https://idp.example.com/saml|urn:x:admin',
+        //],
     ],
 
     // supported languages in the UI, the first one mentioned is the default

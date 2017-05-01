@@ -96,14 +96,25 @@ try {
 
     switch ($authMethod) {
         case 'MellonAuthentication':
-            $service->addBeforeHook(
-                'auth',
-                new MellonAuthenticationHook(
-                    $session,
-                    $config->getSection('MellonAuthentication')->getItem('attribute'),
-                    $config->getSection('MellonAuthentication')->getItem('addEntityID')
-                )
+            $mellonAuthentication = new MellonAuthenticationHook(
+                $session,
+                $config->getSection('MellonAuthentication')->getItem('attribute'),
+                $config->getSection('MellonAuthentication')->getItem('addEntityID')
             );
+            // check for userId authorization
+            if ($config->getSection('MellonAuthentication')->hasItem('userIdAuthorization')) {
+                $mellonAuthentication->enableUserIdAuthorization(
+                    $config->getSection('MellonAuthentication')->getItem('userIdAuthorization')
+                );
+            }
+            // check for entitlement authorization
+            if ($config->getSection('MellonAuthentication')->hasItem('entitlementAttribute')) {
+                $mellonAuthentication->enableEntitlementAuthorization(
+                    $config->getSection('MellonAuthentication')->getItem('entitlementAttribute'),
+                    $config->getSection('MellonAuthentication')->getItem('entitlementAuthorization')
+                );
+            }
+            $service->addBeforeHook('auth', $mellonAuthentication);
             break;
         case 'FormAuthentication':
             $tpl->addDefault(['_show_logout' => true]);
