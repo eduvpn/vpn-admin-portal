@@ -25,10 +25,10 @@ return [
 
         // only allow users from IdP with entityID and userId value, in the 
         // format "entityID|userId"
-        //'userIdAuthorization' => [
-        //    'https://idp.example.org/saml|12345678',
-        //    'https://idp.example.com/saml|87654321',
-        //],
+        'userIdAuthorization' => [
+            'https://idp.example.org/saml|12345678',
+            'https://idp.example.com/saml|87654321',
+        ],
 
         // only allow users from IdP with entityId and entitlement value, in 
         // the format "entityID|entitlement"
