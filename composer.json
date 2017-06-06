@@ -19,6 +19,11 @@
         {
             "no-api": true,
             "type": "vcs",
+            "url": "https://github.com/fkooman/php-secookie"
+        },
+        {
+            "no-api": true,
+            "type": "vcs",
             "url": "https://github.com/eduvpn/vpn-lib-common"
         }
     ],
@@ -27,6 +32,7 @@
         "ext-gettext": "*",
         "ext-json": "*",
         "ext-spl": "*",
+        "fkooman/secookie": "dev-master",
         "php": ">5.4",
         "twig/twig": "^1"
     },

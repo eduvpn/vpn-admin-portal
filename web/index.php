@@ -17,6 +17,8 @@
  */
 require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
+use fkooman\SeCookie\Cookie;
+use fkooman\SeCookie\Session;
 use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Common\Config;
@@ -28,7 +30,6 @@ use SURFnet\VPN\Common\Http\LanguageSwitcherHook;
 use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\Service;
-use SURFnet\VPN\Common\Http\Session;
 use SURFnet\VPN\Common\Http\TwoFactorHook;
 use SURFnet\VPN\Common\Http\TwoFactorModule;
 use SURFnet\VPN\Common\HttpClient\CurlHttpClient;
@@ -65,9 +66,23 @@ try {
     }
 
     $session = new Session(
-        $request->getServerName(),
-        $request->getRoot(),
-        $config->getItem('secureCookie')
+        [
+            'SameSite' => 'Lax',
+            'Path' => $request->getRoot(),
+            'DomainBinding' => $request->getServerName(),
+            'PathBinding' => $request->getRoot(),
+            'Secure' => $config->getItem('secureCookie'),
+        ]
+    );
+
+    $cookie = new Cookie(
+        [
+            'SameSite' => 'Lax',
+            'Secure' => $config->getItem('secureCookie'),
+            'Max-Age' => 60 * 60 * 24 * 90,   // 90 days
+            'Path' => $request->getRoot(),
+            'Domain' => $request->getServerName(),
+        ]
     );
 
     $tpl = new TwigTpl($templateDirs, dirname(__DIR__).'/locale', 'VpnAdminPortal', $templateCache);
@@ -88,7 +103,7 @@ try {
 
     $service = new Service($tpl);
     $service->addBeforeHook('csrf_protection', new CsrfProtectionHook());
-    $service->addBeforeHook('language_switcher', new LanguageSwitcherHook(array_keys($supportedLanguages), $config->getItem('secureCookie')));
+    $service->addBeforeHook('language_switcher', new LanguageSwitcherHook(array_keys($supportedLanguages), $cookie));
 
     // Authentication
     $authMethod = $config->getItem('authMethod');
