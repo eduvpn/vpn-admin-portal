@@ -66,12 +66,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-secookie",
-                "reference": "153bea3d47fcd304d9ae9d1d4644abb5b70e9fd8"
+                "reference": "12b467334317d1f4a95b12b74b0dcb7a991917ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/153bea3d47fcd304d9ae9d1d4644abb5b70e9fd8",
-                "reference": "153bea3d47fcd304d9ae9d1d4644abb5b70e9fd8",
+                "url": "https://api.github.com/repos/fkooman/php-secookie/zipball/12b467334317d1f4a95b12b74b0dcb7a991917ae",
+                "reference": "12b467334317d1f4a95b12b74b0dcb7a991917ae",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 }
             ],
             "description": "Very simple Cookie and PHP Session library",
-            "time": "2017-06-06 17:35:12"
+            "time": "2017-06-06 18:00:45"
         },
         {
             "name": "ircmaxell/password-compat",
