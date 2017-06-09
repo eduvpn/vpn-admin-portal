@@ -41,15 +41,16 @@ return [
         //],
     ],
 
-    // supported languages in the UI, the first one mentioned is the default
-    'supportedLanguages' => [
-        'en_US' => 'English',
-        //'nl_NL' => 'Nederlands',
-        //'fr_FR' => 'Français',
-        //'de_DE' => 'Deutsch',
-    ],
-
+    // Connection to vpn-server-api
     'apiUser' => 'vpn-admin-portal',
     'apiPass' => 'XXX-vpn-admin-portal/vpn-server-api-XXX',
     'apiUri' => 'http://localhost/vpn-server-api/api.php',
+
+    // supported languages in the UI, the first one mentioned is the default
+    'supportedLanguages' => [
+        'en_US' => 'English',
+        'nl_NL' => 'Nederlands',
+        //'fr_FR' => 'Français',
+        //'de_DE' => 'Deutsch',
+    ],
 ];
