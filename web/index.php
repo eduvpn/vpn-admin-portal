@@ -31,6 +31,14 @@ use SURFnet\VPN\Common\TwigTpl;
 
 $logger = new Logger('vpn-admin-portal');
 
+// on various systems we have various font locations
+// XXX move this to configuration
+$fontList = [
+    '/usr/share/fonts/google-roboto/Roboto-Regular.ttf', // Fedora (google-roboto-fonts)
+    '/usr/share/fonts/roboto_fontface/roboto/Roboto-Regular.ttf', // Fedora/CentOS (roboto-fontface-fonts)
+    '/usr/share/fonts-roboto-fontface/fonts/Roboto-Regular.ttf', // Debian (fonts-roboto-fontface)
+];
+
 try {
     $request = new Request($_SERVER, $_GET, $_POST);
 
@@ -157,8 +165,7 @@ try {
     $service->addModule($twoFactorModule);
 
     $graph = new Graph();
-    // XXX dynamic fonts!
-    $graph->setFontFile('/usr/share/fonts/google-roboto/Roboto-Regular.ttf');
+    $graph->setFontList($fontList);
 
     $adminPortalModule = new AdminPortalModule(
         $tpl,

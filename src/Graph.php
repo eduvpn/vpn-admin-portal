@@ -39,11 +39,16 @@ class Graph
     }
 
     /**
-     * @param string $fontFile
+     * @param array $fontList
      */
-    public function setFontFile($fontFile)
+    public function setFontList(array $fontList)
     {
-        $this->fontFile = $fontFile;
+        foreach ($fontList as $fontFile) {
+            if (file_exists($fontFile)) {
+                $this->fontFile = $fontFile;
+                break;
+            }
+        }
     }
 
     /**
