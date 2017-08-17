@@ -133,25 +133,17 @@ class Graph
             $yAxisMiddleText
         );
 
-        // draw top line
-        imageline(
-            $img,
-            $xOffset,
-            $yAxisTextHeight / 2,
-            $this->imageSize[0],
-            $yAxisTextHeight / 2,
-            $lineColor
-        );
-
-        // draw half line
-        imageline(
-            $img,
-            $xOffset,
-            $yAxisTextHeight / 2 + $yAxisTotalBarSpace / 2,
-            $this->imageSize[0],
-            $yAxisTextHeight / 2 + $yAxisTotalBarSpace / 2,
-            $lineColor
-        );
+        // draw the horizonal grid lines
+        for ($i = 0; $i < 4; ++$i) {
+            imageline(
+                $img,
+                $xOffset,
+                $yAxisTextHeight / 2 + $i * ($yAxisTotalBarSpace / 4),
+                $this->imageSize[0],
+                $yAxisTextHeight / 2 + $i * ($yAxisTotalBarSpace / 4),
+                $lineColor
+            );
+        }
 
         $dateList = array_keys($relativeDateList);
         $valueList = array_values($relativeDateList);
