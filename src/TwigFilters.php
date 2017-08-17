@@ -29,16 +29,16 @@ class TwigFilters
                 $TB = $GB * 1024;
 
                 if ($byteSize > $TB) {
-                    return sprintf('%0.2fTB', $byteSize / $TB);
+                    return sprintf('%0.2fTiB', $byteSize / $TB);
                 }
                 if ($byteSize > $GB) {
-                    return sprintf('%0.2fGB', $byteSize / $GB);
+                    return sprintf('%0.2fGiB', $byteSize / $GB);
                 }
                 if ($byteSize > $MB) {
-                    return sprintf('%0.2fMB', $byteSize / $MB);
+                    return sprintf('%0.2fMiB', $byteSize / $MB);
                 }
 
-                return sprintf('%0.0fkB', $byteSize / $kB);
+                return sprintf('%0.0fkiB', $byteSize / $kB);
             }
         );
     }

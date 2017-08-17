@@ -74,7 +74,7 @@ class Graph
 
         if (is_null($toHuman)) {
             $toHuman = function ($v) {
-                return sprintf('%d ', $v);
+                return sprintf('%s ', $v);
             };
         }
 
@@ -89,18 +89,14 @@ class Graph
 
         $maxValue = $this->getMaxValue($dateList);
         $yAxisTopText = $toHuman($maxValue);
-        //var_dump($yAxisTopText);
         $yAxisMiddleText = $toHuman($maxValue / 2);
-        //var_dump($yAxisMiddleText);
         $yAxisTextWidth = max($this->textWidth($yAxisTopText), $this->textWidth($yAxisMiddleText));
-        //var_dump($yAxisTextWidth);
         $yAxisTextHeight = max($this->textHeight($yAxisTopText), $this->textHeight($yAxisMiddleText));
-        //var_dump($yAxisTextHeight);
         $relativeDateList = $this->toRelativeValues($dateList);
 
         // XXX loop over all text fields and determine MAX
         $xAxisTextHeight = $this->textHeight('2017-01-01');
-        $xAxisTextWidth = $this->textWidth('2017-01-01') + 4;
+        $xAxisTextWidth = $this->textWidth('2017-01-01') + 6;
 
         $xOffset = $yAxisTextWidth;
         $yOffset = $yAxisTextHeight / 2;
