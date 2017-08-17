@@ -35,7 +35,8 @@ $logger = new Logger('vpn-admin-portal');
 // XXX move this to configuration
 $fontList = [
     '/usr/share/fonts/google-roboto/Roboto-Regular.ttf', // Fedora (google-roboto-fonts)
-    '/usr/share/fonts/roboto_fontface/roboto/Roboto-Regular.ttf', // Fedora/CentOS (roboto-fontface-fonts)
+    '/usr/share/fonts/roboto_fontface/roboto/Roboto-Regular.ttf', // Fedora (roboto-fontface-fonts)
+    '/usr/share/fonts/roboto_fontface/Roboto-Regular.ttf', , // CentOS (roboto-fontface-fonts)
     '/usr/share/fonts-roboto-fontface/fonts/Roboto-Regular.ttf', // Debian (fonts-roboto-fontface)
 ];
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1 (2017-08-17)
+- font on CentOS has different path
+
 ## 1.1.0 (2017-08-17)
 - add usage graphs to the "Stats" page
 
