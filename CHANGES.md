@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3 (2017-08-17)
+- more accurate yAxis text
+- more space between graph and date labels
+- use kiB/MiB/GiB/TiB in table
+- make color of the bars on graph on stats page configurable
+
 ## 1.1.2 (2017-08-17)
 - fix syntax error
 
