@@ -52,7 +52,10 @@ return [
         'nl_NL' => 'Nederlands',
     ],
 
-    // override the color of the bars in the statistics graphs
-    //'barColor' => [0x55, 0x55, 0x55], // default (gray)
-    //'barColor' => [0xdf, 0x7f, 0x0c], // eduVPN orange
+    // configure the statistics
+    'statsConfig' => [
+        // override the color of the bars in the statistics graphs
+        //'barColor' => [0x55, 0x55, 0x55], // default (gray)
+        //'barColor' => [0xdf, 0x7f, 0x0c], // eduVPN orange
+    ],
 ];
