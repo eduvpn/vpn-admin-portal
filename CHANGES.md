@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2 (2017-08-17)
+- fix syntax error
+
 ## 1.1.1 (2017-08-17)
 - font on CentOS has different path
 
