@@ -62,7 +62,7 @@ class Graph
 
         if (is_null($toHuman)) {
             $toHuman = function ($v) {
-                return floor($v);
+                return sprintf('%d ', $v);
             };
         }
 
@@ -168,7 +168,7 @@ class Graph
             );
 
             // write xAxis dates
-            if (0 === $i % 2) {
+            if (0 === $i % 3) {
                 imagettftext(
                     $img,
                     $this->fontSize,
@@ -291,9 +291,9 @@ class Graph
         // (0,0) is top left instead of bottom left
         imagefilledrectangle(
             $img,
-            $x1,
+            $x1 + 2,
             $this->imageSize[1] - $y1,
-            $x2,
+            $x2 - 2,
             $this->imageSize[1] - $y2,
             $color
         );
