@@ -14,6 +14,7 @@ use SURFnet\VPN\Common\Http\HtmlResponse;
 use SURFnet\VPN\Common\Http\InputValidation;
 use SURFnet\VPN\Common\Http\RedirectResponse;
 use SURFnet\VPN\Common\Http\Request;
+use SURFnet\VPN\Common\Http\Response;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\ServiceModuleInterface;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
@@ -27,10 +28,14 @@ class AdminPortalModule implements ServiceModuleInterface
     /** @var \SURFnet\VPN\Common\HttpClient\ServerClient */
     private $serverClient;
 
-    public function __construct(TplInterface $tpl, ServerClient $serverClient)
+    /** @var Graph */
+    private $graph;
+
+    public function __construct(TplInterface $tpl, ServerClient $serverClient, Graph $graph)
     {
         $this->tpl = $tpl;
         $this->serverClient = $serverClient;
+        $this->graph = $graph;
     }
 
     public function init(Service $service)
@@ -209,6 +214,73 @@ class AdminPortalModule implements ServiceModuleInterface
                         ]
                     )
                 );
+            }
+        );
+
+        $service->get(
+            '/stats/traffic',
+            function () {
+                $response = new Response(
+                    200,
+                    'image/png'
+                );
+
+                $stats = $this->serverClient->get('stats');
+                $dateByteList = [];
+                foreach ($stats['days'] as $v) {
+                    $dateByteList[$v['date']] = $v['bytes_transferred'];
+                }
+
+                $imageData = $this->graph->draw(
+                    $dateByteList,
+                    function ($v) {
+                        $suffix = 'B';
+                        if ($v > 1024) {
+                            $v /= 1024;
+                            $suffix = 'kiB';
+                        }
+                        if ($v > 1024) {
+                            $v /= 1024;
+                            $suffix = 'MiB';
+                        }
+                        if ($v > 1024) {
+                            $v /= 1024;
+                            $suffix = 'GiB';
+                        }
+                        if ($v > 1024) {
+                            $v /= 1024;
+                            $suffix = 'TiB';
+                        }
+
+                        return sprintf('%d %s ', $v, $suffix);
+                    }
+                );
+                $response->setBody($imageData);
+
+                return $response;
+            }
+        );
+
+        $service->get(
+            '/stats/users',
+            function () {
+                $response = new Response(
+                    200,
+                    'image/png'
+                );
+
+                $stats = $this->serverClient->get('stats');
+                $dateUsersList = [];
+                foreach ($stats['days'] as $v) {
+                    $dateUsersList[$v['date']] = $v['unique_user_count'];
+                }
+
+                $imageData = $this->graph->draw(
+                    $dateUsersList
+                );
+                $response->setBody($imageData);
+
+                return $response;
             }
         );
 

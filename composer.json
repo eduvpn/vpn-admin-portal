@@ -24,6 +24,7 @@
     ],
     "require": {
         "eduvpn/common": "^1",
+        "ext-gd": "*",
         "ext-gettext": "*",
         "ext-json": "*",
         "ext-spl": "*",

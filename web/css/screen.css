@@ -140,6 +140,11 @@ hr {
     display: none;
 }
 
+img.stats {
+    display: block;
+    margin: 2em;
+}
+
 div.footer {
     margin: 2em 0;
     text-align: center;

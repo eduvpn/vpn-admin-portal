@@ -11,6 +11,7 @@ namespace SURFnet\VPN\Admin;
 
 use DateInterval;
 use DateTime;
+use SURFnet\VPN\Admin\Exception\GraphException;
 
 class Graph
 {
@@ -18,8 +19,7 @@ class Graph
     private $dateTime;
 
     /** @var string */
-    private $fontFile = '/usr/share/fonts/google-roboto/Roboto-Regular.ttf';
-    //private $fontFile = '/usr/share/fonts/roboto_fontface/Roboto-Regular.ttf';
+    private $fontFile;
 
     /** @var int */
     private $fontSize = 10;
@@ -56,6 +56,13 @@ class Graph
      */
     public function draw(array $graphData, callable $toHuman = null, DateInterval $dateInterval = null)
     {
+        if (is_null($this->fontFile)) {
+            throw new GraphException('no font specified');
+        }
+        if (!file_exists($this->fontFile)) {
+            throw new GraphException('specified font not found');
+        }
+
         if (is_null($dateInterval)) {
             $dateInterval = new DateInterval('P1M');
         }

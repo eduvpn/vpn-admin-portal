@@ -11,6 +11,7 @@ require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 use fkooman\SeCookie\Cookie;
 use fkooman\SeCookie\Session;
 use SURFnet\VPN\Admin\AdminPortalModule;
+use SURFnet\VPN\Admin\Graph;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Common\Config;
 use SURFnet\VPN\Common\Http\CsrfProtectionHook;
@@ -155,9 +156,14 @@ try {
     $twoFactorModule = new TwoFactorModule($serverClient, $session, $tpl);
     $service->addModule($twoFactorModule);
 
+    $graph = new Graph();
+    // XXX dynamic fonts!
+    $graph->setFontFile('/usr/share/fonts/google-roboto/Roboto-Regular.ttf');
+
     $adminPortalModule = new AdminPortalModule(
         $tpl,
-        $serverClient
+        $serverClient,
+        $graph
     );
     $service->addModule($adminPortalModule);
 

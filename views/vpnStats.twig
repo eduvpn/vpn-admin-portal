@@ -38,6 +38,22 @@
             <dt>{% trans "Highest # Concurrent Connections" %}</dt>
             <dd>{{ stats.max_concurrent_connections }}</dd>
         </dl>
+    
+        <h2>{% trans "Traffic" %}</h2>
+        <p>
+        {% trans %}
+            VPN traffic over the last month.
+        {% endtrans %}
+        </p>
+        <img class="stats" src="stats/traffic">
+
+        <h2>{% trans "Users" %}</h2>
+        <p>
+        {% trans %}
+            Number of unique users of the VPN service over the last month.
+        {% endtrans %}
+        </p>
+        <img class="stats" src="stats/users">
 
         <h2>{% trans "Daily" %}</h2>
 

@@ -11,6 +11,7 @@ namespace SURFnet\VPN\Admin\Tests;
 
 use PHPUnit_Framework_TestCase;
 use SURFnet\VPN\Admin\AdminPortalModule;
+use SURFnet\VPN\Admin\Graph;
 use SURFnet\VPN\Common\Http\NullAuthenticationHook;
 use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\Service;
@@ -29,7 +30,8 @@ class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
         $this->service->addModule(
             new AdminPortalModule(
                 new JsonTpl(),
-                new ServerClient($httpClient, 'serverClient')
+                new ServerClient($httpClient, 'serverClient'),
+                new Graph()
             )
         );
         $this->service->addBeforeHook('auth', new NullAuthenticationHook('foo'));
