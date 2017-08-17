@@ -27,6 +27,9 @@ class Graph
     /** @var array */
     private $imageSize = [600, 300];
 
+    /** @var array */
+    private $barColor = [0x55, 0x55, 0x55];
+
     /**
      * @param \DateTime $dateTime
      */
@@ -49,6 +52,14 @@ class Graph
                 break;
             }
         }
+    }
+
+    /**
+     * @var array
+     */
+    public function setBarColor(array $barColor)
+    {
+        $this->barColor = $barColor;
     }
 
     /**
@@ -108,7 +119,7 @@ class Graph
         imagefill($img, 0, 0, imagecolorallocatealpha($img, 0, 0, 0, 127));
 
         $textColor = imagecolorallocate($img, 0x55, 0x55, 0x55);
-        $barColor = imagecolorallocate($img, 0xdf, 0x7f, 0x0c);
+        $barColor = imagecolorallocate($img, $this->barColor[0], $this->barColor[1], $this->barColor[2]);
         $lineColor = imagecolorallocate($img, 0xdd, 0xdd, 0xdd);
 
         // array imagettftext ( resource $image , float $size , float $angle , int $x , int $y , int $color , string $fontfile , string $text )

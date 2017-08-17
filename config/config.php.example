@@ -19,20 +19,20 @@ return [
         //'attribute' => 'MELLON_eduPersonTargetedID',
 
         // add the entityID of the IdP to the user ID. This MUST be enabled
-        // if multiple IdPs are used and the attribute used for the user ID is 
+        // if multiple IdPs are used and the attribute used for the user ID is
         // not enforced to be unique among the different IdPs. In a "hub&spoke"
-        // identity federation, e.g. SURFconext you do not need this, for 
+        // identity federation, e.g. SURFconext you do not need this, for
         // eduGAIN enabled SPs you do!
         'addEntityID' => false,
 
-        // only allow users from IdP with entityID and userId value, in the 
+        // only allow users from IdP with entityID and userId value, in the
         // format "entityID|userId"
         'userIdAuthorization' => [
             'https://idp.example.org/saml|12345678',
             'https://idp.example.com/saml|87654321',
         ],
 
-        // only allow users from IdP with entityId and entitlement value, in 
+        // only allow users from IdP with entityId and entitlement value, in
         // the format "entityID|entitlement"
         //'entitlementAttribute' => 'MELLON_eduPersonEntitlement',
         //'entitlementAuthorization' => [
@@ -50,7 +50,9 @@ return [
     'supportedLanguages' => [
         'en_US' => 'English',
         'nl_NL' => 'Nederlands',
-        //'fr_FR' => 'Français',
-        //'de_DE' => 'Deutsch',
     ],
+
+    // override the color of the bars in the statistics graphs
+    //'barColor' => [0x55, 0x55, 0x55], // default (gray)
+    //'barColor' => [0xdf, 0x7f, 0x0c], // eduVPN orange
 ];
