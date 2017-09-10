@@ -28,11 +28,11 @@
         "ext-gettext": "*",
         "ext-json": "*",
         "ext-spl": "*",
-        "fkooman/secookie": "^1",
+        "fkooman/secookie": "^2",
         "php": ">5.4",
         "twig/twig": "^1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^5"
     }
 }

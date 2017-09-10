@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.4 (2017-09-10)
+- update `fkooman/secookie`
+
 ## 1.1.3 (2017-08-17)
 - more accurate yAxis text
 - more space between graph and date labels
