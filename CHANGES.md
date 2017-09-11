@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.6 (2017-09-11)
+- change session name to SID to get rid of explicit Domain binding;
+
 ## 1.1.5 (2017-09-11)
 - update session handling:
   - (BUG) session cookie MUST expire at end of user agent session;
