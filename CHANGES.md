@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.5 (2017-09-11)
+- update session handling:
+  - (BUG) session cookie MUST expire at end of user agent session;
+  - do not explicitly specify domain for cookie, this makes the 
+    browser bind the cookie to actual domain and path;
+
 ## 1.1.4 (2017-09-10)
 - update `fkooman/secookie`
 
