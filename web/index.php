@@ -82,8 +82,8 @@ try {
         ],
         new Cookie(
             [
-                // we need to bind to "Path", otherwise the (Basic) 
-                // authentication mechanism will set a cookie for 
+                // we need to bind to "Path", otherwise the (Basic)
+                // authentication mechanism will set a cookie for
                 // {ROOT}/_form/auth/
                 'Path' => $request->getRoot(),
                 'SameSite' => 'Lax',
@@ -174,7 +174,7 @@ try {
     $graph = new Graph();
     $graph->setFontList($fontList);
     if ($config->hasSection('statsConfig')) {
-        if($config->getSection('statsConfig')->hasItem('barColor')) {
+        if ($config->getSection('statsConfig')->hasItem('barColor')) {
             $graph->setBarColor($config->getSection('statsConfig')->getItem('barColor'));
         }
     }

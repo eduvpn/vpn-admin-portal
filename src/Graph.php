@@ -35,7 +35,7 @@ class Graph
      */
     public function __construct(DateTime $dateTime = null)
     {
-        if (is_null($dateTime)) {
+        if (null === $dateTime) {
             $dateTime = new DateTime();
         }
         $this->dateTime = $dateTime;
@@ -72,18 +72,18 @@ class Graph
      */
     public function draw(array $graphData, callable $toHuman = null, DateInterval $dateInterval = null)
     {
-        if (is_null($this->fontFile)) {
+        if (null === $this->fontFile) {
             throw new GraphException('no font specified');
         }
         if (!file_exists($this->fontFile)) {
             throw new GraphException('specified font not found');
         }
 
-        if (is_null($dateInterval)) {
+        if (null === $dateInterval) {
             $dateInterval = new DateInterval('P1M');
         }
 
-        if (is_null($toHuman)) {
+        if (null === $toHuman) {
             $toHuman = function ($v) {
                 return sprintf('%s ', $v);
             };
