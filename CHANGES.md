@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.7 (...)
+- no longer have Dutch language available by default, sync with user portal
+
 ## 1.1.6 (2017-09-11)
 - change session name to SID to get rid of explicit Domain binding;
 

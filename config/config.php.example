@@ -49,7 +49,7 @@ return [
     // supported languages in the UI, the first one mentioned is the default
     'supportedLanguages' => [
         'en_US' => 'English',
-        'nl_NL' => 'Nederlands',
+        //'nl_NL' => 'Nederlands',
     ],
 
     // configure the statistics
