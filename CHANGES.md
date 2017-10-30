@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.7 (...)
+## 1.1.7 (2017-10-30)
 - no longer have Dutch language available by default, sync with user portal
 - refactor code to ease RPM/DEB packaging
 
