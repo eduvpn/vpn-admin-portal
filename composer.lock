@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "eduvpn/common",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eduvpn/vpn-lib-common",
-                "reference": "ad800dfd71c10528225c1cae758835792306d96e"
+                "reference": "a10b420e959673b9d3b8a8db2442adb8ae1f1111"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/ad800dfd71c10528225c1cae758835792306d96e",
-                "reference": "ad800dfd71c10528225c1cae758835792306d96e",
+                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/a10b420e959673b9d3b8a8db2442adb8ae1f1111",
+                "reference": "a10b420e959673b9d3b8a8db2442adb8ae1f1111",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "twig/twig": "^1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4|^5"
+                "phpunit/phpunit": "^4.8.35|^5|^6"
             },
             "type": "library",
             "autoload": {
@@ -60,7 +60,7 @@
                 }
             ],
             "description": "Common VPN library",
-            "time": "2017-10-26T09:22:49+00:00"
+            "time": "2017-11-08T16:38:08+00:00"
         },
         {
             "name": "fkooman/secookie",
@@ -1747,16 +1747,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.3.10",
+            "version": "v3.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "8c7bf1e7d5d6b05a690b715729cb4cd0c0a99c46"
+                "reference": "0938408c4faa518d95230deabb5f595bf0de31b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/8c7bf1e7d5d6b05a690b715729cb4cd0c0a99c46",
-                "reference": "8c7bf1e7d5d6b05a690b715729cb4cd0c0a99c46",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/0938408c4faa518d95230deabb5f595bf0de31b9",
+                "reference": "0938408c4faa518d95230deabb5f595bf0de31b9",
                 "shasum": ""
             },
             "require": {
@@ -1798,7 +1798,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-05T14:43:42+00:00"
+            "time": "2017-11-10T18:26:04+00:00"
         },
         {
             "name": "webmozart/assert",
