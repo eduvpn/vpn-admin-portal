@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.8 (...)
+## 1.1.8 (2017-11-14)
 - allow updating branding/style using `styleName` configuration option
 
 ## 1.1.7 (2017-10-30)
