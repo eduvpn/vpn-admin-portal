@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.9 (...)
+- sort the daily "Stats" in reverse order and only show yesterday up to a 
+  month ago
+
 ## 1.1.8 (2017-11-14)
 - allow updating branding/style using `styleName` configuration option
 

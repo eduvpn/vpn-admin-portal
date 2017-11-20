@@ -9,6 +9,8 @@
 
 namespace SURFnet\VPN\Admin;
 
+use DateInterval;
+use DateTime;
 use SURFnet\VPN\Common\Http\Exception\HttpException;
 use SURFnet\VPN\Common\Http\HtmlResponse;
 use SURFnet\VPN\Common\Http\InputValidation;
@@ -31,11 +33,15 @@ class AdminPortalModule implements ServiceModuleInterface
     /** @var Graph */
     private $graph;
 
+    /** @var \DateTime */
+    private $dateTimeToday;
+
     public function __construct(TplInterface $tpl, ServerClient $serverClient, Graph $graph)
     {
         $this->tpl = $tpl;
         $this->serverClient = $serverClient;
         $this->graph = $graph;
+        $this->dateTimeToday = new DateTime('today');
     }
 
     public function init(Service $service)
@@ -206,11 +212,26 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/stats',
             function () {
+                // only show the stats for last month
+                // XXX move this to vpn-server-api so we do not need to
+                // duplicate this here and at the graphs...
+                $startDay = clone $this->dateTimeToday;
+                $startDay->sub(new DateInterval('P1M'));
+                $stats = $this->serverClient->get('stats');
+                foreach ($stats['days'] as $k => $v) {
+                    $statsDate = new DateTime($v['date']);
+                    if ($statsDate < $startDay || $statsDate >= $this->dateTimeToday) {
+                        unset($stats['days'][$k]);
+                    }
+                }
+
+                krsort($stats['days']);
+
                 return new HtmlResponse(
                     $this->tpl->render(
                         'vpnStats',
                         [
-                            'stats' => $this->serverClient->get('stats'),
+                            'stats' => $stats,
                         ]
                     )
                 );
@@ -359,5 +380,21 @@ class AdminPortalModule implements ServiceModuleInterface
                 );
             }
         );
+    }
+
+    private function createDateList(DateInterval $dateInterval)
+    {
+        $currentDay = $this->dateTimeToday->format('Y-m-d');
+        $dateTime = clone $this->dateTimeToday;
+        $dateTime->sub($dateInterval);
+        $oneDay = new DateInterval('P1D');
+
+        $dateList = [];
+        while ($dateTime < $this->dateTimeToday) {
+            $dateList[$dateTime->format('Y-m-d')] = 0;
+            $dateTime->add($oneDay);
+        }
+
+        return $dateList;
     }
 }
