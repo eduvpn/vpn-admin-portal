@@ -12,13 +12,24 @@ return [
     //'styleName' => 'eduVPN',
     //'styleName' => 'LC',
 
-    'authMethod' => 'FormAuthentication',
-    //'authMethod' => 'MellonAuthentication',
-
-    'FormAuthentication' => [
-        // use vpn-admin-portal-add-user to add users!
+     'authMethod' => 'FormAuthentication',
+     //'authMethod' => 'FormLdapAuthentication',
+     //'authMethod' => 'MellonAuthentication',
+ 
+     // Simple
+     'FormAuthentication' => [
+         // use vpn-admin-portal-add-user to add users!
+     ],
+ 
+    // LDAP
+    'FormLdapAuthentication' => [
+        'ldapUri' => 'ldap://ldap.example.org',
+        // "{{UID}}" will be replaced with the username the user provides
+        // on the login page
+        'userDnTemplate' => 'uid={{UID}},ou=People,dc=example,dc=org',
     ],
 
+    // SAML
     'MellonAuthentication' => [
         'attribute' => 'MELLON_NAME_ID',
         //'attribute' => 'MELLON_eduPersonTargetedID',

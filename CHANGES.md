@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.1.9 (...)
+## 1.2.0 (2017-11-23)
 - sort the daily "Stats" in reverse order and only show yesterday up to a 
   month ago
+- support LDAP authentication
 
 ## 1.1.8 (2017-11-14)
 - allow updating branding/style using `styleName` configuration option
