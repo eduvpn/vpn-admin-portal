@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 (2017-12-05)
+- cleanup templates for easier extension and custom styling
+  - breaks existing templates (falls back to default)
+- update `nl_NL` translation
+- fix bug displaying stats when no stats are available yet
+- update LDAP configuration examples
+- increase size of username/password field
+
 ## 1.2.0 (2017-11-23)
 - sort the daily "Stats" in reverse order and only show yesterday up to a 
   month ago
