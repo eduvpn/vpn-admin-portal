@@ -218,14 +218,16 @@ class AdminPortalModule implements ServiceModuleInterface
                 $startDay = clone $this->dateTimeToday;
                 $startDay->sub(new DateInterval('P1M'));
                 $stats = $this->serverClient->get('stats');
-                foreach ($stats['days'] as $k => $v) {
-                    $statsDate = new DateTime($v['date']);
-                    if ($statsDate < $startDay || $statsDate >= $this->dateTimeToday) {
-                        unset($stats['days'][$k]);
+                if (false !== $stats) {
+                    foreach ($stats['days'] as $k => $v) {
+                        $statsDate = new DateTime($v['date']);
+                        if ($statsDate < $startDay || $statsDate >= $this->dateTimeToday) {
+                            unset($stats['days'][$k]);
+                        }
                     }
-                }
 
-                krsort($stats['days']);
+                    krsort($stats['days']);
+                }
 
                 return new HtmlResponse(
                     $this->tpl->render(
