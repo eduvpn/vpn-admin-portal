@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-
-<html lang="en">
-{% include 'head.twig' %}
-<body>
-    {% include 'header.twig' %}
-
-    <ul class="menu">
-      <li><a href="{{ requestRoot }}connections">{% trans "Connections" %}</a></li>
-      <li><a href="{{ requestRoot }}users">{% trans "Users" %}</a></li>
-      <li><a href="{{ requestRoot }}info">{% trans "Info" %}</a></li>
-      <li><a href="{{ requestRoot }}stats">{% trans "Stats" %}</a></li>
-      <li><a href="{{ requestRoot }}messages">{% trans "Messages" %}</a></li>
-      <li class="active"><a href="{{ requestRoot }}log">{% trans "Log" %}</a></li>
-    </ul>
-
+{% set activeItem = 'log' %}
+{% extends "base.twig" %}
+{% block content %}
     <h2>{% trans "Search" %}</h2>
     <p>
         {% trans "Find the user identifier that used an IPv4 or IPv6 address at a particular point in time." %}
@@ -80,7 +67,4 @@
             </table>
         {% endif %}
     {% endif %}
-
-    {% include 'footer.twig' %}
-</body>
-</html>
+{% endblock %}

@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-
-<html lang="en">
-{% include 'head.twig' %}
-<body>
-    {% include 'header.twig' %}
-
-    <ul class="menu">
-      <li><a href="{{ requestRoot }}connections">{% trans "Connections" %}</a></li>
-      <li><a href="{{ requestRoot }}users">{% trans "Users" %}</a></li>
-      <li class="active"><a href="{{ requestRoot }}info">{% trans "Info" %}</a></li>
-      <li><a href="{{ requestRoot }}stats">{% trans "Stats" %}</a></li>
-      <li><a href="{{ requestRoot }}messages">{% trans "Messages" %}</a></li>
-      <li><a href="{{ requestRoot }}log">{% trans "Log" %}</a></li>
-    </ul>
-
+{% set activeItem = 'info' %}
+{% extends "base.twig" %}
+{% block content %}
     {% for profile in profileList %}
         <h2>{{ profile.displayName }}</h2>
 
@@ -44,7 +31,4 @@
             </tbody>
         </table>
     {% endfor %}
-
-    {% include 'footer.twig' %}
-</body>
-</html>
+{% endblock %}
