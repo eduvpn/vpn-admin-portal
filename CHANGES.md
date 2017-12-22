@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0 (...)
+- cleanup autoloading
+- make add-user script interactive if no `--user` or `--pass` CLI parameters
+  are specified
+- support PHPUnit 6
+
 ## 1.3.0 (2017-12-05)
 - cleanup templates for easier extension and custom styling
   - breaks existing templates (falls back to default)

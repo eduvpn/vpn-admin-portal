@@ -9,7 +9,7 @@
 
 namespace SURFnet\VPN\Admin\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Admin\Graph;
 use SURFnet\VPN\Common\Http\NullAuthenticationHook;
@@ -17,7 +17,7 @@ use SURFnet\VPN\Common\Http\Request;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
 
-class VpnAdminModuleTest extends PHPUnit_Framework_TestCase
+class VpnAdminModuleTest extends TestCase
 {
     /** @var \SURFnet\VPN\Common\Http\Service */
     private $service;
