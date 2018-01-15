@@ -52,6 +52,7 @@ msgid "There are no results matching your criteria."
 msgstr "Er zijn geen resultaten die voldoen aan de criteria."
 
 #: /tmp/cache/57/5773d3dda7c5e32152e04bbbab61f62e0d9b155b14a4cd28afd6f16b9551fac3.php:112
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:75
 msgid "Profile"
 msgstr "Profiel"
 
@@ -229,55 +230,46 @@ msgstr "YubiKey"
 msgid "The process generating the VPN usage statistics did not run yet..."
 msgstr "Het proces dat de VPN-statistieken maakt heeft nog niet gelopen..."
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:51
-msgid "Overall"
-msgstr "Globaal"
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:59
+msgid "Summary"
+msgstr "Samenvatting"
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:57
-msgid "These statistics were last updated on"
-msgstr "Deze statistieken werden voor het laatst bijgewerkt op"
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:65
+msgid ""
+"These statistics were last updated on %generated_at% (%generated_at_tz%) and "
+"cover the last month."
+msgstr ""
+"Deze statistieken zijn voor het laatst bijgewerkt op %generated_at% "
+"(%generated_at_tz%) en beslaan de voorgaande maand."
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:68
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:79
 msgid "Total Traffic"
 msgstr "Totaal verkeer"
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:77
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:83
 msgid "Total # Unique Users"
 msgstr "Totaal # unieke gebruikers"
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:86
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:87
 msgid "Highest # Concurrent Connections"
 msgstr "Hoogste # gelijktijdige verbindingen"
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:96
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:131
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:129
 msgid "Traffic"
 msgstr "Verkeer"
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:101
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:134
 msgid "VPN traffic over the last month."
 msgstr "VPN-verkeer in de laatste maand."
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:108
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:159
 #: /tmp/cache/af/af4eadab58db9787eb3bbecbd979e95d94a406f8e54a263503c3256de7282741.php:34
 msgid "Users"
 msgstr "Gebruikers"
 
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:113
+#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:164
 msgid "Number of unique users of the VPN service over the last month."
 msgstr "Aantal unieke gebruikers van de VPN-dienst in de laatste maand."
-
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:120
-msgid "Daily"
-msgstr "Dagelijks"
-
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:127
-msgid "Date"
-msgstr "Datum"
-
-#: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:129
-msgid "# Unique Users"
-msgstr "# Unieke gebruikers"
 
 #: /tmp/cache/2d/2d83b5a60ec1c524915cd732120fe6f413f75bc718f32859c4031350e048393f.php:34
 msgid "Error"
