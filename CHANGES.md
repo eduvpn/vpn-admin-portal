@@ -1,8 +1,5 @@
 # Changelog
 
-## 1.4.1 (...)
-- split out statistics per profile
-
 ## 1.4.0 (2017-12-23)
 - cleanup autoloading
 - make add-user script interactive if no `--user` or `--pass` CLI parameters
