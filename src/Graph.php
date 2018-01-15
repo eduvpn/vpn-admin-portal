@@ -99,11 +99,13 @@ class Graph
         }
 
         $maxValue = $this->getMaxValue($dateList);
+        $maxValue = 0 !== $maxValue % 2 ? $maxValue + 1 : $maxValue;
+
         $yAxisTopText = $toHuman($maxValue);
         $yAxisMiddleText = $toHuman($maxValue / 2);
         $yAxisTextWidth = max($this->textWidth($yAxisTopText), $this->textWidth($yAxisMiddleText));
         $yAxisTextHeight = max($this->textHeight($yAxisTopText), $this->textHeight($yAxisMiddleText));
-        $relativeDateList = $this->toRelativeValues($dateList);
+        $relativeDateList = $this->toRelativeValues($dateList, $maxValue);
 
         // XXX loop over all text fields and determine MAX
         $xAxisTextHeight = $this->textHeight('2017-01-01');
@@ -247,13 +249,13 @@ class Graph
      * Convert the absolute values of the data to relative values, where the
      * highest value is converted to 1.
      *
-     * @param array $dateList
+     * @param array  $dateList
+     * @param string $maxValue
      *
      * @return array
      */
-    private function toRelativeValues(array $dateList)
+    private function toRelativeValues(array $dateList, $maxValue)
     {
-        $maxValue = $this->getMaxValue($dateList);
         if (0 !== $maxValue) {
             foreach ($dateList as $k => $v) {
                 $dateList[$k] = $v / $maxValue;

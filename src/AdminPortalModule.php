@@ -227,7 +227,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         'vpnStats',
                         [
                             'stats' => $stats,
-                            'idNameMapping' => $idNameMapping,                        
+                            'idNameMapping' => $idNameMapping,
                         ]
                     )
                 );
