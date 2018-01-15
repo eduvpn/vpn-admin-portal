@@ -1,63 +1,47 @@
 {% set activeItem = 'stats' %}
 {% extends "base.twig" %}
+
+{% set generated_at = stats.generated_at|date('Y-m-d H:i:s') %}
+{% set generated_at_tz = date()|date('T') %}
+
 {% block content %}
     {% if false == stats %}
-
         <p class="plain">
             {% trans "The process generating the VPN usage statistics did not run yet..." %}
         </p>
-
     {% else %}
-
-        <h2>{% trans "Overall" %}</h2>
-
+        <h2>{% trans "Summary" %}</h2>
         <p>
-            {% trans "These statistics were last updated on" %} {{ stats.generated_at|date('Y-m-d H:i:s') }} ({{ date()|date('T') }}).
+            {% trans %}
+These statistics where generated on {{ generated_at }} ({{ generated_at_tz }}).
+            {% endtrans %}
         </p>
-
-        <dl>
-            <dt>{% trans "Total Traffic" %}</dt>
-            <dd>{{ stats.total_traffic|sizeToHuman }}</dd>
-
-            <dt>{% trans "Total # Unique Users" %}</dt>
-            <dd>{{ stats.unique_user_count }}</dd>
-
-            <dt>{% trans "Highest # Concurrent Connections" %}</dt>
-            <dd>{{ stats.max_concurrent_connections }}</dd>
-        </dl>
-    
-        <h2>{% trans "Traffic" %}</h2>
-        <p>
-        {% trans %}
-            VPN traffic over the last month.
-        {% endtrans %}
-        </p>
-        <img class="stats" src="stats/traffic">
-
-        <h2>{% trans "Users" %}</h2>
-        <p>
-        {% trans %}
-            Number of unique users of the VPN service over the last month.
-        {% endtrans %}
-        </p>
-        <img class="stats" src="stats/users">
-
-        <h2>{% trans "Daily" %}</h2>
-
+        
         <table>
             <thead>
-                <tr><th>{% trans "Date" %}</th><th>{% trans "# Unique Users" %}</th><th>{% trans "Traffic" %}</th></tr>
+                <tr>
+                    <th>{% trans "Profile" %}</th>
+                    <th>{% trans "Total Traffic" %}</th>
+                    <th>{% trans "Total # Unique Users" %}</th>
+                    <th>{% trans "Highest # Concurrent Connections" %}</th>
+                </tr>
             </thead>
             <tbody>
-            {% for item in stats.days %}
-                <tr>
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.unique_user_count }}</td>
-                    <td>{{ item.bytes_transferred|sizeToHuman }}</td>
-                </tr>
-            {% endfor %}
+                {% for k, v in stats.profiles %}
+                    <tr>
+                        <td><a title="{{ k }}" href="stats?profile_id={{ k }}">{{ v.display_name }}</a></td>
+                        <td>{{ v.total_traffic|sizeToHuman }}</td>
+                        <td>{{ v.unique_user_count }}</td>
+                        <td>
+                            {% if v.max_concurrent_connections_time == 0 %}
+                               {{ v.max_concurrent_connections }}
+                            {% else %}
+                                <span title="{% trans "On" %} {{ v.max_concurrent_connections_time|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})">{{ v.max_concurrent_connections }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
-
     {% endif %}
 {% endblock %}

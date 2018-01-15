@@ -212,22 +212,7 @@ class AdminPortalModule implements ServiceModuleInterface
         $service->get(
             '/stats',
             function () {
-                // only show the stats for last month
-                // XXX move this to vpn-server-api so we do not need to
-                // duplicate this here and at the graphs...
-                $startDay = clone $this->dateTimeToday;
-                $startDay->sub(new DateInterval('P1M'));
                 $stats = $this->serverClient->get('stats');
-                if (false !== $stats) {
-                    foreach ($stats['days'] as $k => $v) {
-                        $statsDate = new DateTime($v['date']);
-                        if ($statsDate < $startDay || $statsDate >= $this->dateTimeToday) {
-                            unset($stats['days'][$k]);
-                        }
-                    }
-
-                    krsort($stats['days']);
-                }
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -242,7 +227,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/stats/traffic',
-            function () {
+            function (Request $request) {
+                $profileId = InputValidation::profileId($request->getQueryParameter('profile_id'));
+
                 $response = new Response(
                     200,
                     'image/png'
@@ -250,7 +237,7 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 $stats = $this->serverClient->get('stats');
                 $dateByteList = [];
-                foreach ($stats['days'] as $v) {
+                foreach ($stats['profiles'][$profileId]['days'] as $v) {
                     $dateByteList[$v['date']] = $v['bytes_transferred'];
                 }
 
@@ -286,15 +273,17 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/stats/users',
-            function () {
+            function (Request $request) {
+                $profileId = InputValidation::profileId($request->getQueryParameter('profile_id'));
                 $response = new Response(
                     200,
                     'image/png'
                 );
 
                 $stats = $this->serverClient->get('stats');
+                error_log(var_export($stats, true));
                 $dateUsersList = [];
-                foreach ($stats['days'] as $v) {
+                foreach ($stats['profiles'][$profileId]['days'] as $v) {
                     $dateUsersList[$v['date']] = $v['unique_user_count'];
                 }
 
