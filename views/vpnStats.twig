@@ -4,7 +4,9 @@
     {% if false == stats %}
 
         <p class="plain">
-            {% trans "The process generating the VPN usage statistics did not run yet..." %}
+            {% trans %}
+VPN usage statistics not (yet) available. Check back after midnight.
+            {% endtrans %}
         </p>
 
     {% else %}

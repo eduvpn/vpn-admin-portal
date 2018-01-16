@@ -227,8 +227,8 @@ msgid "YubiKey"
 msgstr "YubiKey"
 
 #: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:41
-msgid "The process generating the VPN usage statistics did not run yet..."
-msgstr "Het proces dat de VPN-statistieken maakt heeft nog niet gelopen..."
+msgid "VPN usage statistics not (yet) available. Check back after midnight."
+msgstr "VPN-statistieken (nog) niet beschikbaar. Kijk opnieuw na middernacht."
 
 #: /tmp/cache/dd/dd183a53583aa134020f52a33db404343fcb0067e75eb5463179576b2ddc996f.php:59
 msgid "Summary"

@@ -213,7 +213,12 @@ class AdminPortalModule implements ServiceModuleInterface
             '/stats',
             function () {
                 $stats = $this->serverClient->get('stats');
-
+                if (!array_key_exists('profiles', $stats)) {
+                    // this is an old "stats" format we no longer support,
+                    // vpn-server-api-stats has to run again first, which is
+                    // done by the crontab running at midnight...
+                    $stats = false;
+                }
                 // get the fancy profile name
                 $profileList = $this->serverClient->get('profile_list');
 
