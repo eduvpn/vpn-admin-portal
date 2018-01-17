@@ -1,7 +1,9 @@
 # Changelog
 
-## 1.4.1 (...)
+## 1.4.1 (2018-01-17)
 - split out statistics per profile
+- remove stats table with per day information
+- improve y-axis text for graphs to never be a fraction
 
 ## 1.4.0 (2017-12-23)
 - cleanup autoloading
