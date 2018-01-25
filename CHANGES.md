@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.2 (...)
+- "hover" for time of maximum concurrent connections on stats page
+
 ## 1.4.1 (2018-01-17)
 - split out statistics per profile
 - remove stats table with per day information

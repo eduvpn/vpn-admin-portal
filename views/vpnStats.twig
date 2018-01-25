@@ -33,11 +33,15 @@ These statistics were last updated on {{ generated_at }} ({{ generated_at_tz }})
             </thead>
             <tbody>
             {% for k,v in stats.profiles %}
+
+                {% set max_concurrent_connections_time = v.max_concurrent_connections_time|date('Y-m-d H:i:s') %}
+                {% set max_concurrent_connections_time_tz = date()|date('T') %}
+
                 <tr>
                     <td><span title="{{ k }}">{{ idNameMapping[k] }}</td>
                     <td>{{ v.total_traffic|sizeToHuman }}</td>
                     <td>{{ v.unique_user_count }}</td>
-                    <td>{{ v.max_concurrent_connections }}</td>
+                    <td><span title="{{ max_concurrent_connections_time }} ({{ max_concurrent_connections_time_tz}} )">{{ v.max_concurrent_connections }}</span></td>
                 </tr>
             {% endfor %}
             </tbody>
