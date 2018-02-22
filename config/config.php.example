@@ -12,9 +12,13 @@ return [
     //'styleName' => 'eduVPN',
     //'styleName' => 'LC',
 
-    'authMethod' => 'FormPdoAuthentication',
-    //'authMethod' => 'FormLdapAuthentication',
-    //'authMethod' => 'MellonAuthentication',
+    'authMethod' => 'FormPdoAuthentication',        // PDO (database)
+    //'authMethod' => 'FormLdapAuthentication',     // LDAP
+    //'authMethod' => 'MellonAuthentication',       // SAML
+
+    // PDO (database)
+    'FormPdoAuthentication' => [
+    ],
 
     // LDAP
     'FormLdapAuthentication' => [
