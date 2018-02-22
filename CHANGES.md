@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.4.2 (...)
+## 1.5.0 (...)
 - "hover" for time of maximum concurrent connections on stats page
 - support `FormPdoAuthentication` and make it the default
 - deprecate `FormAuthentcation`, new deploys will use `FormPdoAuthentication` 
