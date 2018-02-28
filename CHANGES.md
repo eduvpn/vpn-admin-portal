@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.1 (...)
+- make sure data directory exists before adding users
+
 ## 1.5.0 (2018-02-25)
 - "hover" for time of maximum concurrent connections on stats page
 - support `FormPdoAuthentication` and make it the default
