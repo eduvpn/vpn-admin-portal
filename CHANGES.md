@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.1 (...)
+## 1.5.1 (2018-02-28)
 - make sure data directory exists before adding users
 
 ## 1.5.0 (2018-02-25)
