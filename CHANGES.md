@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.2 (...)
+- support RADIUS for user authentication
+
 ## 1.5.1 (2018-02-28)
 - make sure data directory exists before adding users
 

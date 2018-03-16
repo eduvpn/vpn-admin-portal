@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4168725d38810fc127f6bbe1b9b1c3c7",
+    "content-hash": "7ae00f5247a0c414d3d30b87b62546b9",
     "packages": [
         {
             "name": "eduvpn/common",
-            "version": "1.1.9",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eduvpn/vpn-lib-common",
-                "reference": "4711eb8eb9debf68eb43ce29c9e14c535d6df4aa"
+                "reference": "1904bb5821b26b8ef90e8f447fe0c6c71f395885"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/4711eb8eb9debf68eb43ce29c9e14c535d6df4aa",
-                "reference": "4711eb8eb9debf68eb43ce29c9e14c535d6df4aa",
+                "url": "https://api.github.com/repos/eduvpn/vpn-lib-common/zipball/1904bb5821b26b8ef90e8f447fe0c6c71f395885",
+                "reference": "1904bb5821b26b8ef90e8f447fe0c6c71f395885",
                 "shasum": ""
             },
             "require": {
@@ -31,6 +31,7 @@
                 "ext-mbstring": "*",
                 "ext-pcre": "*",
                 "ext-pdo": "*",
+                "ext-radius": "*",
                 "ext-spl": "*",
                 "fkooman/secookie": "^2",
                 "ircmaxell/password-compat": "^1",
@@ -62,7 +63,7 @@
                 }
             ],
             "description": "Common VPN library",
-            "time": "2018-03-15T21:51:44+00:00"
+            "time": "2018-03-16T10:32:03+00:00"
         },
         {
             "name": "fkooman/secookie",
@@ -1996,7 +1997,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "eduvpn/common": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
