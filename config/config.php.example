@@ -32,10 +32,14 @@ return [
 
     // RADIUS
     'FormRadiusAuthentication' => [
-        'host' => 'radius.example.org',
-        //'port' => 1812,
+        'serverList' => [
+            [
+                'host' => 'radius.example.org',
+                'secret' => 'testing123',
+                //'port' => 1812,
+            ],
+        ],
         //'addRealm' => 'example.org',
-        'secret' => 'testing123',
         //'nasIdentifier' => 'vpn.example.org',
     ],
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.3 (...)
+- support multiple RADIUS servers
+
 ## 1.5.2 (2018-03-16)
 - support RADIUS for user authentication
 
