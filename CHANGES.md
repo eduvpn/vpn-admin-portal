@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.3 (...)
+## 1.5.3 (2018-03-29)
 - support multiple RADIUS servers
 
 ## 1.5.2 (2018-03-16)
