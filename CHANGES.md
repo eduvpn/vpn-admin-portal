@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.4 (2018-05-16)
+- show the user ID on the TOTP/YubiKey page when authenticating
+
 ## 1.5.3 (2018-03-29)
 - support multiple RADIUS servers
 
