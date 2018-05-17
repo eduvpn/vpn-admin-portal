@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.5 (...)
+## 1.5.5 (2018-05-17)
 - update nl_NL translations
 
 ## 1.5.4 (2018-05-16)
