@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0 (...)
+- display "client lost" boolean on log page
+- update translation (nl_NL)
+
 ## 1.5.5 (2018-05-17)
 - update nl_NL translations
 
