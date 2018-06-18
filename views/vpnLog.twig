@@ -63,6 +63,16 @@
                             {% endif %}
                         </td>
                     </tr>
+                    <tr>
+                        <th>{% trans "Client Lost" %}</th>
+                        <td>
+                            {% if result.client_lost %}
+                                <span class="plain">{% trans "Yes" %}</span>
+                            {% else %}
+                                <span class="plain">{% trans "No" %}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         {% endif %}
