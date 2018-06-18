@@ -81,10 +81,12 @@ msgid "Active"
 msgstr ""
 
 #: /tmp/cache/75/755416e5618abb297a126738773ffd787198dcd998b98f8de93fbd9a0edbe698.php:84
+#: /tmp/cache/c2/c2eb38c5f2c21e2528d48571a1413d6aec2e7e63df35d185ea10f72594e420a4.php:204
 msgid "Yes"
 msgstr ""
 
 #: /tmp/cache/75/755416e5618abb297a126738773ffd787198dcd998b98f8de93fbd9a0edbe698.php:91
+#: /tmp/cache/c2/c2eb38c5f2c21e2528d48571a1413d6aec2e7e63df35d185ea10f72594e420a4.php:210
 msgid "No"
 msgstr ""
 
@@ -256,6 +258,10 @@ msgstr ""
 
 #: /tmp/cache/c2/c2eb38c5f2c21e2528d48571a1413d6aec2e7e63df35d185ea10f72594e420a4.php:170
 msgid "Disconnected"
+msgstr ""
+
+#: /tmp/cache/c2/c2eb38c5f2c21e2528d48571a1413d6aec2e7e63df35d185ea10f72594e420a4.php:196
+msgid "Client Lost"
 msgstr ""
 
 #: /tmp/cache/ef/effc7f46ac289c03093d3188ddbe3a9dc573f216e084c6414594e6a16620ca61.php:37
