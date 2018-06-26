@@ -176,24 +176,6 @@ class AdminPortalModule implements ServiceModuleInterface
             }
         );
 
-        $service->post(
-            '/setCertificateStatus',
-            function (Request $request, array $hookData) {
-                $commonName = $request->getPostParameter('commonName');
-                InputValidation::commonName($commonName);
-
-                $newState = $request->getPostParameter('newState');
-                if ('enable' === $newState) {
-                    $this->serverClient->post('enable_client_certificate', ['common_name' => $commonName]);
-                } else {
-                    $this->serverClient->post('disable_client_certificate', ['common_name' => $commonName]);
-                    $this->serverClient->post('kill_client', ['common_name' => $commonName]);
-                }
-
-                return new RedirectResponse($request->getHeader('HTTP_REFERER'), 302);
-            }
-        );
-
         $service->get(
             '/log',
             function () {
