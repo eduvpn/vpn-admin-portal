@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.6.0 (...)
+## 1.6.0 (2018-07-02)
 - display "client lost" boolean on log page
 - update translation (nl_NL)
 - no longer support disabling certificates
