@@ -9,20 +9,23 @@
 
 namespace SURFnet\VPN\Admin;
 
-use Twig_Error_Runtime;
 use Twig_SimpleFilter;
 
 class TwigFilters
 {
+    /**
+     * @return \Twig_SimpleFilter
+     */
     public static function sizeToHuman()
     {
         return new Twig_SimpleFilter(
             'sizeToHuman',
+            /**
+             * @param int $byteSize
+             *
+             * @return string
+             */
             function ($byteSize) {
-                if (!is_int($byteSize)) {
-                    throw new Twig_Error_Runtime('number of bytes must be a number.');
-                }
-
                 $kB = 1024;
                 $MB = $kB * 1024;
                 $GB = $MB * 1024;

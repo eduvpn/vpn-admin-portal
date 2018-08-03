@@ -44,10 +44,16 @@ class AdminPortalModule implements ServiceModuleInterface
         $this->dateTimeToday = new DateTime('today');
     }
 
+    /**
+     * @return void
+     */
     public function init(Service $service)
     {
         $service->get(
             '/',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function (Request $request) {
                 return new RedirectResponse($request->getRootUri().'connections', 302);
             }
@@ -55,6 +61,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/connections',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function () {
                 // get the fancy profile name
                 $profileList = $this->serverClient->get('profile_list');
@@ -78,6 +87,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/info',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function () {
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -92,6 +104,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/users',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function () {
                 $userList = $this->serverClient->get('user_list');
 
@@ -108,6 +123,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/user',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function (Request $request) {
                 $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
@@ -133,6 +151,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->post(
             '/user',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function (Request $request) {
                 $userId = $request->getPostParameter('user_id');
                 InputValidation::userId($userId);
@@ -178,6 +199,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/log',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function () {
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -193,6 +217,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/stats',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function () {
                 $stats = $this->serverClient->get('stats');
                 if (!is_array($stats) || !array_key_exists('profiles', $stats)) {
@@ -223,6 +250,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/stats/traffic',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function (Request $request) {
                 $profileId = InputValidation::profileId($request->getQueryParameter('profile_id'));
                 $response = new Response(
@@ -238,6 +268,11 @@ class AdminPortalModule implements ServiceModuleInterface
 
                 $imageData = $this->graph->draw(
                     $dateByteList,
+                    /**
+                     * @param int $v
+                     *
+                     * @return string
+                     */
                     function ($v) {
                         $suffix = 'B';
                         if ($v > 1024) {
@@ -268,6 +303,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/stats/users',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function (Request $request) {
                 $profileId = InputValidation::profileId($request->getQueryParameter('profile_id'));
                 $response = new Response(
@@ -292,6 +330,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->get(
             '/messages',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function () {
                 $motdMessages = $this->serverClient->get('system_messages', ['message_type' => 'motd']);
 
@@ -315,6 +356,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->post(
             '/messages',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function (Request $request) {
                 $messageAction = $request->getPostParameter('message_action');
                 switch ($messageAction) {
@@ -347,6 +391,9 @@ class AdminPortalModule implements ServiceModuleInterface
 
         $service->post(
             '/log',
+            /**
+             * @return \SURFnet\VPN\Common\Http\Response
+             */
             function (Request $request) {
                 $dateTime = $request->getPostParameter('date_time');
                 InputValidation::dateTime($dateTime);
@@ -367,6 +414,11 @@ class AdminPortalModule implements ServiceModuleInterface
         );
     }
 
+    /**
+     * @param \DateInterval $dateInterval
+     *
+     * @return array<string, int>
+     */
     private function createDateList(DateInterval $dateInterval)
     {
         $currentDay = $this->dateTimeToday->format('Y-m-d');
