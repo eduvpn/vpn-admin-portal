@@ -18,8 +18,8 @@ class Graph
     /** @var \DateTime */
     private $dateTime;
 
-    /** @var string */
-    private $fontFile;
+    /** @var null|string */
+    private $fontFile = null;
 
     /** @var int */
     private $fontSize = 10;
@@ -42,7 +42,9 @@ class Graph
     }
 
     /**
-     * @param array $fontList
+     * @param array<string> $fontList
+     *
+     * @return void
      */
     public function setFontList(array $fontList)
     {
@@ -55,7 +57,9 @@ class Graph
     }
 
     /**
-     * @var array
+     * @param array<int> $barColor
+     *
+     * @return void
      */
     public function setBarColor(array $barColor)
     {
@@ -84,9 +88,7 @@ class Graph
         }
 
         if (null === $toHuman) {
-            $toHuman = function ($v) {
-                return sprintf('%s ', $v);
-            };
+            $toHuman = ['Graph', 'toHumanDummy'];
         }
 
         $dateList = $this->createDateList($dateInterval);
@@ -210,7 +212,7 @@ class Graph
      *
      * @param \DateInterval $dateInterval
      *
-     * @return array
+     * @return array<string, int>
      */
     private function createDateList(DateInterval $dateInterval)
     {
@@ -231,7 +233,9 @@ class Graph
     /**
      * Get the maximum value in the dataset.
      *
-     * @param array $dateList
+     * @param array<string, int> $dateList
+     *
+     * @return int
      */
     private function getMaxValue(array $dateList)
     {
@@ -249,16 +253,16 @@ class Graph
      * Convert the absolute values of the data to relative values, where the
      * highest value is converted to 1.
      *
-     * @param array  $dateList
-     * @param string $maxValue
+     * @param array<string,int> $dateList
+     * @param int               $maxValue
      *
-     * @return array
+     * @return array<string,int>
      */
     private function toRelativeValues(array $dateList, $maxValue)
     {
         if (0 !== $maxValue) {
             foreach ($dateList as $k => $v) {
-                $dateList[$k] = $v / $maxValue;
+                $dateList[$k] = (int) ($v / $maxValue);
             }
         }
 
@@ -275,6 +279,9 @@ class Graph
      */
     private function textWidth($textString)
     {
+        if (null === $this->fontFile) {
+            throw new GraphException('no font specified');
+        }
         if (false === $textBox = imagettfbbox($this->fontSize, 0, $this->fontFile, $textString)) {
             throw new GraphException('unable to determine width of text in box');
         }
@@ -292,6 +299,9 @@ class Graph
      */
     private function textHeight($textString)
     {
+        if (null === $this->fontFile) {
+            throw new GraphException('no font specified');
+        }
         if (false === $textBox = imagettfbbox($this->fontSize, 0, $this->fontFile, $textString)) {
             throw new GraphException('unable to determine height of text in box');
         }
@@ -299,6 +309,16 @@ class Graph
         return -$textBox[5];
     }
 
+    /**
+     * @param resource $img
+     * @param int      $x1
+     * @param int      $y1
+     * @param int      $x2
+     * @param int      $y2
+     * @param int      $color
+     *
+     * @return void
+     */
     private function drawBar($img, $x1, $y1, $x2, $y2, $color)
     {
         // (0,0) is top left instead of bottom left
@@ -310,5 +330,15 @@ class Graph
             $this->imageSize[1] - $y2,
             $color
         );
+    }
+
+    /**
+     * @param string $str
+     *
+     * @return string
+     */
+    private static function toHumanDummy($str)
+    {
+        return sprintf('%s ', $str);
     }
 }
