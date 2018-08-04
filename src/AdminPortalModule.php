@@ -66,7 +66,7 @@ class AdminPortalModule implements ServiceModuleInterface
              */
             function () {
                 // get the fancy profile name
-                $profileList = $this->serverClient->get('profile_list');
+                $profileList = $this->serverClient->getRequireArray('profile_list');
 
                 $idNameMapping = [];
                 foreach ($profileList as $profileId => $profileData) {
@@ -78,7 +78,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         'vpnConnections',
                         [
                             'idNameMapping' => $idNameMapping,
-                            'connections' => $this->serverClient->get('client_connections'),
+                            'connections' => $this->serverClient->getRequireArray('client_connections'),
                         ]
                     )
                 );
@@ -95,7 +95,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnInfo',
                         [
-                            'profileList' => $this->serverClient->get('profile_list'),
+                            'profileList' => $this->serverClient->getRequireArray('profile_list'),
                         ]
                     )
                 );
@@ -108,7 +108,7 @@ class AdminPortalModule implements ServiceModuleInterface
              * @return \SURFnet\VPN\Common\Http\Response
              */
             function () {
-                $userList = $this->serverClient->get('user_list');
+                $userList = $this->serverClient->getRequireArray('user_list');
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -130,8 +130,8 @@ class AdminPortalModule implements ServiceModuleInterface
                 $userId = $request->getQueryParameter('user_id');
                 InputValidation::userId($userId);
 
-                $clientCertificateList = $this->serverClient->get('client_certificate_list', ['user_id' => $userId]);
-                $userMessages = $this->serverClient->get('user_messages', ['user_id' => $userId]);
+                $clientCertificateList = $this->serverClient->getRequireArray('client_certificate_list', ['user_id' => $userId]);
+                $userMessages = $this->serverClient->getRequireArray('user_messages', ['user_id' => $userId]);
 
                 return new HtmlResponse(
                     $this->tpl->render(
@@ -140,9 +140,9 @@ class AdminPortalModule implements ServiceModuleInterface
                             'userId' => $userId,
                             'userMessages' => $userMessages,
                             'clientCertificateList' => $clientCertificateList,
-                            'hasTotpSecret' => $this->serverClient->get('has_totp_secret', ['user_id' => $userId]),
-                            'hasYubiKeyId' => $this->serverClient->get('has_yubi_key_id', ['user_id' => $userId]),
-                            'isDisabled' => $this->serverClient->get('is_disabled_user', ['user_id' => $userId]),
+                            'hasTotpSecret' => $this->serverClient->getRequireBool('has_totp_secret', ['user_id' => $userId]),
+                            'hasYubiKeyId' => $this->serverClient->getRequireBool('has_yubi_key_id', ['user_id' => $userId]),
+                            'isDisabled' => $this->serverClient->getRequireBool('is_disabled_user', ['user_id' => $userId]),
                         ]
                     )
                 );
@@ -165,7 +165,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     case 'disableUser':
                         $this->serverClient->post('disable_user', ['user_id' => $userId]);
                         // kill all active connections for this user
-                        $clientConnections = $this->serverClient->get('client_connections');
+                        $clientConnections = $this->serverClient->getRequireArray('client_connections');
                         foreach ($clientConnections as $profile) {
                             foreach ($profile['connections'] as $connection) {
                                 if ($connection['user_id'] === $userId) {
@@ -229,7 +229,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $stats = false;
                 }
                 // get the fancy profile name
-                $profileList = $this->serverClient->get('profile_list');
+                $profileList = $this->serverClient->getRequireArray('profile_list');
 
                 $idNameMapping = [];
                 foreach ($profileList as $profileId => $profileData) {
@@ -260,7 +260,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     'image/png'
                 );
 
-                $stats = $this->serverClient->get('stats');
+                $stats = $this->serverClient->getRequireArray('stats');
                 $dateByteList = [];
                 foreach ($stats['profiles'][$profileId]['days'] as $v) {
                     $dateByteList[$v['date']] = $v['bytes_transferred'];
@@ -313,7 +313,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     'image/png'
                 );
 
-                $stats = $this->serverClient->get('stats');
+                $stats = $this->serverClient->getRequireArray('stats');
                 $dateUsersList = [];
                 foreach ($stats['profiles'][$profileId]['days'] as $v) {
                     $dateUsersList[$v['date']] = $v['unique_user_count'];
@@ -334,7 +334,7 @@ class AdminPortalModule implements ServiceModuleInterface
              * @return \SURFnet\VPN\Common\Http\Response
              */
             function () {
-                $motdMessages = $this->serverClient->get('system_messages', ['message_type' => 'motd']);
+                $motdMessages = $this->serverClient->getRequireArray('system_messages', ['message_type' => 'motd']);
 
                 // we only want the first one
                 if (0 === count($motdMessages)) {
@@ -365,7 +365,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     case 'set':
                         // we can only have one "motd", so remove the ones that
                         // already exist
-                        $motdMessages = $this->serverClient->get('system_messages', ['message_type' => 'motd']);
+                        $motdMessages = $this->serverClient->getRequireArray('system_messages', ['message_type' => 'motd']);
                         foreach ($motdMessages as $motdMessage) {
                             $this->serverClient->post('delete_system_message', ['message_id' => $motdMessage['id']]);
                         }
@@ -406,7 +406,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         [
                             'date_time' => $dateTime,
                             'ip_address' => $ipAddress,
-                            'result' => $this->serverClient->get('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),
+                            'result' => $this->serverClient->getRequireArray('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),
                         ]
                     )
                 );
