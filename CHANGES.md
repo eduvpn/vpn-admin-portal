@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.1 (2018-08-05)
+- many `vimeo/psalm` fixes
+
 ## 1.6.0 (2018-07-02)
 - display "client lost" boolean on log page
 - update translation (nl_NL)
