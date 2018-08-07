@@ -51,9 +51,12 @@ class Graph
         foreach ($fontList as $fontFile) {
             if (file_exists($fontFile)) {
                 $this->fontFile = $fontFile;
-                break;
+
+                return;
             }
         }
+
+        throw new GraphException('none of the specified fonts were found');
     }
 
     /**
@@ -77,7 +80,7 @@ class Graph
     public function draw(array $graphData, callable $toHuman = null, DateInterval $dateInterval = null)
     {
         if (null === $this->fontFile) {
-            throw new GraphException('no font specified');
+            throw new GraphException('no font specified 1');
         }
         if (!file_exists($this->fontFile)) {
             throw new GraphException('specified font not found');
@@ -88,7 +91,7 @@ class Graph
         }
 
         if (null === $toHuman) {
-            $toHuman = ['Graph', 'toHumanDummy'];
+            $toHuman = ['\SURFnet\VPN\Admin\Graph', 'toHumanDummy'];
         }
 
         $dateList = $this->createDateList($dateInterval);
