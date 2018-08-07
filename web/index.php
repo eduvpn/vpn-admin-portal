@@ -8,7 +8,8 @@
  */
 
 $baseDir = dirname(__DIR__);
-require_once dirname(__DIR__).'/vendor/autoload.php';
+/** @psalm-suppress UnresolvableInclude */
+require_once sprintf('%s/vendor/autoload.php', $baseDir);
 
 use fkooman\SeCookie\Cookie;
 use fkooman\SeCookie\Session;
