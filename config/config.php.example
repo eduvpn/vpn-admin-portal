@@ -22,12 +22,25 @@ return [
 
     // LDAP
     'FormLdapAuthentication' => [
+        // ** AUTHENTICATION **
         'ldapUri' => 'ldaps://ipa.example.org',
         // "{{UID}}" will be replaced with the username the user provides
         // on the login page
         'userDnTemplate' => 'uid={{UID}},cn=users,cn=accounts,dc=example,dc=org',
         // Active Directory
         //'userDnTemplate' => 'DOMAIN\{{UID}}',
+
+        // ** AUTHORIZATION | ENTITLEMENT **
+        'baseDn' => 'cn=users,cn=accounts,dc=example,dc=org',
+        'searchFilterTemplate' => 'uid={{UID}}',
+
+        // use eduPersonEntitlement attribute
+        'entitlementAttribute' => 'eduPersonEntitlement',
+        'adminEntitlementValue' => ['urn:example:LC-admin'],
+
+        // use LDAP "memberOf"
+        //'entitlementAttribute' => 'memberOf',
+        //'adminEntitlementValue' => ['cn=ipausers,cn=groups,cn=accounts,dc=example,dc=org'],
     ],
 
     // RADIUS

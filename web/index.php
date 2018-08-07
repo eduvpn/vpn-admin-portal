@@ -8,8 +8,7 @@
  */
 
 $baseDir = dirname(__DIR__);
-/** @psalm-suppress UnresolvableInclude */
-require_once sprintf('%s/vendor/autoload.php', $baseDir);
+require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\SeCookie\Cookie;
 use fkooman\SeCookie\Session;
@@ -27,6 +26,7 @@ use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
 use SURFnet\VPN\Common\Http\PdoAuth;
 use SURFnet\VPN\Common\Http\RadiusAuth;
 use SURFnet\VPN\Common\Http\Request;
+use SURFnet\VPN\Common\Http\RequireAdminHook;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\SimpleAuth;
 use SURFnet\VPN\Common\Http\TwoFactorHook;
@@ -158,14 +158,21 @@ try {
                     $tpl
                 )
             );
+
+            $ldapConfig = $config->getSection('FormLdapAuthentication');
             $ldapClient = new LdapClient(
-                $config->getSection('FormLdapAuthentication')->getItem('ldapUri')
+                $ldapConfig->getItem('ldapUri')
             );
             $userAuth = new LdapAuth(
                 $logger,
                 $ldapClient,
-                $config->getSection('FormLdapAuthentication')->getItem('userDnTemplate')
+                $ldapConfig->getItem('userDnTemplate'),
+                $ldapConfig->hasItem('baseDn') ? $ldapConfig->getItem('baseDn') : null,
+                $ldapConfig->hasItem('searchFilterTemplate') ? $ldapConfig->getItem('searchFilterTemplate') : null,
+                $ldapConfig->hasItem('entitlementAttribute') ? $ldapConfig->getItem('entitlementAttribute') : null,
+                $ldapConfig->hasItem('adminEntitlementValue') ? $ldapConfig->getItem('adminEntitlementValue') : []
             );
+
             $service->addModule(
                 new FormAuthenticationModule(
                     $userAuth,
@@ -264,6 +271,8 @@ $config->getSection('FormRadiusAuthentication')->hasItem('port') ? $config->getS
         default:
             throw new RuntimeException('unsupported authentication mechanism');
     }
+
+    $service->addBeforeHook('require_admin', new RequireAdminHook());
 
     // vpn-server-api
     $serverClient = new ServerClient(
