@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.0 (...)
+- use new authorization method
+
 ## 1.6.1 (2018-08-05)
 - many `vimeo/psalm` fixes
 
