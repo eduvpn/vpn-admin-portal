@@ -78,14 +78,6 @@ return [
         //    'https://idp.example.org/saml|urn:example:LC-admin',
         //    'https://idp.example.com/saml|urn:example:LC-admin',
         //],
-
-        // **DEPRECATED** **DO NOT USE**
-        // Only allow users from IdP with entityID and userId value, in the
-        // format "entityID|userId"
-        //'userIdAuthorization' => [
-        //    'https://idp.example.org/saml|12345678',
-        //    'https://idp.example.com/saml|87654321',
-        //],
     ],
 
     // Connection to vpn-server-api
