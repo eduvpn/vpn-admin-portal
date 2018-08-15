@@ -259,13 +259,13 @@ class Graph
      * @param array<string,int> $dateList
      * @param int               $maxValue
      *
-     * @return array<string,int>
+     * @return array<string,float>
      */
     private function toRelativeValues(array $dateList, $maxValue)
     {
         if (0 !== $maxValue) {
             foreach ($dateList as $k => $v) {
-                $dateList[$k] = (int) ($v / $maxValue);
+                $dateList[$k] = $v / $maxValue;
             }
         }
 

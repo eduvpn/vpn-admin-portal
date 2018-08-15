@@ -5,6 +5,8 @@
 - throw proper error when none of the specified fonts are found for drawing
   graphs
 - fix callback for converting text to "human" in Graph
+- fix calculating relative values, too eager to add return types, they were 
+  wrong
 
 ## 1.6.1 (2018-08-05)
 - many `vimeo/psalm` fixes
