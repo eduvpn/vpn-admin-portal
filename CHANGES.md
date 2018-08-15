@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.7.0 (...)
+## 1.7.0 (2018-08-15)
 - use new authorization method
 - throw proper error when none of the specified fonts are found for drawing
   graphs
