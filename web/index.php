@@ -137,7 +137,7 @@ try {
             );
             $service->addBeforeHook('auth', $mellonAuthentication);
             $adminEntitlement = $config->getSection('MellonAuthentication')->optionalItem('entitlementAuthorization');
-            if (null === $adminEntitlement) {
+            if (!is_array($adminEntitlement)) {
                 $adminEntitlement = [];
             }
             $service->addBeforeHook('require_admin', new RequireEntitlementHook($adminEntitlement));
@@ -173,7 +173,7 @@ try {
             );
 
             $adminEntitlement = $config->getSection('FormLdapAuthentication')->optionalItem('adminEntitlementValue');
-            if (null === $adminEntitlement) {
+            if (!is_array($adminEntitlement)) {
                 $adminEntitlement = [];
             }
             $service->addBeforeHook('require_admin', new RequireEntitlementHook($adminEntitlement));
