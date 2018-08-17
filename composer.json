@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "eduvpn/common": "^1",
+        "eduvpn/common": "dev-master",
         "ext-gd": "*",
         "ext-gettext": "*",
         "ext-json": "*",

@@ -31,9 +31,6 @@ return [
         //'userDnTemplate' => 'DOMAIN\{{UID}}',
 
         // ** AUTHORIZATION | ENTITLEMENT **
-        'baseDn' => 'cn=users,cn=accounts,dc=example,dc=org',
-        'searchFilterTemplate' => 'uid={{UID}}',
-
         // use eduPersonEntitlement attribute
         'entitlementAttribute' => 'eduPersonEntitlement',
         'adminEntitlementValue' => ['urn:example:LC-admin'],

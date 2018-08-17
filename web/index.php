@@ -7,9 +7,8 @@
  * SPDX-License-Identifier: AGPL-3.0+
  */
 
+require_once dirname(__DIR__).'/vendor/autoload.php';
 $baseDir = dirname(__DIR__);
-/** @psalm-suppress UnresolvableInclude */
-require_once sprintf('%s/vendor/autoload.php', $baseDir);
 
 use fkooman\SeCookie\Cookie;
 use fkooman\SeCookie\Session;
@@ -27,7 +26,7 @@ use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
 use SURFnet\VPN\Common\Http\PdoAuth;
 use SURFnet\VPN\Common\Http\RadiusAuth;
 use SURFnet\VPN\Common\Http\Request;
-use SURFnet\VPN\Common\Http\RequireAdminHook;
+use SURFnet\VPN\Common\Http\RequireEntitlementHook;
 use SURFnet\VPN\Common\Http\Service;
 use SURFnet\VPN\Common\Http\SimpleAuth;
 use SURFnet\VPN\Common\Http\TwoFactorHook;
@@ -133,22 +132,13 @@ try {
             $mellonAuthentication = new MellonAuthenticationHook(
                 $session,
                 $config->getSection('MellonAuthentication')->getItem('attribute'),
-                $config->getSection('MellonAuthentication')->getItem('addEntityID')
+                $config->getSection('MellonAuthentication')->getItem('addEntityID'),
+                $config->getSection('MellonAuthentication')->optionalItem('entitlementAttribute')
             );
-            // check for userId authorization
-            if ($config->getSection('MellonAuthentication')->hasItem('userIdAuthorization')) {
-                $mellonAuthentication->enableUserIdAuthorization(
-                    $config->getSection('MellonAuthentication')->getItem('userIdAuthorization')
-                );
-            }
-            // check for entitlement authorization
-            if ($config->getSection('MellonAuthentication')->hasItem('entitlementAttribute')) {
-                $mellonAuthentication->enableEntitlementAuthorization(
-                    $config->getSection('MellonAuthentication')->getItem('entitlementAttribute'),
-                    $config->getSection('MellonAuthentication')->getItem('entitlementAuthorization')
-                );
-            }
             $service->addBeforeHook('auth', $mellonAuthentication);
+            $adminEntitlement = $config->getSection('MellonAuthentication')->optionalItem('entitlementAuthorization');
+            $service->addBeforeHook('require_admin', new RequireEntitlementHook($adminEntitlement));
+
             break;
         case 'FormLdapAuthentication':
             $tpl->addDefault(['_show_logout' => true]);
@@ -168,10 +158,7 @@ try {
                 $logger,
                 $ldapClient,
                 $ldapConfig->getItem('userDnTemplate'),
-                $ldapConfig->hasItem('baseDn') ? $ldapConfig->getItem('baseDn') : null,
-                $ldapConfig->hasItem('searchFilterTemplate') ? $ldapConfig->getItem('searchFilterTemplate') : null,
-                $ldapConfig->hasItem('entitlementAttribute') ? $ldapConfig->getItem('entitlementAttribute') : null,
-                $ldapConfig->hasItem('adminEntitlementValue') ? $ldapConfig->getItem('adminEntitlementValue') : []
+                $ldapConfig->optionalItem('entitlementAttribute')
             );
 
             $service->addModule(
@@ -181,6 +168,9 @@ try {
                     $tpl
                 )
             );
+
+            $adminEntitlement = $config->getSection('FormLdapAuthentication')->optionalItem('adminEntitlementValue');
+            $service->addBeforeHook('require_admin', new RequireEntitlementHook($adminEntitlement));
 
             break;
         case 'FormPdoAuthentication':
@@ -225,7 +215,7 @@ try {
                     [
                         'host' => $config->getSection('FormRadiusAuthentication')->getItem('host'),
                         'secret' => $config->getSection('FormRadiusAuthentication')->getItem('secret'),
-$config->getSection('FormRadiusAuthentication')->hasItem('port') ? $config->getSection('FormRadiusAuthentication')->getItem('port') : 1812,
+                        'port' => $config->getSection('FormRadiusAuthentication')->optionalItem('port', 1812),
                     ],
                 ];
             }
@@ -272,8 +262,6 @@ $config->getSection('FormRadiusAuthentication')->hasItem('port') ? $config->getS
         default:
             throw new RuntimeException('unsupported authentication mechanism');
     }
-
-    $service->addBeforeHook('require_admin', new RequireAdminHook());
 
     // vpn-server-api
     $serverClient = new ServerClient(

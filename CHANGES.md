@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.1 (...)
+- update for new vpn-lib-common API
+- cleanup autoloader so Psalm will be able to verify the scripts in web and bin
+  folder
+
 ## 1.7.0 (2018-08-15)
 - use new authorization method
 - throw proper error when none of the specified fonts are found for drawing
