@@ -165,12 +165,10 @@ class AdminPortalModule implements ServiceModuleInterface
                     case 'disableUser':
                         $this->serverClient->post('disable_user', ['user_id' => $userId]);
                         // kill all active connections for this user
-                        $clientConnections = $this->serverClient->getRequireArray('client_connections');
+                        $clientConnections = $this->serverClient->getRequireArray('client_connections', ['user_id' => $userId]);
                         foreach ($clientConnections as $profile) {
                             foreach ($profile['connections'] as $connection) {
-                                if ($connection['user_id'] === $userId) {
-                                    $this->serverClient->post('kill_client', ['common_name' => $connection['common_name']]);
-                                }
+                                $this->serverClient->post('kill_client', ['common_name' => $connection['common_name']]);
                             }
                         }
                         break;
