@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "eduvpn/common": "dev-master",
+        "eduvpn/common": "^1",
         "ext-date": "*",
         "ext-gd": "*",
         "ext-pdo": "*",
