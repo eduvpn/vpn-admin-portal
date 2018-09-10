@@ -220,7 +220,7 @@ class AdminPortalModule implements ServiceModuleInterface
              */
             function () {
                 $stats = $this->serverClient->get('stats');
-                if (!is_array($stats) || !array_key_exists('profiles', $stats)) {
+                if (!\is_array($stats) || !array_key_exists('profiles', $stats)) {
                     // this is an old "stats" format we no longer support,
                     // vpn-server-api-stats has to run again first, which is
                     // done by the crontab running at midnight...
@@ -335,7 +335,7 @@ class AdminPortalModule implements ServiceModuleInterface
                 $motdMessages = $this->serverClient->getRequireArray('system_messages', ['message_type' => 'motd']);
 
                 // we only want the first one
-                if (0 === count($motdMessages)) {
+                if (0 === \count($motdMessages)) {
                     $motdMessage = false;
                 } else {
                     $motdMessage = $motdMessages[0];

@@ -143,7 +143,7 @@ class Graph
         );
 
         $xAxisTotalBarSpace = $this->imageSize[0] - $xOffset;
-        $numberOfBars = count($relativeDateList);
+        $numberOfBars = \count($relativeDateList);
         $xAxisSpacePerBar = $xAxisTotalBarSpace / $numberOfBars;
         $yAxisTotalBarSpace = $this->imageSize[1] - $yOffset - $xAxisTextWidth;
 
