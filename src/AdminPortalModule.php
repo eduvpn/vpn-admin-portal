@@ -404,7 +404,7 @@ class AdminPortalModule implements ServiceModuleInterface
                         [
                             'date_time' => $dateTime,
                             'ip_address' => $ipAddress,
-                            'result' => $this->serverClient->getRequireArray('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),
+                            'result' => $this->serverClient->getRequireArrayOrFalse('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),
                         ]
                     )
                 );

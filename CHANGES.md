@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.2 (...)
+- fix #36 (error shown when searching for non-existing log entries)
+
 ## 1.7.1 (2018-09-10)
 - update for new vpn-lib-common API
 - cleanup autoloader so Psalm will be able to verify the scripts in web and bin
