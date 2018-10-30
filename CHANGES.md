@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.7.2 (...)
+## 1.7.2 (2018-10-30)
 - fix #36 (error shown when searching for non-existing log entries)
 
 ## 1.7.1 (2018-09-10)
