@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <th>{% trans "User ID" %}</th>
-                        <td><a href="{{ requestRoot }}user?user_id={{ result.user_id }}">{{ result.user_id }}</a></td>
+                        <td><a href="{{ requestRoot }}user?user_id={{ result.user_id|url_encode }}">{{ result.user_id }}</a></td>
                     </tr>
                     <tr>
                         <th>{% trans "Name" %}</th>

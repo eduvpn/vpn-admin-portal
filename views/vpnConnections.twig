@@ -18,7 +18,7 @@
                 {% for connection in profile.connections %}
                 <tr>
                     <td>
-                        <a href="{{ requestRoot }}user?user_id={{ connection.user_id }}">{{ connection.user_id }}</a>
+                        <a href="{{ requestRoot }}user?user_id={{ connection.user_id|url_encode }}">{{ connection.user_id }}</a>
                     </td>
                     <td>
                         <span title="{{ connection.common_name }}">{{ connection.display_name }}</span>

@@ -11,7 +11,7 @@
             <tbody>
                 {% for user in userList %}
                     <tr>
-                        <td><a href="{{ requestRoot }}user?user_id={{ user.user_id }}">{{ user.user_id }}</a></td>
+                        <td><a href="{{ requestRoot }}user?user_id={{ user.user_id|url_encode }}">{{ user.user_id }}</a></td>
                         <td class="text-right">
                             {% if user.has_totp_secret %}
                                 <span class="plain">{% trans "TOTP" %}</span>
