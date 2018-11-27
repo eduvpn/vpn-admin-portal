@@ -22,6 +22,7 @@ use SURFnet\VPN\Common\Http\FormAuthenticationModule;
 use SURFnet\VPN\Common\Http\HtmlResponse;
 use SURFnet\VPN\Common\Http\LanguageSwitcherHook;
 use SURFnet\VPN\Common\Http\LdapAuth;
+use SURFnet\VPN\Common\Http\LogoutModule;
 use SURFnet\VPN\Common\Http\MellonAuthenticationHook;
 use SURFnet\VPN\Common\Http\PdoAuth;
 use SURFnet\VPN\Common\Http\RadiusAuth;
@@ -125,6 +126,7 @@ try {
 
     // Authentication
     $authMethod = $config->getItem('authMethod');
+    $service->addModule(new LogoutModule($session, 'MellonAuthentication' === $authMethod));
     $tpl->addDefault(['authMethod' => $authMethod]);
 
     switch ($authMethod) {
@@ -144,7 +146,6 @@ try {
 
             break;
         case 'FormLdapAuthentication':
-            $tpl->addDefault(['_show_logout' => true]);
             $service->addBeforeHook(
                 'auth',
                 new FormAuthenticationHook(
@@ -180,7 +181,6 @@ try {
 
             break;
         case 'FormPdoAuthentication':
-            $tpl->addDefault(['_show_logout' => true]);
             $service->addBeforeHook(
                 'auth',
                 new FormAuthenticationHook(
@@ -203,7 +203,6 @@ try {
 
             break;
         case 'FormRadiusAuthentication':
-            $tpl->addDefault(['_show_logout' => true]);
             $service->addBeforeHook(
                 'auth',
                 new FormAuthenticationHook(
@@ -245,7 +244,6 @@ try {
             break;
         case 'FormAuthentication':
             // XXX remove for 2.0
-            $tpl->addDefault(['_show_logout' => true]);
             $service->addBeforeHook(
                 'auth',
                 new FormAuthenticationHook(
