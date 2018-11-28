@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.3 (2018-11-28)
+- implement SAML logout
+- fix bug where `user_id` containing a "special" HTML character, like `+` 
+  created "ghost" users when clicking on it (reported by: Ralf Paffrath)
+
 ## 1.7.2 (2018-10-30)
 - fix #36 (error shown when searching for non-existing log entries)
 
