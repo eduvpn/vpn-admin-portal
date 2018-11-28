@@ -117,6 +117,7 @@ try {
     $tpl->addDefault(
         [
             'supportedLanguages' => $supportedLanguages,
+            '_show_logout' => true,
         ]
     );
 
