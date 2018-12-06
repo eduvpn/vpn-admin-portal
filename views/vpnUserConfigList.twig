@@ -19,9 +19,6 @@
             {% if hasTotpSecret %}
                 <button name="user_action" value="deleteTotpSecret" class="error">{% trans "Delete TOTP Secret" %}</button>
             {% endif %}
-            {% if hasYubiKeyId %}
-                <button name="user_action" value="deleteYubiId" class="error">{% trans "Delete Yubi ID" %}</button>
-            {% endif %}
         </fieldset>
     </form>
 

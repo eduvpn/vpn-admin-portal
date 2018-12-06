@@ -16,9 +16,6 @@
                             {% if user.has_totp_secret %}
                                 <span class="plain">{% trans "TOTP" %}</span>
                             {% endif %}
-                            {% if user.has_yubi_key_id %}
-                                <span class="plain">{% trans "YubiKey" %}</span>
-                            {% endif %}
                             {% if user.is_disabled %}
                                 <span class="error">{% trans "Disabled" %}</span>
                             {% else %}
