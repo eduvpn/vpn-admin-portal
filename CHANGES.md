@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.4 (...)
+- remove YubiKey support
+- remove PHP error suppression
+
 ## 1.7.3 (2018-11-28)
 - implement SAML logout
 - fix bug where `user_id` containing a "special" HTML character, like `+` 
