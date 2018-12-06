@@ -274,7 +274,7 @@ try {
         $config->getItem('apiUri')
     );
 
-    $service->addBeforeHook('two_factor', new TwoFactorHook($session, $tpl, $serverClient));
+    $service->addBeforeHook('two_factor', new TwoFactorHook($session, $tpl, $serverClient, false));
 
     // two factor module
     $twoFactorModule = new TwoFactorModule($serverClient, $session, $tpl);
