@@ -50,7 +50,7 @@ class Graph
     public function setFontList(array $fontList)
     {
         foreach ($fontList as $fontFile) {
-            if (FileIO::hasFile($fontFile)) {
+            if (FileIO::exists($fontFile)) {
                 $this->fontFile = $fontFile;
 
                 return;
@@ -83,7 +83,7 @@ class Graph
         if (null === $this->fontFile) {
             throw new GraphException('no font specified 1');
         }
-        if (false === FileIO::hasFile($this->fontFile)) {
+        if (false === FileIO::exists($this->fontFile)) {
             throw new GraphException('specified font not found');
         }
 
