@@ -16,6 +16,7 @@ use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Admin\Graph;
 use SURFnet\VPN\Admin\TwigFilters;
 use SURFnet\VPN\Common\Config;
+use SURFnet\VPN\Common\FileIO;
 use SURFnet\VPN\Common\Http\CsrfProtectionHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationHook;
 use SURFnet\VPN\Common\Http\FormAuthenticationModule;
@@ -57,11 +58,7 @@ try {
     }
 
     $dataDir = sprintf('%s/data/%s', $baseDir, $instanceId);
-    if (!file_exists($dataDir)) {
-        if (false === mkdir($dataDir, 0700, true)) {
-            throw new RuntimeException(sprintf('unable to create folder "%s"', $dataDir));
-        }
-    }
+    FileIO::createDir($dataDir, 0700);
 
     $config = Config::fromFile(sprintf('%s/config/%s/config.php', $baseDir, $instanceId));
 

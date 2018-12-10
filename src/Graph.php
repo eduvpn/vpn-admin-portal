@@ -12,6 +12,7 @@ namespace SURFnet\VPN\Admin;
 use DateInterval;
 use DateTime;
 use SURFnet\VPN\Admin\Exception\GraphException;
+use SURFnet\VPN\Common\FileIO;
 
 class Graph
 {
@@ -49,7 +50,7 @@ class Graph
     public function setFontList(array $fontList)
     {
         foreach ($fontList as $fontFile) {
-            if (file_exists($fontFile)) {
+            if (FileIO::hasFile($fontFile)) {
                 $this->fontFile = $fontFile;
 
                 return;
@@ -82,7 +83,7 @@ class Graph
         if (null === $this->fontFile) {
             throw new GraphException('no font specified 1');
         }
-        if (!file_exists($this->fontFile)) {
+        if (false === FileIO::hasFile($this->fontFile)) {
             throw new GraphException('specified font not found');
         }
 
