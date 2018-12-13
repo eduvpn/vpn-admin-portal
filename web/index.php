@@ -14,7 +14,7 @@ use fkooman\SeCookie\Cookie;
 use fkooman\SeCookie\Session;
 use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Admin\Graph;
-use SURFnet\VPN\Admin\TwigFilters;
+use SURFnet\VPN\Admin\TemplateEngine;
 use SURFnet\VPN\Common\Config;
 use SURFnet\VPN\Common\FileIO;
 use SURFnet\VPN\Common\Http\CsrfProtectionHook;
@@ -37,7 +37,6 @@ use SURFnet\VPN\Common\HttpClient\CurlHttpClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
 use SURFnet\VPN\Common\LdapClient;
 use SURFnet\VPN\Common\Logger;
-use SURFnet\VPN\Common\TwigTpl;
 
 $logger = new Logger('vpn-admin-portal');
 
@@ -101,9 +100,8 @@ try {
         )
     );
 
-    $tpl = new TwigTpl($templateDirs, $baseDir.'/locale', 'VpnAdminPortal', $templateCache);
-    $tpl->addFilter(TwigFilters::sizeToHuman());
-    $tpl->setDefault(
+    $tpl = new TemplateEngine($templateDirs);
+    $tpl->addDefault(
         [
             'requestUri' => $request->getUri(),
             'requestRoot' => $request->getRoot(),
