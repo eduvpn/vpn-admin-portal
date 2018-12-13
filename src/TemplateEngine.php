@@ -18,6 +18,9 @@ class TemplateEngine implements TplInterface
     private $templateDirList;
 
     /** @var null|string */
+    private $translationFile;
+
+    /** @var null|string */
     private $activeSectionName = null;
 
     /** @var array */
@@ -27,24 +30,26 @@ class TemplateEngine implements TplInterface
     private $layoutList = [];
 
     /** @var array */
-    private $defaultTemplateVariables = [];
+    private $templateVariables = [];
 
     /**
-     * @param array $templateDirList
+     * @param array  $templateDirList
+     * @param string $translationFile
      */
-    public function __construct(array $templateDirList)
+    public function __construct(array $templateDirList, $translationFile = null)
     {
         $this->templateDirList = $templateDirList;
+        $this->translationFile = $translationFile;
     }
 
     /**
-     * @param array $defaultTemplateVariables
+     * @param array $templateVariables
      *
      * @return void
      */
-    public function addDefault(array $defaultTemplateVariables)
+    public function addDefault(array $templateVariables)
     {
-        $this->defaultTemplateVariables = array_merge($this->defaultTemplateVariables, $defaultTemplateVariables);
+        $this->templateVariables = array_merge($this->templateVariables, $templateVariables);
     }
 
     /**
@@ -55,16 +60,16 @@ class TemplateEngine implements TplInterface
      */
     public function render($templateName, array $templateVariables = [])
     {
-        \extract(array_merge($this->defaultTemplateVariables, $templateVariables));
+        // XXX see what gets added every time, to see if we don't overdo it!
+        $this->templateVariables = array_merge($this->templateVariables, $templateVariables);
+        \extract($this->templateVariables);
         \ob_start();
         /** @psalm-suppress UnresolvableInclude */
         include $this->templatePath($templateName);
         $templateStr = \ob_get_clean();
-
         if (0 !== \count($this->layoutList)) {
             $templateName = \array_keys($this->layoutList)[0];
             $templateVariables = $this->layoutList[$templateName];
-
             // because we use render we must empty the layoutList
             $this->layoutList = [];
 
@@ -82,13 +87,8 @@ class TemplateEngine implements TplInterface
      */
     public function insert($templateName, array $templateVariables = [])
     {
-        \extract(array_merge($this->defaultTemplateVariables, $templateVariables));
-        \ob_start();
-        /** @psalm-suppress UnresolvableInclude */
-        include $this->templatePath($templateName);
-        $templateStr = \ob_get_clean();
-
-        return $templateStr;
+        // XXX we have to do something with the layoutList?! Seems not!
+        return $this->render($templateName, $templateVariables);
     }
 
     /**
@@ -155,13 +155,56 @@ class TemplateEngine implements TplInterface
     }
 
     /**
+     * @param mixed $e
+     *
+     * @return bool
+     */
+    private static function isNotArray($e)
+    {
+        return !\is_array($e);
+    }
+
+    /**
+     * @param string $s
+     *
+     * @return string
+     */
+    private static function wrapString($s)
+    {
+        return '%'.$s.'%';
+    }
+
+    /**
      * @param string $v
      *
      * @return string
      */
     private function t($v)
     {
-        return $v;
+        if (null === $this->translationFile) {
+            // no translation file, use original
+            $translatedText = $v;
+        } else {
+            /** @psalm-suppress UnresolvableInclude */
+            $translationData = include $this->translationFile;
+            if (array_key_exists($v, $translationData)) {
+                // translation found
+                $translatedText = $translationData[$v];
+            } else {
+                // not found, use original
+                $translatedText = $v;
+            }
+        }
+
+        // replace the stuff
+        $nonArrayList = array_filter($this->templateVariables, ['\SURFnet\VPN\Admin\TemplateEngine', 'isNotArray']);
+        $map = \array_map(
+            ['\SURFnet\VPN\Admin\TemplateEngine', 'wrapString'],
+            \array_keys($nonArrayList)
+        );
+        $repl = \array_values($nonArrayList);
+
+        return \str_replace($map, $repl, $translatedText);
     }
 
     /**

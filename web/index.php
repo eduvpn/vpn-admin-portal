@@ -99,8 +99,14 @@ try {
             ]
         )
     );
-
-    $tpl = new TemplateEngine($templateDirs);
+    $languageFile = null;
+    if (array_key_exists('ui_lang', $_COOKIE)) {
+        $uiLang = $_COOKIE['ui_lang'];
+        if ('en_US' !== $uiLang) {
+            $languageFile = sprintf('%s/locale/%s.php', $baseDir, $uiLang);
+        }
+    }
+    $tpl = new TemplateEngine($templateDirs, $languageFile);
     $tpl->addDefault(
         [
             'requestUri' => $request->getUri(),
