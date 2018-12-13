@@ -172,7 +172,7 @@ class TemplateEngine implements TplInterface
             }
         }
 
-        return \htmlentities($v, ENT_QUOTES, 'UTF-8');
+        return \htmlentities($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
     /**
