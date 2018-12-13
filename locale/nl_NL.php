@@ -108,7 +108,7 @@ return [
 
     'Configurations' => 'Configuraties',
 
-    'This user does not have any configurations.' => 'Deze gebruiker heeft geen instellingen.',
+    'This user does not have any configurations.' => 'Deze gebruiker heeft geen configuraties.',
 
     'Issued' => 'Uitgegeven',
 
