@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <th><?=$this->t('User ID'); ?></th>
-                        <td><a href="<?=$this->e($requestRoot); ?>user?user_id=<?=rawurlencode($this->e($result['user_id'])); ?>"><?=$this->e($result['user_id']); ?></a></td>
+                        <td><a href="<?=$this->e($requestRoot); ?>user?user_id=<?=rawurlencode($result['user_id']); ?>"><?=$this->e($result['user_id']); ?></a></td>
                     </tr>
                     <tr>
                         <th><?=$this->t('Name'); ?></th>

@@ -155,26 +155,6 @@ class TemplateEngine implements TplInterface
     }
 
     /**
-     * @param mixed $e
-     *
-     * @return bool
-     */
-    private static function isNotArray($e)
-    {
-        return !\is_array($e);
-    }
-
-    /**
-     * @param string $s
-     *
-     * @return string
-     */
-    private static function wrapString($s)
-    {
-        return '%'.$s.'%';
-    }
-
-    /**
      * @param string $v
      *
      * @return string
@@ -196,15 +176,15 @@ class TemplateEngine implements TplInterface
             }
         }
 
-        // replace the stuff
-        $nonArrayList = array_filter($this->templateVariables, ['\SURFnet\VPN\Admin\TemplateEngine', 'isNotArray']);
-        $map = \array_map(
-            ['\SURFnet\VPN\Admin\TemplateEngine', 'wrapString'],
-            \array_keys($nonArrayList)
-        );
-        $repl = \array_values($nonArrayList);
+        // find all string values, wrap the key, and escape the variable
+        $escapedVars = [];
+        foreach ($this->templateVariables as $k => $v) {
+            if (\is_string($v)) {
+                $escapedVars['%'.$k.'%'] = $this->e($v);
+            }
+        }
 
-        return \str_replace($map, $repl, $translatedText);
+        return \str_replace(array_keys($escapedVars), array_values($escapedVars), $translatedText);
     }
 
     /**

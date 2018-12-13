@@ -17,7 +17,7 @@
                 <?php foreach ($profile['connections'] as $connection): ?>
                 <tr>
                     <td>
-                        <a href="<?=$this->e($requestRoot); ?>user?user_id=<?=rawurlencode($this->e($connection['user_id'])); ?>"><?=$this->e($connection['user_id']); ?></a>
+                        <a href="<?=$this->e($requestRoot); ?>user?user_id=<?=rawurlencode($connection['user_id']); ?>"><?=$this->e($connection['user_id']); ?></a>
                     </td>
                     <td>
                         <span title="<?=$this->e($connection['common_name']); ?>"><?=$this->e($connection['display_name']); ?></span>
