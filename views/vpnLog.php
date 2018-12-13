@@ -10,10 +10,10 @@
 
     <form method="post">
         <fieldset>
-            <label for="dateTime"><?=$this->t('Date/Time'); ?> (XXX TZ)</label>
-            <input id="dateTime" name="date_time" type="text" size="40" value="<?php if ($date_time): ?><?=$this->e($date_time); ?><?php else: ?>XXX NOW<?php endif; ?>" required>
+            <label for="dateTime"><?=$this->t('Date/Time'); ?> (<?=$this->e(date('T')); ?>)</label>
+            <input id="dateTime" name="date_time" type="text" size="40" value="<?php if ($date_time): ?><?=$this->e($date_time); ?><?php else: ?><?=$this->e(date('Y-m-d H:i:s')); ?><?php endif; ?>" required>
             <label for="ipAddress"><?=$this->t('IP Address'); ?></label>
-            <input id="ipAddress" name="ip_address" type="text" size="40" value="<?=$this->e($ip_address); ?>" placeholder="fdc6:6794:d2bf:1::1000" required>
+            <input id="ipAddress" name="ip_address" type="text" size="40" value="<?php if ($ip_address): ?><?=$this->e($ip_address); ?><?php endif; ?>" placeholder="fdc6:6794:d2bf:1::1000" required>
         </fieldset>
         <fieldset>
             <button type="submit"><?=$this->t('Search'); ?></button>
@@ -31,7 +31,7 @@
                 <tbody>
                     <tr>
                         <th><?=$this->t('Profile'); ?></th>
-                        <td><?=$this->e($result['profile_id']); ?></td> <!-- XXX use display_name -->
+                        <td><?=$this->e($result['profile_id']); ?></td>
                     </tr>
                     <tr>
                         <th><?=$this->t('User ID'); ?></th>
@@ -39,18 +39,18 @@
                     </tr>
                     <tr>
                         <th><?=$this->t('Name'); ?></th>
-                        <td><?=$this->e($result['common_name']); ?></td> <!-- XXX use display_name -->
+                        <td><?=$this->e($result['common_name']); ?></td>
                     </tr>
                     <tr>
                         <th><?=$this->t('IPs'); ?></th>
                         <td><ul class="simple"><li><?=$this->e($result['ip4']); ?></li><li><?=$this->e($result['ip6']); ?></li></ul></td>
                     </tr>
                     <tr>
-                        <th><?=$this->t('Connected'); ?> (XXX TZ)</th>
+                        <th><?=$this->t('Connected'); ?> (<?=$this->e(date('T')); ?>)</th>
                         <td><?=$this->e($result['connected_at']); ?></td>
                     </tr>
                     <tr>
-                        <th><?=$this->t('Disconnected'); ?> (XXX TZ)</th>
+                        <th><?=$this->t('Disconnected'); ?> (<?=$this->e(date('T')); ?>)</th>
                         <td>
                             <?php if ($result['disconnected_at']): ?>
                                 <?=$this->e($result['disconnected_at']); ?>

@@ -200,6 +200,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnLog',
                         [
+                            'currentDate' => date('Y-m-d H:i:s'),
                             'date_time' => null,
                             'ip_address' => null,
                         ]
@@ -234,6 +235,8 @@ class AdminPortalModule implements ServiceModuleInterface
                         'vpnStats',
                         [
                             'stats' => $stats,
+                            'generated_at' => false !== $stats ? $stats['generated_at'] : false,
+                            'generated_at_tz' => date('T'),
                             'idNameMapping' => $idNameMapping,
                         ]
                     )
@@ -397,6 +400,7 @@ class AdminPortalModule implements ServiceModuleInterface
                     $this->tpl->render(
                         'vpnLog',
                         [
+                            'currentDate' => date('Y-m-d H:i:s'),
                             'date_time' => $dateTime,
                             'ip_address' => $ipAddress,
                             'result' => $this->serverClient->getRequireArrayOrFalse('log', ['date_time' => $dateTime, 'ip_address' => $ipAddress]),

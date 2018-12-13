@@ -32,6 +32,9 @@ class TemplateEngine implements TplInterface
     /** @var array */
     private $templateVariables = [];
 
+    /** @var array */
+    private $callbackList = [];
+
     /**
      * @param array  $templateDirList
      * @param string $translationFile
@@ -50,6 +53,17 @@ class TemplateEngine implements TplInterface
     public function addDefault(array $templateVariables)
     {
         $this->templateVariables = array_merge($this->templateVariables, $templateVariables);
+    }
+
+    /**
+     * @param string   $callbackName
+     * @param callable $cb
+     *
+     * @return void
+     */
+    public function addCallback($callbackName, callable $cb)
+    {
+        $this->callbackList[$callbackName] = $cb;
     }
 
     /**
@@ -145,12 +159,19 @@ class TemplateEngine implements TplInterface
     }
 
     /**
-     * @param string $v
+     * @param string      $v
+     * @param null|string $cb
      *
      * @return string
      */
-    private function e($v)
+    private function e($v, $cb = null)
     {
+        if (null !== $cb) {
+            if (array_key_exists($cb, $this->callbackList)) {
+                $v = \call_user_func($this->callbackList[$cb], $v);
+            }
+        }
+
         return \htmlentities($v, ENT_QUOTES, 'UTF-8');
     }
 

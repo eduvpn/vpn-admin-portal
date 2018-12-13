@@ -107,6 +107,25 @@ try {
         }
     }
     $tpl = new TemplateEngine($templateDirs, $languageFile);
+    $tpl->addCallback('to_human', function ($byteSize) {
+        $kB = 1024;
+        $MB = $kB * 1024;
+        $GB = $MB * 1024;
+        $TB = $GB * 1024;
+        if ($byteSize > $TB) {
+            return sprintf('%0.2f TiB', $byteSize / $TB);
+        }
+        if ($byteSize > $GB) {
+            return sprintf('%0.2f GiB', $byteSize / $GB);
+        }
+        if ($byteSize > $MB) {
+            return sprintf('%0.2f MiB', $byteSize / $MB);
+        }
+
+        return sprintf('%0.0f kiB', $byteSize / $kB);
+    }
+    );
+
     $tpl->addDefault(
         [
             'requestUri' => $request->getUri(),

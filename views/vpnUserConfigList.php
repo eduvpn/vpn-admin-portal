@@ -27,7 +27,7 @@
     <?php else: ?>
         <table>
             <thead>
-                <tr><th><?=$this->t('Name'); ?></th><th><?=$this->t('Issued'); ?> (XXX TZ)</th><th><?=$this->t('Expires'); ?> (XXX TZ)</th></tr> 
+                <tr><th><?=$this->t('Name'); ?></th><th><?=$this->t('Issued'); ?> (<?=$this->e(date('T')); ?>)</th><th><?=$this->t('Expires'); ?> (<?=$this->e(date('T')); ?>)</th></tr> 
             </thead>
             <tbody>
             <?php foreach ($clientCertificateList as $clientCertificate): ?>
@@ -50,7 +50,7 @@
     <?php else: ?>
         <table>
             <thead>
-                <tr><th><?=$this->t('Date/Time'); ?> (XXX TZ)</th><th><?=$this->t('Message'); ?></th><th><?=$this->t('Type'); ?></tr>
+                <tr><th><?=$this->t('Date/Time'); ?> (<?=$this->e(date('T')); ?>)</th><th><?=$this->t('Message'); ?></th><th><?=$this->t('Type'); ?></tr>
             </thead>
             <tbody>
                 <?php foreach ($userMessages as $message): ?>
