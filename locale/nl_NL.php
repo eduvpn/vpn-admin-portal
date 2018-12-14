@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * eduVPN - End-user friendly VPN.
+ *
+ * Copyright: 2016-2018, The Commons Conservancy eduVPN Programme
+ * SPDX-License-Identifier: AGPL-3.0+
+ */
+
 return [
     'Active' => 'Actief',
     'All users will see this "Message of the Day" (MOTD) message when logging in to the portal, or when connecting to the VPN using an application supporting the API.' => 'Alle gebruikers zullen het "Bericht van de Dag" (MOTD) zien bij het aanmelden bij de portal, of bij het verbinden met de VPN wanneer een applicatie met API-ondersteuning gebruikt wordt.',
