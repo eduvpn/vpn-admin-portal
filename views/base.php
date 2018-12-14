@@ -19,6 +19,10 @@
     <hr>
 
     <div class="footer">
+        <?php if ($this->exists('customFooter')): ?>
+            <?=$this->insert('customFooter'); ?>
+        <?php endif; ?>
+
         <?php if (1 < count($supportedLanguages)): ?>
             <form method="post" action="<?=$this->e($requestRoot); ?>setLanguage">
                 <?php foreach ($supportedLanguages as $k => $v): ?>
