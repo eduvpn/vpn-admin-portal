@@ -26,14 +26,10 @@
             "no-api": true,
             "type": "vcs",
             "url": "https://github.com/eduvpn/vpn-lib-common"
-        },
-        {
-            "type": "vcs",
-            "url": "https://git.tuxed.net/fkooman/php-tpl"
         }
     ],
     "require": {
-        "eduvpn/common": "dev-simple-tpl",
+        "eduvpn/common": "dev-master",
         "ext-date": "*",
         "ext-gd": "*",
         "ext-pdo": "*",
