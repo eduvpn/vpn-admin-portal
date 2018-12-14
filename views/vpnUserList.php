@@ -12,7 +12,7 @@
             <tbody>
                 <?php foreach ($userList as $user): ?>
                     <tr>
-                        <td><a href="<?=$this->e($requestRoot); ?>user?user_id=<?=rawurlencode($user['user_id']); ?>"><?=$this->e($user['user_id']); ?></a></td>
+                        <td><a href="<?=$this->e($requestRoot); ?>user?user_id=<?=$this->e($user['user_id'], 'rawurlencode'); ?>"><?=$this->e($user['user_id']); ?></a></td>
                         <td class="text-right">
                             <?php if ($user['has_totp_secret']): ?>
                                 <span class="plain"><?=$this->t('TOTP'); ?></span>

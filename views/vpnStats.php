@@ -23,7 +23,7 @@
                 <?php if (array_key_exists($k, $idNameMapping)): ?>
                     <tr>
                         <td><span title="<?=$this->e($k); ?>"><?=$this->e($idNameMapping[$k]); ?></td>
-                        <td><?=$this->e($v['total_traffic'], 'to_human'); ?></td>
+                        <td><?=$this->e($v['total_traffic'], 'bytes_to_human'); ?></td>
                         <td><?=$this->e($v['unique_user_count']); ?></td>
                         <td><span title="<?=$this->e($v['max_concurrent_connections_time']); ?> (<?=$this->e(date('T')); ?>)"><?=$this->e($v['max_concurrent_connections']); ?></span></td>
                     </tr>

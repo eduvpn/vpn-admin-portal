@@ -14,7 +14,6 @@ use fkooman\SeCookie\Cookie;
 use fkooman\SeCookie\Session;
 use SURFnet\VPN\Admin\AdminPortalModule;
 use SURFnet\VPN\Admin\Graph;
-use SURFnet\VPN\Admin\TemplateEngine;
 use SURFnet\VPN\Common\Config;
 use SURFnet\VPN\Common\FileIO;
 use SURFnet\VPN\Common\Http\CsrfProtectionHook;
@@ -37,6 +36,7 @@ use SURFnet\VPN\Common\HttpClient\CurlHttpClient;
 use SURFnet\VPN\Common\HttpClient\ServerClient;
 use SURFnet\VPN\Common\LdapClient;
 use SURFnet\VPN\Common\Logger;
+use SURFnet\VPN\Common\Tpl;
 
 $logger = new Logger('vpn-admin-portal');
 
@@ -67,11 +67,6 @@ try {
     ];
     if ($config->hasItem('styleName')) {
         $templateDirs[] = sprintf('%s/views/%s', $baseDir, $config->getItem('styleName'));
-    }
-
-    $templateCache = null;
-    if ($config->getItem('enableTemplateCache')) {
-        $templateCache = sprintf('%s/tpl', $dataDir);
     }
 
     $cookie = new Cookie(
@@ -106,26 +101,7 @@ try {
             $languageFile = sprintf('%s/locale/%s.php', $baseDir, $uiLang);
         }
     }
-    $tpl = new TemplateEngine($templateDirs, $languageFile);
-    $tpl->addCallback('to_human', function ($byteSize) {
-        $kB = 1024;
-        $MB = $kB * 1024;
-        $GB = $MB * 1024;
-        $TB = $GB * 1024;
-        if ($byteSize > $TB) {
-            return sprintf('%0.2f TiB', $byteSize / $TB);
-        }
-        if ($byteSize > $GB) {
-            return sprintf('%0.2f GiB', $byteSize / $GB);
-        }
-        if ($byteSize > $MB) {
-            return sprintf('%0.2f MiB', $byteSize / $MB);
-        }
-
-        return sprintf('%0.0f kiB', $byteSize / $kB);
-    }
-    );
-
+    $tpl = new Tpl($templateDirs, $languageFile);
     $tpl->addDefault(
         [
             'requestUri' => $request->getUri(),

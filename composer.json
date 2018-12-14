@@ -18,16 +18,22 @@
     },
     "description": "VPN Admin Portal",
     "license": "AGPL-3.0-or-later",
+    "minimum-stability": "dev",
     "name": "eduvpn/vpn-admin-portal",
+    "prefer-stable": true,
     "repositories": [
         {
             "no-api": true,
             "type": "vcs",
             "url": "https://github.com/eduvpn/vpn-lib-common"
+        },
+        {
+            "type": "vcs",
+            "url": "https://git.tuxed.net/fkooman/php-tpl"
         }
     ],
     "require": {
-        "eduvpn/common": "dev-master",
+        "eduvpn/common": "dev-simple-tpl",
         "ext-date": "*",
         "ext-gd": "*",
         "ext-pdo": "*",

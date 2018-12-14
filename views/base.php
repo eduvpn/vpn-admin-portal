@@ -17,6 +17,7 @@
     <?=$this->section('content'); ?>
 
     <hr>
+
     <div class="footer">
         <?php if (1 < count($supportedLanguages)): ?>
             <form method="post" action="<?=$this->e($requestRoot); ?>setLanguage">
