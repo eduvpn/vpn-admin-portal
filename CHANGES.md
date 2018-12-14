@@ -3,6 +3,7 @@
 ## 1.7.4 (...)
 - remove YubiKey support
 - remove PHP error suppression
+- update to Tpl, remove Twig
 
 ## 1.7.3 (2018-11-28)
 - implement SAML logout
