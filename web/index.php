@@ -68,7 +68,6 @@ try {
     if ($config->hasItem('styleName')) {
         $templateDirs[] = sprintf('%s/views/%s', $baseDir, $config->getItem('styleName'));
     }
-    $templateDirs = array_reverse($templateDirs);
 
     $cookie = new Cookie(
         [
