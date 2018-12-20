@@ -226,9 +226,14 @@ class AdminPortalModule implements ServiceModuleInterface
                 $profileList = $this->serverClient->getRequireArray('profile_list');
 
                 $idNameMapping = [];
+                $profiles = [];
                 foreach ($profileList as $profileId => $profileData) {
-                    $idNameMapping[$profileId] = $profileData['displayName'];
+                    if (array_key_exists($profileId, $stats['profiles'])) {
+                        $idNameMapping[$profileId] = $profileData['displayName'];
+                        $profiles[$profileId] = $stats['profiles'][$profileId];
+                    }
                 }
+                $stats['profiles'] = $profiles;
 
                 return new HtmlResponse(
                     $this->tpl->render(
