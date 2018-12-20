@@ -4,9 +4,6 @@ return [
     // set secureCookie flag, so browser only sends them over HTTPS
     'secureCookie' => true,
 
-    // template caching for performance improvements
-    'enableTemplateCache' => true,
-
     // override default branding style (templates/CSS) with custom style.
     // NOTE: the styling/branding MUST be installed for this to work!
     //'styleName' => 'eduVPN',
